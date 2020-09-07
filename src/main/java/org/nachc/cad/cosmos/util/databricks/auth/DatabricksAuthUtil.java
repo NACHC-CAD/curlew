@@ -8,7 +8,7 @@ public class DatabricksAuthUtil {
 
 	private static final Properties PROPS = PropertiesUtil.getAsProperties("/auth/databricks-auth.properties");
 	
-	public String getToken() {
+	public static String getToken() {
 		String rtn = PROPS.getProperty("token");
 		return rtn;
 	}

@@ -65,6 +65,21 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- 
+		*
+		* PROJECT SPECIFIC DEPENDENCIES
+		*
+		 -->
+
+		<!-- Databricks JDBC Driver -->
+		<dependency>
+		    <groupId>com.databricks</groupId>
+		    <artifactId>jdbc</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/SimbaSparkJDBC42-2.6.16.1020/SparkJDBC42.jar</systemPath>
+		</dependency>
+
 	</dependencies>
 
 	<!-- 

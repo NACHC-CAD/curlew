@@ -8,7 +8,7 @@ public class DatabricksParams {
 
 	private static final Properties PROPS = PropertiesUtil.getAsProperties("/databricks.properties");
 	
-	public String getJdbcUrl() {
+	public static String getJdbcUrl() {
 		String rtn = PROPS.getProperty("jdbc-url");
 		return rtn;
 	}
