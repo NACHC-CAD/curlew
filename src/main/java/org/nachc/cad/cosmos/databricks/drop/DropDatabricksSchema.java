@@ -20,7 +20,10 @@ public class DropDatabricksSchema {
 		log.info("Getting connection...");
 		Connection conn = DatabricksDbConnectionFactory.getConnection();
 		log.info("Doing drop");
+		log.info("Dropping cosmos");
 		DatabricksDbUtil.dropDatabase("cosmos", conn);
+		log.info("Dropping value_set");
+		DatabricksDbUtil.dropDatabase("value_set", conn);
 		log.info("Done.");
 	}
 
