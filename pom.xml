@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.nachc.cad</groupId>
+    <artifactId>curlew</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <packaging>jar</packaging>
+
+    <name>COSMOS -- Curlew edition: Starting with Value Set management</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+	<!-- 
+	*
+	* dependencies
+	*
+	-->
+
+	<dependencies>
+
+		<!-- CORE NACHC FRAMEWORK STUFF -->
+		<dependency>
+			<groupId>NACHC-CAD</groupId>
+			<artifactId>core</artifactId>
+			<version>1.0.4-SNAPSHOT</version>
+		</dependency>
+
+		<!-- 
+		*
+		* Depedencies with scope limits
+		*
+		 -->
+
+		<!-- LOMBOK -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+
+		<!-- JUNIT https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- JUNIT-TOOLBOX https://mvnrepository.com/artifact/com.googlecode.junit-toolbox/junit-toolbox -->
+		<dependency>
+			<groupId>com.googlecode.junit-toolbox</groupId>
+			<artifactId>junit-toolbox</artifactId>
+			<version>2.4</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<!-- 
+	*
+	* build
+	*
+	-->
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-jar-plugin</artifactId>
+			    <version>2.3.2</version>
+			    <configuration>
+			    	<!--  
+			        <finalName>nachc-cad-core-${build.version}</finalName>                   
+			    	-->
+			    </configuration>
+			</plugin>      
+		</plugins>
+	</build>
+    
+</project>
