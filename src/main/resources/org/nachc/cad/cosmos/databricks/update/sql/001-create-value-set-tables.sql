@@ -9,6 +9,7 @@ create schema value_set;
 --
 
 create table value_set.value_set (
+  value_set_guid string,
   value_set_name string,
   code_system string,	
   value_set_oid string,	
@@ -20,11 +21,14 @@ create table value_set.value_set (
   purpose_inclusion_criteria string,	
   purpose_exclusion_criteria string,	
   note string
-);
+)
+using delta;
 
 --
 -- table for the value set entries
 -- 
+
+drop table if exists value_set.value_set_value;
 
 create table value_set.value_set_value (
   code string,
@@ -36,6 +40,12 @@ create table value_set.value_set_value (
   value_set_name string,
   value_set_code_system string,
   value_set_oid string
+)
+using csv
+options (
+  header = "true",
+  inferSchema = "false",
+  path = "/FileStore/tables/prod/global/valueSet/csv"
 );
 
 --
