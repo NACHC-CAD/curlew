@@ -9,7 +9,7 @@ create schema value_set;
 --
 
 create table value_set.value_set (
-  value_set_guid string,
+  guid string,
   value_set_name string,
   code_system string,	
   value_set_oid string,	
@@ -66,7 +66,7 @@ create table value_set.value_set_group (
 -- 
 
 create table value_set.value_set_group_member (
-  value_set_group_guid string,
+  guid string,
   value_set_oid string,
   value_set_definition_version string
 );

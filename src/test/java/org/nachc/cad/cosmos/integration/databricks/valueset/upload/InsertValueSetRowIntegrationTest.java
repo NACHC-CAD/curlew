@@ -1,5 +1,7 @@
 package org.nachc.cad.cosmos.integration.databricks.valueset.upload;
 
+import static org.junit.Assert.assertTrue;
+
 import java.sql.Connection;
 
 import org.junit.Test;
@@ -20,7 +22,7 @@ public class InsertValueSetRowIntegrationTest {
 			log.info("Starting test...");
 			// create the dvo
 			ValueSetDvo dvo = new ValueSetDvo();
-			dvo.setValueSetGuid(GuidFactory.getGuid());
+			dvo.setGuid(GuidFactory.getGuid());
 			// do the insert
 			String sqlString = Dao.createInsertSqlString(dvo);
 			log.info("Got insert string: \n" + sqlString);
@@ -29,8 +31,10 @@ public class InsertValueSetRowIntegrationTest {
 			log.info("Doing insert");
 			Dao.insert(dvo, conn);
 			log.info("Doing find");
-			dvo = Dao.find(dvo, "value_set_guid", dvo.getValueSetGuid(), conn);
-			log.info("Got dvo: " + dvo.getValueSetGuid());
+			ValueSetDvo found = Dao.find(new ValueSetDvo(), "guid", dvo.getGuid(), conn);
+			log.info("Created dvo: " + dvo.getGuid());
+			log.info("Found dvo:   " + found.getGuid());
+			assertTrue(dvo.getGuid().equals(found.getGuid()));
 			log.info("Doing delete");
 			String deleteString = Dao.getDeleteString(dvo);
 			log.info("Delete String: \n" + deleteString);

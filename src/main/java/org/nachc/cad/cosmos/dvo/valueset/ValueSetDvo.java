@@ -1,5 +1,6 @@
 package org.nachc.cad.cosmos.dvo.valueset;
 
+import org.nachc.cad.cosmos.util.dvo.AbstractDatabricksDvo;
 import org.yaorma.dvo.Dvo;
 import org.yaorma.util.string.DbToJavaNamingConverter;
 
@@ -8,9 +9,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ValueSetDvo implements Dvo {
+public class ValueSetDvo extends AbstractDatabricksDvo {
 
-	private String valueSetGuid;
+	private String guid;
 
 	private String valueSetName;
 
@@ -37,7 +38,7 @@ public class ValueSetDvo implements Dvo {
 	@Override
 	public String[] getColumnNames() {
 		return new String[] {
-				"value_set_guid",
+				"guid",
 				"value_set_name",
 				"code_system",
 				"value_set_oid",
@@ -53,36 +54,23 @@ public class ValueSetDvo implements Dvo {
 	}
 
 	@Override
-	public String[] getPrimaryKeyColumnNames() {
-		return new String[] { "value_set_guid" };
+	public String getSchemaName() {
+		return "value_set";
 	}
-
-	@Override
-	public String[] getJavaNames() {
-		return DbToJavaNamingConverter.toJavaName(this.getColumnNames());
-	}
-
-	@Override
-	public String[] getJavaNamesProper() {
-		return DbToJavaNamingConverter.toJavaProperName(this.getColumnNames());
-	}
-
+	
 	@Override
 	public String getTableName() {
-		return "value_set.value_set";
+		return "value_set";
 	}
 
 	@Override
-	public void addDescription(String javaName, String description) {
-	}
-
-	@Override
-	public String getDescription(String javaName) {
-		return null;
+	public String[] getPrimaryKeyColumnNames() {
+		return new String[] { "guid" };
 	}
 
 	@Override
 	public String[] getPrimaryKeyValues() {
-		return new String[] { this.valueSetGuid };
+		return new String[] { this.guid };
 	}
+
 }

@@ -26,7 +26,7 @@ public class DeleteIntegrationTest {
 		execute("delete from value_set vs where vs.value_set_guid = 'foobar'", conn);
 		execute("delete from value_set where value_set_guid = 'foobar'", conn);
 		execute("DELETE FROM `value_set`.`value_set` value_set WHERE `value_set`.`value_set_guid`='4beb2cea-44f6-45ac-8c28-670cd3926986'", conn);
-		execute("DELETE FROM value_set.value_set value_set WHERE value_set.value_set_guid='4beb2cea-44f6-45ac-8c28-670cd3926986'", conn);
+		execute("DELETE FROM value_set.value_set tbl WHERE tbl.value_set_guid='4beb2cea-44f6-45ac-8c28-670cd3926986'", conn);
 		assertTrue(this.success == true);
 		log.info("Done.");
 	}
