@@ -14,5 +14,6 @@ create table cosmos.document (
   parent_rel_type string,
   created_by string,
   created_date date
-);
+)
+using delta;
 

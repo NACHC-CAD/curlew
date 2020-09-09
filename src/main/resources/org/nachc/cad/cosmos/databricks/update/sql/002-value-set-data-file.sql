@@ -11,4 +11,5 @@ create table value_set.value_set_file (
   file_parent string,
   created_by string,
   created_date date
-);
+)
+using delta;

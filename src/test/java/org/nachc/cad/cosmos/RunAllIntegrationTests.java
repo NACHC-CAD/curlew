@@ -24,11 +24,14 @@ public class RunAllIntegrationTests {
 
 	@AfterClass
 	public static void cleanup() {
+		log.info("");
+		log.info("");
 		log.info("***********************************************************");
 		log.info("* * * ");
 		log.info("* * * Done with integration tests.");
 		log.info("* * *");
 		log.info("***********************************************************");
+		log.info("Done.");
 	}
 	
 }

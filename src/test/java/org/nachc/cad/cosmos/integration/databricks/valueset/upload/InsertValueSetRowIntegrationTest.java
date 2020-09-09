@@ -24,7 +24,7 @@ public class InsertValueSetRowIntegrationTest {
 			ValueSetDvo dvo = new ValueSetDvo();
 			dvo.setGuid(GuidFactory.getGuid());
 			// do the insert
-			String sqlString = Dao.createInsertSqlString(dvo);
+			String sqlString = Dao.getInsertSqlString(dvo);
 			log.info("Got insert string: \n" + sqlString);
 			log.info("Getting connection...");
 			Connection conn = DatabricksDbConnectionFactory.getConnection();

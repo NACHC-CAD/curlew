@@ -59,7 +59,8 @@ create table value_set.value_set_group (
   description string,
   created_by string,
   created_date date
-);
+)
+using delta;
 
 --
 -- define what is in the value set group
@@ -69,7 +70,8 @@ create table value_set.value_set_group_member (
   guid string,
   value_set_oid string,
   value_set_definition_version string
-);
+)
+using delta;
 
 
 

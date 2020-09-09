@@ -1,0 +1,7 @@
+Code,Description,Code System,Code System Version,Code System OID,value_set_name,code_system,oid
+161775000,History of sheath usage (situation),SNOMEDCT,2020-03,2.16.840.1.113883.6.96,Female or Male Condom Use,HCPCS SNOMEDCT,2.16.840.1.113762.1.4.1221.2
+169505001,Uses contraceptive sheath (finding),SNOMEDCT,2020-03,2.16.840.1.113883.6.96,Female or Male Condom Use,HCPCS SNOMEDCT,2.16.840.1.113762.1.4.1221.2
+228479001,Uses a female condom (finding),SNOMEDCT,2020-03,2.16.840.1.113883.6.96,Female or Male Condom Use,HCPCS SNOMEDCT,2.16.840.1.113762.1.4.1221.2
+63438003,Coitus condomatus (finding),SNOMEDCT,2020-03,2.16.840.1.113883.6.96,Female or Male Condom Use,HCPCS SNOMEDCT,2.16.840.1.113762.1.4.1221.2
+A4267,"Contraceptive supply, condom, male, each",HCPCS Level II,2020,2.16.840.1.113883.6.285,Female or Male Condom Use,HCPCS SNOMEDCT,2.16.840.1.113762.1.4.1221.2
+A4268,"Contraceptive supply, condom, female, each",HCPCS Level II,2020,2.16.840.1.113883.6.285,Female or Male Condom Use,HCPCS SNOMEDCT,2.16.840.1.113762.1.4.1221.2

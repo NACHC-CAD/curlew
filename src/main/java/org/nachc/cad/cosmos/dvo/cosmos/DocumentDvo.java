@@ -1,7 +1,8 @@
 package org.nachc.cad.cosmos.dvo.cosmos;
 
+import java.util.Date;
+
 import org.nachc.cad.cosmos.util.dvo.AbstractDatabricksDvo;
-import org.yaorma.dvo.Dvo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,9 @@ public class DocumentDvo extends AbstractDatabricksDvo {
 
 	private String documentName;
 
-	private String documentSize;
+	private Long documentSize;
+	
+	private String documentSizeUnit;
 
 	private String documentType;
 
@@ -28,7 +31,7 @@ public class DocumentDvo extends AbstractDatabricksDvo {
 
 	private String createdBy;
 
-	private String createdDate;
+	private Date createdDate;
 
 	@Override
 	public String[] getColumnNames() {
