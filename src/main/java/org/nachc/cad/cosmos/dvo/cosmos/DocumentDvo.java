@@ -36,6 +36,7 @@ public class DocumentDvo extends AbstractDatabricksDvo {
 				"guid",
 				"document_name",
 				"document_size",
+				"document_size_unit",
 				"document_type",
 				"document_use_type",
 				"databricks_path",
