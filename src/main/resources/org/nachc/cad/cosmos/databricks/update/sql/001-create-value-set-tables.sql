@@ -54,6 +54,7 @@ options (
 
 create table value_set.value_set_group (
   guid string,
+  document_guid string,
   name string,
   type string,
   description string,

@@ -12,6 +12,8 @@ import lombok.Setter;
 public class ValueSetGroupDvo extends AbstractDatabricksDvo {
 
 	private String guid;
+	
+	private String documentGuid;
 
 	private String name;
 
@@ -27,6 +29,7 @@ public class ValueSetGroupDvo extends AbstractDatabricksDvo {
 	public String[] getColumnNames() {
 		return new String[] {
 				"guid",
+				"document_guid",
 				"name",
 				"type",
 				"description",

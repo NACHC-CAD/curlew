@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.junit.Test;
+import org.nachc.cad.cosmos.dvo.cosmos.DocumentDvo;
 import org.nachc.cad.cosmos.dvo.valueset.ValueSetGroupDvo;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.params.DatabricksParams;
@@ -26,6 +27,7 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 	@Test
 	public void shouldUploadFile() {
 		log.info("Starting test...");
+		String databricksExcelPath = PATH + "/excel";
 		// set up file connectivity
 		String fileUrl = DatabricksParams.getRestUrl();
 		String fileToken = DatabricksAuthUtil.getToken();
@@ -37,9 +39,15 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 		Connection conn = DatabricksDbUtil.getConnection(dbUrl, dbToken);
 		// get the excel file
 		File excel = getTestFile();
+		// create the document record and post the document
+		log.info("Writing document record to database");
+		DocumentDvo excelDocDvo = createDocument(conn, excel, databricksExcelPath);
+		DatabricksFileUtil fileUtil = new DatabricksFileUtil(fileUrl, fileToken);
+		log.info("Writing file to databricks");
+		fileUtil.replace(databricksExcelPath, excel);
 		// create the group record
-		createValueSetGroup(conn, excel);
-		// write the excel file to the server
+		log.info("Creating value set group");
+		createValueSetGroup(conn, excel, excelDocDvo);
 		// write each sheet to the server
 		log.info("Done.");
 	}
@@ -50,16 +58,37 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 		return files.get(0);
 	}
 	
-	private ValueSetGroupDvo createValueSetGroup(Connection conn, File file) {
+	private DocumentDvo createDocument(Connection conn, File excel, String databricksExcelPath) {
+		DocumentDvo dvo = new DocumentDvo();
+		dvo.setCreatedBy(this.getClass().getCanonicalName());
+		dvo.setCreatedDate(TimeUtil.getNow());
+		dvo.setDatabricksPath(databricksExcelPath);
+		dvo.setDocumentName(excel.getName());
+		dvo.setDocumentSize(FileUtil.getSize(excel));
+		dvo.setDocumentSizeUnit("B");
+		dvo.setDocumentType("EXCEL");
+		dvo.setDocumentUseType("VALUE_SET_GROUP");
+		dvo.setGuid(GuidFactory.getGuid());
+		log.info("Doing insert for document");
+		Dao.doDatabricksInsert(dvo, conn);
+		log.info("Done with insert");
+		return dvo;
+	}
+
+	private ValueSetGroupDvo createValueSetGroup(Connection conn, File file, DocumentDvo docDvo) {
 		String guid = GuidFactory.getGuid();
 		ValueSetGroupDvo dvo = new ValueSetGroupDvo();
 		dvo.setGuid(guid);
+		dvo.setDocumentGuid(docDvo.getGuid());
 		dvo.setCreatedDate(TimeUtil.getNow());
 		dvo.setDescription("DELETE_THIS_TEST_RECORD");
 		dvo.setName(file.getName());
 		dvo.setType("EXCEL_WORKBOOK");
-		int cnt = Dao.doDatabricksInsert(dvo, conn);
-		log.info("inserted " + cnt + " records");
+		dvo.setCreatedBy(this.getClass().getCanonicalName());
+		dvo.setCreatedDate(TimeUtil.getNow());
+		log.info("Doing insert for value set group");
+		Dao.doDatabricksInsert(dvo, conn);
+		log.info("Done with insert");
 		return dvo;
 	}
 	
