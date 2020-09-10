@@ -26,6 +26,7 @@ public class DocumentProxy extends DocumentDvo {
 		this.file = file;
 		this.setDocumentSize(FileUtil.size(file));
 		this.setDocumentName(file.getName());
+		this.setDocumentSizeUnit("B");
 	}
 	
 	public void saveToDatabricks(Connection conn) {
