@@ -4,6 +4,8 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import org.nachc.cad.cosmos.dvo.cosmos.DocumentDvo;
 import org.nachc.cad.cosmos.dvo.valueset.ValueSetGroupDvo;
@@ -14,6 +16,7 @@ import org.yaorma.util.time.TimeUtil;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
+import com.nach.core.util.excel.ExcelUtil;
 import com.nach.core.util.file.FileUtil;
 import com.nach.core.util.guid.GuidFactory;
 
@@ -49,6 +52,10 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 		log.info("Creating value set group");
 		createValueSetGroup(conn, excel, excelDocDvo);
 		// write each sheet to the server
+		Workbook book = ExcelUtil.getWorkbook(excel);
+		for(Sheet sheet : book) {
+			
+		}
 		log.info("Done.");
 	}
 	
