@@ -49,7 +49,7 @@ public class LoadFileAsStreamIntegrationTest {
 		}
 		// delete if it exists
 		// post the file
-		resp = util.put(databricksDirPath, in, fileName);
+		resp = util.put(databricksDirPath, in, fileName, true);
 		// echo the response
 		log.info("Got response: \n" + resp.getResponse());
 		// get the file back from the server

@@ -16,4 +16,16 @@ public class DatabricksParams {
 		return PROPS.getProperty("rest-url");
 	}
 	
+	public static String getValueSetCsvPath() {
+		return PROPS.getProperty("value-set-csv-path");
+	}
+	
+	public static String getValueSetExcelPath() {
+		return PROPS.getProperty("value-set-excel-path");
+	}
+	
+	public static String getValueSetExcelDir() {
+		return PROPS.getProperty("value-set-excel-dir");
+	}
+	
 }

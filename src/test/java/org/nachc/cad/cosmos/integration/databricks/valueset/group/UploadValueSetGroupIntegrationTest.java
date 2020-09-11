@@ -1,10 +1,9 @@
-package org.nachc.cad.cosmos.integration.databricks.valueset;
+package org.nachc.cad.cosmos.integration.databricks.valueset.group;
 
 import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
 import org.nachc.cad.cosmos.dvo.cosmos.DocumentDvo;
@@ -23,10 +22,10 @@ import com.nach.core.util.guid.GuidFactory;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
+public class UploadValueSetGroupIntegrationTest {
 
 	private static final String PATH = "/FileStore/tables/integration-test/delete-me/group";
-	
+
 	@Test
 	public void shouldUploadFile() {
 		log.info("Starting test...");
@@ -53,18 +52,15 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 		createValueSetGroup(conn, excel, excelDocDvo);
 		// write each sheet to the server
 		Workbook book = ExcelUtil.getWorkbook(excel);
-		for(Sheet sheet : book) {
-			
-		}
 		log.info("Done.");
 	}
-	
+
 	private File getTestFile() {
 		File dir = FileUtil.getFile("/valueset/group/contraception");
 		List<File> files = FileUtil.listFiles(dir, "*.xlsx");
 		return files.get(0);
 	}
-	
+
 	private DocumentDvo createDocument(Connection conn, File excel, String databricksExcelPath) {
 		DocumentDvo dvo = new DocumentDvo();
 		dvo.setCreatedBy(this.getClass().getCanonicalName());
@@ -86,7 +82,6 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 		String guid = GuidFactory.getGuid();
 		ValueSetGroupDvo dvo = new ValueSetGroupDvo();
 		dvo.setGuid(guid);
-		dvo.setDocumentGuid(docDvo.getGuid());
 		dvo.setCreatedDate(TimeUtil.getNow());
 		dvo.setDescription("DELETE_THIS_TEST_RECORD");
 		dvo.setName(file.getName());
@@ -98,5 +93,5 @@ public class UploadMultipleValuesetsFromSingleExcelIntegrationTest {
 		log.info("Done with insert");
 		return dvo;
 	}
-	
+
 }
