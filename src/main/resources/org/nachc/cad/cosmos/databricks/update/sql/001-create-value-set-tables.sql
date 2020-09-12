@@ -72,13 +72,14 @@ using delta;
 
 drop table if exists value_set.value_set_group_member;
 
-create table value_set.value_set_group_member (
+create table value_set.value_set_group_member(
   guid string,
+  value_set_group_guid string,
   value_set_oid string,
-  value_set_definition_version string
+  value_set_version string, 
+  value_set_name string,
+  code_system string
 )
 using delta;
-
-
 
 

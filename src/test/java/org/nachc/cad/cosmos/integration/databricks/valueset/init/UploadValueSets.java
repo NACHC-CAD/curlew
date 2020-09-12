@@ -31,7 +31,7 @@ public class UploadValueSets {
 		String token = DatabricksAuthUtil.getToken();
 		Connection conn = DatabricksDbUtil.getConnection(url, token);
 		int cnt = 0;
-		for (File file : files) {
+		for (File file : files) { 
 			cnt++;
 			log.info("---------------------------------------------------------");
 			log.info("Processing file " + cnt + " of " + files.size() + ": \t" + FileUtil.getCanonicalPath(file));
