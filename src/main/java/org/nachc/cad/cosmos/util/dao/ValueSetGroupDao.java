@@ -26,7 +26,7 @@ public class ValueSetGroupDao {
 		int cnt = 0;
 		for (ValueSetGroupMemberDvo dvo : dvoList) {
 			cnt++;
-			log.info("  " + cnt + " of " + dvoList.size() + "\t" + dvo.getValueSetName());
+			log.info("  " + cnt + " of " + dvoList.size() + "\t" + dvo.getValueSetGroupGuid() + "\t" + dvo.getValueSetName());
 			Dao.doDatabricksInsert(dvo, conn);
 		}
 		log.info("Done inserting value set group");

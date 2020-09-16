@@ -34,6 +34,7 @@ public class ValueSetGroupParser {
 	public void init(File file, String guid) {
 		this.book = ExcelUtil.getWorkbook(file);
 		this.sheet = ExcelUtil.getSheet(book, 0);
+		this.guid = guid;
 		parse();
 	}
 
@@ -55,6 +56,7 @@ public class ValueSetGroupParser {
 			ExcelUtil.setStringValue(csvSheet, oid, dstRow, 0);
 			ExcelUtil.setStringValue(csvSheet, version, dstRow, 1);
 			ExcelUtil.setStringValue(csvSheet, name, dstRow, 2);
+			ExcelUtil.setStringValue(csvSheet, guid, dstRow, 3);
 			srcRow++;
 			dstRow++;
 		}
@@ -75,6 +77,7 @@ public class ValueSetGroupParser {
 			dvo.setValueSetOid(ExcelUtil.getStringValue(row, 0));
 			dvo.setValueSetVersion(ExcelUtil.getStringValue(row, 1));
 			dvo.setValueSetName(ExcelUtil.getStringValue(row, 2));
+			dvo.setValueSetGroupGuid(ExcelUtil.getStringValue(row, 3));
 			rtn.add(dvo);
 		}
 		return rtn;
