@@ -4,17 +4,6 @@ create schema cosmos;
 
 use cosmos;
 
-drop table if exists document;
-drop table if exists document_validator;
-drop table if exists block;
-drop table if exists document_def;
-drop table if exists block_def;
-drop table if exists status;
-drop table if exists project;
-drop table if exists document_role;
-drop table if exists file_type;
-drop table if exists person;
-
 create table person (
 	guid varchar(40),
     username varchar(64),
@@ -63,6 +52,21 @@ create table document_role (
     primary key (guid)
 );
 
+create table status (
+	guid varchar(40),
+    code varchar(64),
+    name varchar(64),
+    description varchar(256),
+    created_by varchar(40),
+    created_date date,
+    updated_by varchar(40),
+    updated_date date,
+    unique (code),
+    foreign key (created_by) references person (guid),
+    foreign key (updated_by) references person (guid),
+    primary key (guid)
+);
+
 create table project (
 	guid varchar(40),
     code varchar(256),
@@ -79,16 +83,16 @@ create table project (
     primary key (guid)
 );
 
-create table status (
+create table document_validator (
 	guid varchar(40),
-    code varchar(64),
-    name varchar(64),
-    description varchar(256),
+    name varchar(256),
+    description varchar(1024),
+    class_name varchar(256),
     created_by varchar(40),
     created_date date,
     updated_by varchar(40),
     updated_date date,
-    unique (code),
+    unique(name),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
     primary key (guid)
@@ -99,12 +103,14 @@ create table block_def (
     name varchar(256),
     title varchar(256),
     description varchar(1024),
+    project varchar(40),
     created_by varchar(40),
     created_date date,
     updated_by varchar(40),
     updated_date date,
     unique (name),
     unique (title),
+    foreign key (project) references project (guid),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
     primary key (guid)
@@ -118,6 +124,7 @@ create table document_def (
     row_id int,
     name varchar(256),
     description varchar(1024),
+    validator varchar(40),
     databricks_dir varchar(256),
     created_by varchar(40),
     created_date date,
@@ -126,6 +133,7 @@ create table document_def (
     foreign key (block_def) references block_def (guid),
     foreign key (file_type) references file_type (guid),
     foreign key (document_role) references document_role (guid),
+    foreign key (validator) references document_validator (guid),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
     primary key (guid)
@@ -148,21 +156,6 @@ create table block (
     primary key (guid)
 );
 
-create table document_validator (
-	guid varchar(40),
-    name varchar(256),
-    description varchar(1024),
-    class_name varchar(256),
-    created_by varchar(40),
-    created_date date,
-    updated_by varchar(40),
-    updated_date date,
-    unique(name),
-    foreign key (created_by) references person (guid),
-    foreign key (updated_by) references person (guid),
-    primary key (guid)
-);
-
 create table document (
 	guid varchar(40),
     block varchar(40),
@@ -171,6 +164,7 @@ create table document (
     file_type varchar(40),
     document_role varchar(40),
     databricks_dir varchar(256),
+    document_def varchar(40),
     databricks_file_name varchar(256),
     created_by varchar(40),
     created_date date,
@@ -179,6 +173,7 @@ create table document (
     foreign key (block) references block (guid),
 	foreign key (file_type) references file_type (guid),
     foreign key (document_role) references document_role (guid),
+    foreign key (document_def) references document_def (guid),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
     primary key (guid)
