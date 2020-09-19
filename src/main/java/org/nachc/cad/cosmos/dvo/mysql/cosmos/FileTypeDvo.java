@@ -103,9 +103,9 @@ public class FileTypeDvo implements Dvo {
     
     private PersonDvo updatedByDvo;
     
-    private ArrayList<DocumentDefDvo> documentDefFileTypeList = new ArrayList<DocumentDefDvo>();
-    
     private ArrayList<DocumentDvo> documentFileTypeList = new ArrayList<DocumentDvo>();
+    
+    private ArrayList<DocumentDefDvo> documentDefFileTypeList = new ArrayList<DocumentDefDvo>();
     
     //
     // trivial getters and setters
@@ -211,20 +211,20 @@ public class FileTypeDvo implements Dvo {
         return this.updatedByDvo;
     }
     
-    public ArrayList<DocumentDefDvo> getDocumentDefFileTypeList() {
-        return documentDefFileTypeList;
-    }
-    
-    public void setDocumentDefFileTypeList(ArrayList<DocumentDefDvo> list) {
-        this.documentDefFileTypeList = list;
-    }
-    
     public ArrayList<DocumentDvo> getDocumentFileTypeList() {
         return documentFileTypeList;
     }
     
     public void setDocumentFileTypeList(ArrayList<DocumentDvo> list) {
         this.documentFileTypeList = list;
+    }
+    
+    public ArrayList<DocumentDefDvo> getDocumentDefFileTypeList() {
+        return documentDefFileTypeList;
+    }
+    
+    public void setDocumentDefFileTypeList(ArrayList<DocumentDefDvo> list) {
+        this.documentDefFileTypeList = list;
     }
     
     //

@@ -110,9 +110,9 @@ public class BlockDefDvo implements Dvo {
     
     private PersonDvo updatedByDvo;
     
-    private ArrayList<DocumentDefDvo> documentDefBlockDefList = new ArrayList<DocumentDefDvo>();
-    
     private ArrayList<BlockDvo> blockBlockDefList = new ArrayList<BlockDvo>();
+    
+    private ArrayList<DocumentDefDvo> documentDefBlockDefList = new ArrayList<DocumentDefDvo>();
     
     //
     // trivial getters and setters
@@ -238,20 +238,20 @@ public class BlockDefDvo implements Dvo {
         return this.updatedByDvo;
     }
     
-    public ArrayList<DocumentDefDvo> getDocumentDefBlockDefList() {
-        return documentDefBlockDefList;
-    }
-    
-    public void setDocumentDefBlockDefList(ArrayList<DocumentDefDvo> list) {
-        this.documentDefBlockDefList = list;
-    }
-    
     public ArrayList<BlockDvo> getBlockBlockDefList() {
         return blockBlockDefList;
     }
     
     public void setBlockBlockDefList(ArrayList<BlockDvo> list) {
         this.blockBlockDefList = list;
+    }
+    
+    public ArrayList<DocumentDefDvo> getDocumentDefBlockDefList() {
+        return documentDefBlockDefList;
+    }
+    
+    public void setDocumentDefBlockDefList(ArrayList<DocumentDefDvo> list) {
+        this.documentDefBlockDefList = list;
     }
     
     //
