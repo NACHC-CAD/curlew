@@ -4,6 +4,8 @@ import java.sql.Connection;
 
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.PersonDvo;
 import org.yaorma.dao.Dao;
+import org.yaorma.database.Data;
+import org.yaorma.database.Database;
 import org.yaorma.util.time.TimeUtil;
 
 import com.nach.core.util.guid.GuidFactory;
@@ -14,10 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 public class InitUsers {
 
 	public static void init(Connection conn) {
+		log.info("Number of existing users BEFORE: " + getUserCount(conn));
 		String guid = createAdmin(conn);
 		createGresh(conn, guid);
+		log.info("Number of existing users AFTER:  " + getUserCount(conn));
 	}
 
+	private static int getUserCount(Connection conn) {
+		Data data = Database.query("select count(*) cnt from cosmos.person", conn);
+		int cnt = data.get(0).getInt("cnt");
+		return cnt;	
+	}
+	
 	private static String createAdmin(Connection conn) {
 		log.info("Creating admin");
 		PersonDvo dvo = new PersonDvo();

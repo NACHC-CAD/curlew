@@ -2,11 +2,10 @@ package org.nachc.cad.cosmos.mysql.update;
 
 import java.io.File;
 import java.sql.Connection;
-import java.util.List;
-import java.util.Map;
 
 import org.nachc.cad.cosmos.mysql.update.init.InitMySql;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
+import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.file.FileUtil;
@@ -36,7 +35,7 @@ public class UpdateMySql {
 	private static boolean schemaExists(Connection conn) {
 		log.info("Looking for schema");
 		String sqlString = "select * from information_schema.schemata where schema_name = 'cosmos'";
-		List<Map<String, String>> data = Database.query(sqlString, conn);
+		Data data = Database.query(sqlString, conn);
 		if(data.size() > 0) {
 			log.info("Schema DOES exists");
 			return true;

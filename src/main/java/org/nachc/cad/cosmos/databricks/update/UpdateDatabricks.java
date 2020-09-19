@@ -3,9 +3,9 @@ package org.nachc.cad.cosmos.databricks.update;
 import java.io.File;
 import java.sql.Connection;
 import java.util.List;
-import java.util.Map;
 
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
+import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
@@ -46,7 +46,7 @@ public class UpdateDatabricks {
 	private static void updateSchema(Connection conn) {
 		String msg = "";
 		String sqlString = "select * from cosmos.build_version order by version_number desc";
-		List<Map<String, String>> data = Database.query(sqlString, conn);
+		Data data = Database.query(sqlString, conn);
 		String lastFileNumberStr = data.get(0).get("versionNumber");
 		String lastFileName = data.get(0).get("fileName");
 		int lastFileNumber = Integer.parseInt(lastFileNumberStr);
