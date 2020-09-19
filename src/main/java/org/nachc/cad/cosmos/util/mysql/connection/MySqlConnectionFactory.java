@@ -23,6 +23,7 @@ public class MySqlConnectionFactory {
 			url = url + "?rewriteBatchedStatements=true";
 			log.info("URL: " + url);
 			Connection conn = DriverManager.getConnection(url, uid, pwd);
+			conn.setAutoCommit(false);
 			return conn;
 		} catch (Exception exp) {
 			throw new RuntimeException(exp);

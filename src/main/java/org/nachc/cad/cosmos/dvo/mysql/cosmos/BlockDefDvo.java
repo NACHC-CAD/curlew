@@ -6,6 +6,7 @@ package org.nachc.cad.cosmos.dvo.mysql.cosmos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 
 import org.yaorma.dvo.Dvo;
 
@@ -98,11 +99,11 @@ public class BlockDefDvo implements Dvo {
     
     private String createdBy;
     
-    private String createdDate;
+    private Date createdDate;
     
     private String updatedBy;
     
-    private String updatedDate;
+    private Date updatedDate;
     
     private ProjectDvo projectDvo;
     
@@ -120,8 +121,8 @@ public class BlockDefDvo implements Dvo {
     
     // guid
     
-    public void setGuid(String str) {
-        this.guid = str;
+    public void setGuid(String val) {
+        this.guid = val;
     }
     
     public String getGuid() {
@@ -130,8 +131,8 @@ public class BlockDefDvo implements Dvo {
     
     // name
     
-    public void setName(String str) {
-        this.name = str;
+    public void setName(String val) {
+        this.name = val;
     }
     
     public String getName() {
@@ -140,8 +141,8 @@ public class BlockDefDvo implements Dvo {
     
     // title
     
-    public void setTitle(String str) {
-        this.title = str;
+    public void setTitle(String val) {
+        this.title = val;
     }
     
     public String getTitle() {
@@ -150,8 +151,8 @@ public class BlockDefDvo implements Dvo {
     
     // description
     
-    public void setDescription(String str) {
-        this.description = str;
+    public void setDescription(String val) {
+        this.description = val;
     }
     
     public String getDescription() {
@@ -160,8 +161,8 @@ public class BlockDefDvo implements Dvo {
     
     // project
     
-    public void setProject(String str) {
-        this.project = str;
+    public void setProject(String val) {
+        this.project = val;
     }
     
     public String getProject() {
@@ -170,8 +171,8 @@ public class BlockDefDvo implements Dvo {
     
     // createdBy
     
-    public void setCreatedBy(String str) {
-        this.createdBy = str;
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
     }
     
     public String getCreatedBy() {
@@ -180,18 +181,18 @@ public class BlockDefDvo implements Dvo {
     
     // createdDate
     
-    public void setCreatedDate(String str) {
-        this.createdDate = str;
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
     }
     
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return this.createdDate;
     }
     
     // updatedBy
     
-    public void setUpdatedBy(String str) {
-        this.updatedBy = str;
+    public void setUpdatedBy(String val) {
+        this.updatedBy = val;
     }
     
     public String getUpdatedBy() {
@@ -200,11 +201,11 @@ public class BlockDefDvo implements Dvo {
     
     // updatedDate
     
-    public void setUpdatedDate(String str) {
-        this.updatedDate = str;
+    public void setUpdatedDate(Date val) {
+        this.updatedDate = val;
     }
     
-    public String getUpdatedDate() {
+    public Date getUpdatedDate() {
         return this.updatedDate;
     }
     

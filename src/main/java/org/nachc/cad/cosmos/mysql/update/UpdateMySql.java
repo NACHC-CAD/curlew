@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
+import org.nachc.cad.cosmos.mysql.update.init.InitMySql;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
 
@@ -17,14 +18,18 @@ public class UpdateMySql {
 
 	public static void main(String[] args) {
 		log.info("* * * UPDATING SCHEMA * * *");
+		// get the connection
 		Connection conn = MySqlConnectionFactory.getMysqlConnection("");
+		// init the schema if it does not exist
 		boolean schemaExists = schemaExists(conn);
 		if(schemaExists == false) {
 			initSchema(conn);
 		} else {
 			log.info("* * * SCHEMA EXISTS, DOING UPDATE * * *");
 		}
+		// update the schema
 		updateSchema(conn);
+		// done
 		log.info("Done.");
 	}
 	
@@ -47,6 +52,10 @@ public class UpdateMySql {
 		log.info("Executing script for: " + FileUtil.getCanonicalPath(file));
 		Database.executeSqlScript(file, conn);
 		log.info("Done executing init script.");
+		log.info("Initiating database tables...");
+		InitMySql.init(conn);
+		Database.commit(conn);
+		log.info("Done initiating database tables.");
 	}
 
 	private static void updateSchema(Connection conn) {

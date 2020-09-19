@@ -6,6 +6,7 @@ package org.nachc.cad.cosmos.dvo.mysql.cosmos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 
 import org.yaorma.dvo.Dvo;
 
@@ -118,11 +119,11 @@ public class DocumentDefDvo implements Dvo {
     
     private String createdBy;
     
-    private String createdDate;
+    private Date createdDate;
     
     private String updatedBy;
     
-    private String updatedDate;
+    private Date updatedDate;
     
     private BlockDefDvo blockDefDvo;
     
@@ -144,8 +145,8 @@ public class DocumentDefDvo implements Dvo {
     
     // guid
     
-    public void setGuid(String str) {
-        this.guid = str;
+    public void setGuid(String val) {
+        this.guid = val;
     }
     
     public String getGuid() {
@@ -154,8 +155,8 @@ public class DocumentDefDvo implements Dvo {
     
     // blockDef
     
-    public void setBlockDef(String str) {
-        this.blockDef = str;
+    public void setBlockDef(String val) {
+        this.blockDef = val;
     }
     
     public String getBlockDef() {
@@ -164,8 +165,8 @@ public class DocumentDefDvo implements Dvo {
     
     // fileType
     
-    public void setFileType(String str) {
-        this.fileType = str;
+    public void setFileType(String val) {
+        this.fileType = val;
     }
     
     public String getFileType() {
@@ -174,8 +175,8 @@ public class DocumentDefDvo implements Dvo {
     
     // documentRole
     
-    public void setDocumentRole(String str) {
-        this.documentRole = str;
+    public void setDocumentRole(String val) {
+        this.documentRole = val;
     }
     
     public String getDocumentRole() {
@@ -184,8 +185,8 @@ public class DocumentDefDvo implements Dvo {
     
     // rowId
     
-    public void setRowId(String str) {
-        this.rowId = str;
+    public void setRowId(String val) {
+        this.rowId = val;
     }
     
     public String getRowId() {
@@ -194,8 +195,8 @@ public class DocumentDefDvo implements Dvo {
     
     // name
     
-    public void setName(String str) {
-        this.name = str;
+    public void setName(String val) {
+        this.name = val;
     }
     
     public String getName() {
@@ -204,8 +205,8 @@ public class DocumentDefDvo implements Dvo {
     
     // description
     
-    public void setDescription(String str) {
-        this.description = str;
+    public void setDescription(String val) {
+        this.description = val;
     }
     
     public String getDescription() {
@@ -214,8 +215,8 @@ public class DocumentDefDvo implements Dvo {
     
     // validator
     
-    public void setValidator(String str) {
-        this.validator = str;
+    public void setValidator(String val) {
+        this.validator = val;
     }
     
     public String getValidator() {
@@ -224,8 +225,8 @@ public class DocumentDefDvo implements Dvo {
     
     // databricksDir
     
-    public void setDatabricksDir(String str) {
-        this.databricksDir = str;
+    public void setDatabricksDir(String val) {
+        this.databricksDir = val;
     }
     
     public String getDatabricksDir() {
@@ -234,8 +235,8 @@ public class DocumentDefDvo implements Dvo {
     
     // createdBy
     
-    public void setCreatedBy(String str) {
-        this.createdBy = str;
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
     }
     
     public String getCreatedBy() {
@@ -244,18 +245,18 @@ public class DocumentDefDvo implements Dvo {
     
     // createdDate
     
-    public void setCreatedDate(String str) {
-        this.createdDate = str;
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
     }
     
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return this.createdDate;
     }
     
     // updatedBy
     
-    public void setUpdatedBy(String str) {
-        this.updatedBy = str;
+    public void setUpdatedBy(String val) {
+        this.updatedBy = val;
     }
     
     public String getUpdatedBy() {
@@ -264,11 +265,11 @@ public class DocumentDefDvo implements Dvo {
     
     // updatedDate
     
-    public void setUpdatedDate(String str) {
-        this.updatedDate = str;
+    public void setUpdatedDate(Date val) {
+        this.updatedDate = val;
     }
     
-    public String getUpdatedDate() {
+    public Date getUpdatedDate() {
         return this.updatedDate;
     }
     

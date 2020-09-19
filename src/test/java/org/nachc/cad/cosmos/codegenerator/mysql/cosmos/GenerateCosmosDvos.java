@@ -15,6 +15,7 @@ public class GenerateCosmosDvos {
 		String schemaName = "cosmos";
 		String packageName = "org.nachc.cad.cosmos.dvo.mysql.cosmos";
 		File destDir = FileUtil.getFromProjectRoot("/src/main/java/org/nachc/cad/cosmos/dvo/mysql/cosmos");
+		FileUtil.clearContents(destDir);
 		GenerateOrmForSchema.execute(conn, schemaName, packageName, destDir);
 	}
 

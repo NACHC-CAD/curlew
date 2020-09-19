@@ -6,6 +6,7 @@ package org.nachc.cad.cosmos.dvo.mysql.cosmos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 
 import org.yaorma.dvo.Dvo;
 
@@ -93,11 +94,11 @@ public class StatusDvo implements Dvo {
     
     private String createdBy;
     
-    private String createdDate;
+    private Date createdDate;
     
     private String updatedBy;
     
-    private String updatedDate;
+    private Date updatedDate;
     
     private PersonDvo createdByDvo;
     
@@ -111,8 +112,8 @@ public class StatusDvo implements Dvo {
     
     // guid
     
-    public void setGuid(String str) {
-        this.guid = str;
+    public void setGuid(String val) {
+        this.guid = val;
     }
     
     public String getGuid() {
@@ -121,8 +122,8 @@ public class StatusDvo implements Dvo {
     
     // code
     
-    public void setCode(String str) {
-        this.code = str;
+    public void setCode(String val) {
+        this.code = val;
     }
     
     public String getCode() {
@@ -131,8 +132,8 @@ public class StatusDvo implements Dvo {
     
     // name
     
-    public void setName(String str) {
-        this.name = str;
+    public void setName(String val) {
+        this.name = val;
     }
     
     public String getName() {
@@ -141,8 +142,8 @@ public class StatusDvo implements Dvo {
     
     // description
     
-    public void setDescription(String str) {
-        this.description = str;
+    public void setDescription(String val) {
+        this.description = val;
     }
     
     public String getDescription() {
@@ -151,8 +152,8 @@ public class StatusDvo implements Dvo {
     
     // createdBy
     
-    public void setCreatedBy(String str) {
-        this.createdBy = str;
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
     }
     
     public String getCreatedBy() {
@@ -161,18 +162,18 @@ public class StatusDvo implements Dvo {
     
     // createdDate
     
-    public void setCreatedDate(String str) {
-        this.createdDate = str;
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
     }
     
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return this.createdDate;
     }
     
     // updatedBy
     
-    public void setUpdatedBy(String str) {
-        this.updatedBy = str;
+    public void setUpdatedBy(String val) {
+        this.updatedBy = val;
     }
     
     public String getUpdatedBy() {
@@ -181,11 +182,11 @@ public class StatusDvo implements Dvo {
     
     // updatedDate
     
-    public void setUpdatedDate(String str) {
-        this.updatedDate = str;
+    public void setUpdatedDate(Date val) {
+        this.updatedDate = val;
     }
     
-    public String getUpdatedDate() {
+    public Date getUpdatedDate() {
         return this.updatedDate;
     }
     

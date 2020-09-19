@@ -6,6 +6,7 @@ package org.nachc.cad.cosmos.dvo.mysql.cosmos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 
 import org.yaorma.dvo.Dvo;
 
@@ -108,11 +109,11 @@ public class PersonDvo implements Dvo {
     
     private String createdBy;
     
-    private String createdDate;
+    private Date createdDate;
     
     private String updatedBy;
     
-    private String updatedDate;
+    private Date updatedDate;
     
     private PersonDvo createdByDvo;
     
@@ -164,8 +165,8 @@ public class PersonDvo implements Dvo {
     
     // guid
     
-    public void setGuid(String str) {
-        this.guid = str;
+    public void setGuid(String val) {
+        this.guid = val;
     }
     
     public String getGuid() {
@@ -174,8 +175,8 @@ public class PersonDvo implements Dvo {
     
     // username
     
-    public void setUsername(String str) {
-        this.username = str;
+    public void setUsername(String val) {
+        this.username = val;
     }
     
     public String getUsername() {
@@ -184,8 +185,8 @@ public class PersonDvo implements Dvo {
     
     // fname
     
-    public void setFname(String str) {
-        this.fname = str;
+    public void setFname(String val) {
+        this.fname = val;
     }
     
     public String getFname() {
@@ -194,8 +195,8 @@ public class PersonDvo implements Dvo {
     
     // lname
     
-    public void setLname(String str) {
-        this.lname = str;
+    public void setLname(String val) {
+        this.lname = val;
     }
     
     public String getLname() {
@@ -204,8 +205,8 @@ public class PersonDvo implements Dvo {
     
     // displayName
     
-    public void setDisplayName(String str) {
-        this.displayName = str;
+    public void setDisplayName(String val) {
+        this.displayName = val;
     }
     
     public String getDisplayName() {
@@ -214,8 +215,8 @@ public class PersonDvo implements Dvo {
     
     // password
     
-    public void setPassword(String str) {
-        this.password = str;
+    public void setPassword(String val) {
+        this.password = val;
     }
     
     public String getPassword() {
@@ -224,8 +225,8 @@ public class PersonDvo implements Dvo {
     
     // salt
     
-    public void setSalt(String str) {
-        this.salt = str;
+    public void setSalt(String val) {
+        this.salt = val;
     }
     
     public String getSalt() {
@@ -234,8 +235,8 @@ public class PersonDvo implements Dvo {
     
     // createdBy
     
-    public void setCreatedBy(String str) {
-        this.createdBy = str;
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
     }
     
     public String getCreatedBy() {
@@ -244,18 +245,18 @@ public class PersonDvo implements Dvo {
     
     // createdDate
     
-    public void setCreatedDate(String str) {
-        this.createdDate = str;
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
     }
     
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return this.createdDate;
     }
     
     // updatedBy
     
-    public void setUpdatedBy(String str) {
-        this.updatedBy = str;
+    public void setUpdatedBy(String val) {
+        this.updatedBy = val;
     }
     
     public String getUpdatedBy() {
@@ -264,11 +265,11 @@ public class PersonDvo implements Dvo {
     
     // updatedDate
     
-    public void setUpdatedDate(String str) {
-        this.updatedDate = str;
+    public void setUpdatedDate(Date val) {
+        this.updatedDate = val;
     }
     
-    public String getUpdatedDate() {
+    public Date getUpdatedDate() {
         return this.updatedDate;
     }
     
