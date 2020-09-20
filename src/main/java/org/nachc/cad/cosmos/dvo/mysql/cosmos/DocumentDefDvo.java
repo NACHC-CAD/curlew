@@ -107,7 +107,7 @@ public class DocumentDefDvo implements Dvo {
     
     private String documentRole;
     
-    private String rowId;
+    private Integer rowId;
     
     private String name;
     
@@ -185,11 +185,11 @@ public class DocumentDefDvo implements Dvo {
     
     // rowId
     
-    public void setRowId(String val) {
+    public void setRowId(Integer val) {
         this.rowId = val;
     }
     
-    public String getRowId() {
+    public Integer getRowId() {
         return this.rowId;
     }
     

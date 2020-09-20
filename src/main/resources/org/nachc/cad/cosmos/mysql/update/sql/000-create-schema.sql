@@ -23,7 +23,6 @@ create table cosmos.person (
 );
 
 create table cosmos.file_type (
-	guid varchar(40),
     code varchar(64),
     name varchar(64),
     description varchar(256),
@@ -31,15 +30,13 @@ create table cosmos.file_type (
     created_date datetime,
     updated_by varchar(40),
     updated_date datetime,
-    unique (code),
     unique (name),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
-    primary key (guid)
+    primary key (code)
 );
 
 create table cosmos.document_role (
-	guid varchar(40),
     code varchar(64),
     name varchar(65),
     description varchar(256),
@@ -47,15 +44,13 @@ create table cosmos.document_role (
     created_date datetime,
     updated_by varchar(40),
     updated_date datetime,
-    unique (code),
     unique (name),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
-    primary key (guid)
+    primary key (code)
 );
 
 create table cosmos.status (
-	guid varchar(40),
     code varchar(64),
     name varchar(64),
     description varchar(256),
@@ -63,10 +58,9 @@ create table cosmos.status (
     created_date datetime,
     updated_by varchar(40),
     updated_date datetime,
-    unique (code),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
-    primary key (guid)
+    primary key (code)
 );
 
 create table cosmos.project (
@@ -102,16 +96,16 @@ create table cosmos.document_validator (
 
 create table cosmos.block_def (
 	guid varchar(40),
+    code varchar(256),
     name varchar(256),
-    title varchar(256),
     description varchar(1024),
     project varchar(40),
     created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),
     updated_date datetime,
+    unique (code),
     unique (name),
-    unique (title),
     foreign key (project) references project (guid),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
@@ -133,8 +127,8 @@ create table cosmos.document_def (
     updated_by varchar(40),
     updated_date datetime,
     foreign key (block_def) references block_def (guid),
-    foreign key (file_type) references file_type (guid),
-    foreign key (document_role) references document_role (guid),
+    foreign key (file_type) references file_type (code),
+    foreign key (document_role) references document_role (code),
     foreign key (validator) references document_validator (guid),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
@@ -152,7 +146,7 @@ create table cosmos.block (
     updated_by varchar(40),
     updated_date datetime,
     foreign key (block_def) references block_def (guid),
-    foreign key (status) references status (guid),
+    foreign key (status) references status (code),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),
     primary key (guid)
@@ -173,8 +167,8 @@ create table cosmos.document (
     updated_by varchar(40),
     updated_date datetime,
     foreign key (block) references block (guid),
-	foreign key (file_type) references file_type (guid),
-    foreign key (document_role) references document_role (guid),
+	foreign key (file_type) references file_type (code),
+    foreign key (document_role) references document_role (code),
     foreign key (document_def) references document_def (guid),
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid),

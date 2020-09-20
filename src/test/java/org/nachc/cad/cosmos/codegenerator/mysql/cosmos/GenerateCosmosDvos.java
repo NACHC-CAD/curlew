@@ -8,6 +8,9 @@ import org.yaorma.codeGenerator.generateOrmForSchema.GenerateOrmForSchema;
 
 import com.nach.core.util.file.FileUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class GenerateCosmosDvos {
 
 	public static void main(String[] args) throws Exception {
@@ -17,6 +20,7 @@ public class GenerateCosmosDvos {
 		File destDir = FileUtil.getFromProjectRoot("/src/main/java/org/nachc/cad/cosmos/dvo/mysql/cosmos");
 		FileUtil.clearContents(destDir);
 		GenerateOrmForSchema.execute(conn, schemaName, packageName, destDir);
+		log.info("Done.");
 	}
 
 }

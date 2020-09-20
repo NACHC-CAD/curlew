@@ -30,8 +30,8 @@ public class BlockDefDvo implements Dvo {
     
     public static final String[] COLUMN_NAMES = {
         "guid",
+        "code",
         "name",
-        "title",
         "description",
         "project",
         "created_by",
@@ -54,8 +54,8 @@ public class BlockDefDvo implements Dvo {
     
     public static final String[] JAVA_NAMES = {
         "guid",
+        "code",
         "name",
-        "title",
         "description",
         "project",
         "createdBy",
@@ -70,8 +70,8 @@ public class BlockDefDvo implements Dvo {
     
     public static final String[] JAVA_NAMES_PROPER = {
         "Guid",
+        "Code",
         "Name",
-        "Title",
         "Description",
         "Project",
         "CreatedBy",
@@ -89,9 +89,9 @@ public class BlockDefDvo implements Dvo {
     
     private String guid;
     
-    private String name;
+    private String code;
     
-    private String title;
+    private String name;
     
     private String description;
     
@@ -129,6 +129,16 @@ public class BlockDefDvo implements Dvo {
         return this.guid;
     }
     
+    // code
+    
+    public void setCode(String val) {
+        this.code = val;
+    }
+    
+    public String getCode() {
+        return this.code;
+    }
+    
     // name
     
     public void setName(String val) {
@@ -137,16 +147,6 @@ public class BlockDefDvo implements Dvo {
     
     public String getName() {
         return this.name;
-    }
-    
-    // title
-    
-    public void setTitle(String val) {
-        this.title = val;
-    }
-    
-    public String getTitle() {
-        return this.title;
     }
     
     // description

@@ -29,7 +29,6 @@ public class FileTypeDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "guid",
         "code",
         "name",
         "description",
@@ -44,7 +43,7 @@ public class FileTypeDvo implements Dvo {
     //
     
     public static final String[] PRIMARY_KEY_COLUMN_NAMES = {
-        "guid"
+        "code"
     };
     
     //
@@ -52,7 +51,6 @@ public class FileTypeDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "guid",
         "code",
         "name",
         "description",
@@ -67,7 +65,6 @@ public class FileTypeDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "Guid",
         "Code",
         "Name",
         "Description",
@@ -83,8 +80,6 @@ public class FileTypeDvo implements Dvo {
     //
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
-    
-    private String guid;
     
     private String code;
     
@@ -111,16 +106,6 @@ public class FileTypeDvo implements Dvo {
     //
     // trivial getters and setters
     //
-    
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
     
     // code
     
@@ -274,7 +259,7 @@ public class FileTypeDvo implements Dvo {
     
     public String[] getPrimaryKeyValues() {
         String[] rtn = new String[] {
-            getGuid()
+            getCode()
         };
         return rtn;
     }
