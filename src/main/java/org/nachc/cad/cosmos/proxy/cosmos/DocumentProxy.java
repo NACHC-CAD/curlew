@@ -4,7 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.Date;
 
-import org.nachc.cad.cosmos.dvo.cosmos.DocumentDvo;
+import org.nachc.cad.cosmos.dvo.cosmos.DocumentDatabricksDvo;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.params.DatabricksParams;
 import org.yaorma.dao.Dao;
@@ -18,7 +18,7 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DocumentProxy extends DocumentDvo {
+public class DocumentProxy extends DocumentDatabricksDvo {
 
 	private File file;
 	

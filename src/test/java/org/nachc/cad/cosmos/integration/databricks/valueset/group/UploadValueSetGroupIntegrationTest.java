@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Test;
-import org.nachc.cad.cosmos.dvo.cosmos.DocumentDvo;
+import org.nachc.cad.cosmos.dvo.cosmos.DocumentDatabricksDvo;
 import org.nachc.cad.cosmos.dvo.valueset.ValueSetGroupDvo;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.params.DatabricksParams;
@@ -43,7 +43,7 @@ public class UploadValueSetGroupIntegrationTest {
 		File excel = getTestFile();
 		// create the document record and post the document
 		log.info("Writing document record to database");
-		DocumentDvo excelDocDvo = createDocument(conn, excel, databricksExcelPath);
+		DocumentDatabricksDvo excelDocDvo = createDocument(conn, excel, databricksExcelPath);
 		DatabricksFileUtil fileUtil = new DatabricksFileUtil(fileUrl, fileToken);
 		log.info("Writing file to databricks");
 		fileUtil.replace(databricksExcelPath, excel);
@@ -61,8 +61,8 @@ public class UploadValueSetGroupIntegrationTest {
 		return files.get(0);
 	}
 
-	private DocumentDvo createDocument(Connection conn, File excel, String databricksExcelPath) {
-		DocumentDvo dvo = new DocumentDvo();
+	private DocumentDatabricksDvo createDocument(Connection conn, File excel, String databricksExcelPath) {
+		DocumentDatabricksDvo dvo = new DocumentDatabricksDvo();
 		dvo.setCreatedBy(this.getClass().getCanonicalName());
 		dvo.setCreatedDate(TimeUtil.getNow());
 		dvo.setDatabricksPath(databricksExcelPath);
@@ -78,7 +78,7 @@ public class UploadValueSetGroupIntegrationTest {
 		return dvo;
 	}
 
-	private ValueSetGroupDvo createValueSetGroup(Connection conn, File file, DocumentDvo docDvo) {
+	private ValueSetGroupDvo createValueSetGroup(Connection conn, File file, DocumentDatabricksDvo docDvo) {
 		String guid = GuidFactory.getGuid();
 		ValueSetGroupDvo dvo = new ValueSetGroupDvo();
 		dvo.setGuid(guid);

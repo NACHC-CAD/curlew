@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class DocumentDvo extends AbstractDatabricksDvo {
+public class DocumentDatabricksDvo extends AbstractDatabricksDvo {
 
 	private String guid;
 
