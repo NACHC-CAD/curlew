@@ -114,10 +114,11 @@ create table cosmos.block_def (
 
 create table cosmos.document_def (
 	guid varchar(40),
+    row_id int,
     block_def varchar(40),
     file_type varchar(40),
     document_role varchar(40),
-    row_id int,
+    data_group varchar(64),
     name varchar(256),
     description varchar(1024),
     validator varchar(40),

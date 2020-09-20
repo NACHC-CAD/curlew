@@ -3,6 +3,7 @@ package org.nachc.cad.cosmos.mysql.update;
 import java.io.File;
 import java.sql.Connection;
 
+import org.nachc.cad.cosmos.mysql.update.codegenerator.GenerateCosmosDvos;
 import org.nachc.cad.cosmos.mysql.update.init.InitMySql;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Data;
@@ -28,6 +29,7 @@ public class UpdateMySql {
 		}
 		// update the schema
 		updateSchema(conn);
+		GenerateCosmosDvos.generateDvos();
 		// done
 		log.info("Done.");
 	}

@@ -30,10 +30,11 @@ public class DocumentDefDvo implements Dvo {
     
     public static final String[] COLUMN_NAMES = {
         "guid",
+        "row_id",
         "block_def",
         "file_type",
         "document_role",
-        "row_id",
+        "data_group",
         "name",
         "description",
         "validator",
@@ -58,10 +59,11 @@ public class DocumentDefDvo implements Dvo {
     
     public static final String[] JAVA_NAMES = {
         "guid",
+        "rowId",
         "blockDef",
         "fileType",
         "documentRole",
-        "rowId",
+        "dataGroup",
         "name",
         "description",
         "validator",
@@ -78,10 +80,11 @@ public class DocumentDefDvo implements Dvo {
     
     public static final String[] JAVA_NAMES_PROPER = {
         "Guid",
+        "RowId",
         "BlockDef",
         "FileType",
         "DocumentRole",
-        "RowId",
+        "DataGroup",
         "Name",
         "Description",
         "Validator",
@@ -101,13 +104,15 @@ public class DocumentDefDvo implements Dvo {
     
     private String guid;
     
+    private Integer rowId;
+    
     private String blockDef;
     
     private String fileType;
     
     private String documentRole;
     
-    private Integer rowId;
+    private String dataGroup;
     
     private String name;
     
@@ -153,6 +158,16 @@ public class DocumentDefDvo implements Dvo {
         return this.guid;
     }
     
+    // rowId
+    
+    public void setRowId(Integer val) {
+        this.rowId = val;
+    }
+    
+    public Integer getRowId() {
+        return this.rowId;
+    }
+    
     // blockDef
     
     public void setBlockDef(String val) {
@@ -183,14 +198,14 @@ public class DocumentDefDvo implements Dvo {
         return this.documentRole;
     }
     
-    // rowId
+    // dataGroup
     
-    public void setRowId(Integer val) {
-        this.rowId = val;
+    public void setDataGroup(String val) {
+        this.dataGroup = val;
     }
     
-    public Integer getRowId() {
-        return this.rowId;
+    public String getDataGroup() {
+        return this.dataGroup;
     }
     
     // name

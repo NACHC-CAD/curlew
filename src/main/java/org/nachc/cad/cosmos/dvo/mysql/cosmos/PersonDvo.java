@@ -119,45 +119,45 @@ public class PersonDvo implements Dvo {
     
     private PersonDvo updatedByDvo;
     
-    private ArrayList<BlockDvo> blockCreatedByList = new ArrayList<BlockDvo>();
+    private ArrayList<PersonDvo> personCreatedByList = new ArrayList<PersonDvo>();
     
-    private ArrayList<BlockDvo> blockUpdatedByList = new ArrayList<BlockDvo>();
-    
-    private ArrayList<BlockDefDvo> blockDefCreatedByList = new ArrayList<BlockDefDvo>();
-    
-    private ArrayList<BlockDefDvo> blockDefUpdatedByList = new ArrayList<BlockDefDvo>();
-    
-    private ArrayList<DocumentDvo> documentCreatedByList = new ArrayList<DocumentDvo>();
-    
-    private ArrayList<DocumentDvo> documentUpdatedByList = new ArrayList<DocumentDvo>();
-    
-    private ArrayList<DocumentDefDvo> documentDefCreatedByList = new ArrayList<DocumentDefDvo>();
-    
-    private ArrayList<DocumentDefDvo> documentDefUpdatedByList = new ArrayList<DocumentDefDvo>();
-    
-    private ArrayList<DocumentRoleDvo> documentRoleCreatedByList = new ArrayList<DocumentRoleDvo>();
-    
-    private ArrayList<DocumentRoleDvo> documentRoleUpdatedByList = new ArrayList<DocumentRoleDvo>();
-    
-    private ArrayList<DocumentValidatorDvo> documentValidatorCreatedByList = new ArrayList<DocumentValidatorDvo>();
-    
-    private ArrayList<DocumentValidatorDvo> documentValidatorUpdatedByList = new ArrayList<DocumentValidatorDvo>();
+    private ArrayList<PersonDvo> personUpdatedByList = new ArrayList<PersonDvo>();
     
     private ArrayList<FileTypeDvo> fileTypeCreatedByList = new ArrayList<FileTypeDvo>();
     
     private ArrayList<FileTypeDvo> fileTypeUpdatedByList = new ArrayList<FileTypeDvo>();
     
-    private ArrayList<PersonDvo> personCreatedByList = new ArrayList<PersonDvo>();
+    private ArrayList<DocumentRoleDvo> documentRoleCreatedByList = new ArrayList<DocumentRoleDvo>();
     
-    private ArrayList<PersonDvo> personUpdatedByList = new ArrayList<PersonDvo>();
+    private ArrayList<DocumentRoleDvo> documentRoleUpdatedByList = new ArrayList<DocumentRoleDvo>();
+    
+    private ArrayList<StatusDvo> statusCreatedByList = new ArrayList<StatusDvo>();
+    
+    private ArrayList<StatusDvo> statusUpdatedByList = new ArrayList<StatusDvo>();
     
     private ArrayList<ProjectDvo> projectCreatedByList = new ArrayList<ProjectDvo>();
     
     private ArrayList<ProjectDvo> projectUpdatedByList = new ArrayList<ProjectDvo>();
     
-    private ArrayList<StatusDvo> statusCreatedByList = new ArrayList<StatusDvo>();
+    private ArrayList<DocumentValidatorDvo> documentValidatorCreatedByList = new ArrayList<DocumentValidatorDvo>();
     
-    private ArrayList<StatusDvo> statusUpdatedByList = new ArrayList<StatusDvo>();
+    private ArrayList<DocumentValidatorDvo> documentValidatorUpdatedByList = new ArrayList<DocumentValidatorDvo>();
+    
+    private ArrayList<BlockDefDvo> blockDefCreatedByList = new ArrayList<BlockDefDvo>();
+    
+    private ArrayList<BlockDefDvo> blockDefUpdatedByList = new ArrayList<BlockDefDvo>();
+    
+    private ArrayList<DocumentDefDvo> documentDefCreatedByList = new ArrayList<DocumentDefDvo>();
+    
+    private ArrayList<DocumentDefDvo> documentDefUpdatedByList = new ArrayList<DocumentDefDvo>();
+    
+    private ArrayList<BlockDvo> blockCreatedByList = new ArrayList<BlockDvo>();
+    
+    private ArrayList<BlockDvo> blockUpdatedByList = new ArrayList<BlockDvo>();
+    
+    private ArrayList<DocumentDvo> documentCreatedByList = new ArrayList<DocumentDvo>();
+    
+    private ArrayList<DocumentDvo> documentUpdatedByList = new ArrayList<DocumentDvo>();
     
     //
     // trivial getters and setters
@@ -293,100 +293,20 @@ public class PersonDvo implements Dvo {
         return this.updatedByDvo;
     }
     
-    public ArrayList<BlockDvo> getBlockCreatedByList() {
-        return blockCreatedByList;
+    public ArrayList<PersonDvo> getPersonCreatedByList() {
+        return personCreatedByList;
     }
     
-    public void setBlockCreatedByList(ArrayList<BlockDvo> list) {
-        this.blockCreatedByList = list;
+    public void setPersonCreatedByList(ArrayList<PersonDvo> list) {
+        this.personCreatedByList = list;
     }
     
-    public ArrayList<BlockDvo> getBlockUpdatedByList() {
-        return blockUpdatedByList;
+    public ArrayList<PersonDvo> getPersonUpdatedByList() {
+        return personUpdatedByList;
     }
     
-    public void setBlockUpdatedByList(ArrayList<BlockDvo> list) {
-        this.blockUpdatedByList = list;
-    }
-    
-    public ArrayList<BlockDefDvo> getBlockDefCreatedByList() {
-        return blockDefCreatedByList;
-    }
-    
-    public void setBlockDefCreatedByList(ArrayList<BlockDefDvo> list) {
-        this.blockDefCreatedByList = list;
-    }
-    
-    public ArrayList<BlockDefDvo> getBlockDefUpdatedByList() {
-        return blockDefUpdatedByList;
-    }
-    
-    public void setBlockDefUpdatedByList(ArrayList<BlockDefDvo> list) {
-        this.blockDefUpdatedByList = list;
-    }
-    
-    public ArrayList<DocumentDvo> getDocumentCreatedByList() {
-        return documentCreatedByList;
-    }
-    
-    public void setDocumentCreatedByList(ArrayList<DocumentDvo> list) {
-        this.documentCreatedByList = list;
-    }
-    
-    public ArrayList<DocumentDvo> getDocumentUpdatedByList() {
-        return documentUpdatedByList;
-    }
-    
-    public void setDocumentUpdatedByList(ArrayList<DocumentDvo> list) {
-        this.documentUpdatedByList = list;
-    }
-    
-    public ArrayList<DocumentDefDvo> getDocumentDefCreatedByList() {
-        return documentDefCreatedByList;
-    }
-    
-    public void setDocumentDefCreatedByList(ArrayList<DocumentDefDvo> list) {
-        this.documentDefCreatedByList = list;
-    }
-    
-    public ArrayList<DocumentDefDvo> getDocumentDefUpdatedByList() {
-        return documentDefUpdatedByList;
-    }
-    
-    public void setDocumentDefUpdatedByList(ArrayList<DocumentDefDvo> list) {
-        this.documentDefUpdatedByList = list;
-    }
-    
-    public ArrayList<DocumentRoleDvo> getDocumentRoleCreatedByList() {
-        return documentRoleCreatedByList;
-    }
-    
-    public void setDocumentRoleCreatedByList(ArrayList<DocumentRoleDvo> list) {
-        this.documentRoleCreatedByList = list;
-    }
-    
-    public ArrayList<DocumentRoleDvo> getDocumentRoleUpdatedByList() {
-        return documentRoleUpdatedByList;
-    }
-    
-    public void setDocumentRoleUpdatedByList(ArrayList<DocumentRoleDvo> list) {
-        this.documentRoleUpdatedByList = list;
-    }
-    
-    public ArrayList<DocumentValidatorDvo> getDocumentValidatorCreatedByList() {
-        return documentValidatorCreatedByList;
-    }
-    
-    public void setDocumentValidatorCreatedByList(ArrayList<DocumentValidatorDvo> list) {
-        this.documentValidatorCreatedByList = list;
-    }
-    
-    public ArrayList<DocumentValidatorDvo> getDocumentValidatorUpdatedByList() {
-        return documentValidatorUpdatedByList;
-    }
-    
-    public void setDocumentValidatorUpdatedByList(ArrayList<DocumentValidatorDvo> list) {
-        this.documentValidatorUpdatedByList = list;
+    public void setPersonUpdatedByList(ArrayList<PersonDvo> list) {
+        this.personUpdatedByList = list;
     }
     
     public ArrayList<FileTypeDvo> getFileTypeCreatedByList() {
@@ -405,20 +325,36 @@ public class PersonDvo implements Dvo {
         this.fileTypeUpdatedByList = list;
     }
     
-    public ArrayList<PersonDvo> getPersonCreatedByList() {
-        return personCreatedByList;
+    public ArrayList<DocumentRoleDvo> getDocumentRoleCreatedByList() {
+        return documentRoleCreatedByList;
     }
     
-    public void setPersonCreatedByList(ArrayList<PersonDvo> list) {
-        this.personCreatedByList = list;
+    public void setDocumentRoleCreatedByList(ArrayList<DocumentRoleDvo> list) {
+        this.documentRoleCreatedByList = list;
     }
     
-    public ArrayList<PersonDvo> getPersonUpdatedByList() {
-        return personUpdatedByList;
+    public ArrayList<DocumentRoleDvo> getDocumentRoleUpdatedByList() {
+        return documentRoleUpdatedByList;
     }
     
-    public void setPersonUpdatedByList(ArrayList<PersonDvo> list) {
-        this.personUpdatedByList = list;
+    public void setDocumentRoleUpdatedByList(ArrayList<DocumentRoleDvo> list) {
+        this.documentRoleUpdatedByList = list;
+    }
+    
+    public ArrayList<StatusDvo> getStatusCreatedByList() {
+        return statusCreatedByList;
+    }
+    
+    public void setStatusCreatedByList(ArrayList<StatusDvo> list) {
+        this.statusCreatedByList = list;
+    }
+    
+    public ArrayList<StatusDvo> getStatusUpdatedByList() {
+        return statusUpdatedByList;
+    }
+    
+    public void setStatusUpdatedByList(ArrayList<StatusDvo> list) {
+        this.statusUpdatedByList = list;
     }
     
     public ArrayList<ProjectDvo> getProjectCreatedByList() {
@@ -437,20 +373,84 @@ public class PersonDvo implements Dvo {
         this.projectUpdatedByList = list;
     }
     
-    public ArrayList<StatusDvo> getStatusCreatedByList() {
-        return statusCreatedByList;
+    public ArrayList<DocumentValidatorDvo> getDocumentValidatorCreatedByList() {
+        return documentValidatorCreatedByList;
     }
     
-    public void setStatusCreatedByList(ArrayList<StatusDvo> list) {
-        this.statusCreatedByList = list;
+    public void setDocumentValidatorCreatedByList(ArrayList<DocumentValidatorDvo> list) {
+        this.documentValidatorCreatedByList = list;
     }
     
-    public ArrayList<StatusDvo> getStatusUpdatedByList() {
-        return statusUpdatedByList;
+    public ArrayList<DocumentValidatorDvo> getDocumentValidatorUpdatedByList() {
+        return documentValidatorUpdatedByList;
     }
     
-    public void setStatusUpdatedByList(ArrayList<StatusDvo> list) {
-        this.statusUpdatedByList = list;
+    public void setDocumentValidatorUpdatedByList(ArrayList<DocumentValidatorDvo> list) {
+        this.documentValidatorUpdatedByList = list;
+    }
+    
+    public ArrayList<BlockDefDvo> getBlockDefCreatedByList() {
+        return blockDefCreatedByList;
+    }
+    
+    public void setBlockDefCreatedByList(ArrayList<BlockDefDvo> list) {
+        this.blockDefCreatedByList = list;
+    }
+    
+    public ArrayList<BlockDefDvo> getBlockDefUpdatedByList() {
+        return blockDefUpdatedByList;
+    }
+    
+    public void setBlockDefUpdatedByList(ArrayList<BlockDefDvo> list) {
+        this.blockDefUpdatedByList = list;
+    }
+    
+    public ArrayList<DocumentDefDvo> getDocumentDefCreatedByList() {
+        return documentDefCreatedByList;
+    }
+    
+    public void setDocumentDefCreatedByList(ArrayList<DocumentDefDvo> list) {
+        this.documentDefCreatedByList = list;
+    }
+    
+    public ArrayList<DocumentDefDvo> getDocumentDefUpdatedByList() {
+        return documentDefUpdatedByList;
+    }
+    
+    public void setDocumentDefUpdatedByList(ArrayList<DocumentDefDvo> list) {
+        this.documentDefUpdatedByList = list;
+    }
+    
+    public ArrayList<BlockDvo> getBlockCreatedByList() {
+        return blockCreatedByList;
+    }
+    
+    public void setBlockCreatedByList(ArrayList<BlockDvo> list) {
+        this.blockCreatedByList = list;
+    }
+    
+    public ArrayList<BlockDvo> getBlockUpdatedByList() {
+        return blockUpdatedByList;
+    }
+    
+    public void setBlockUpdatedByList(ArrayList<BlockDvo> list) {
+        this.blockUpdatedByList = list;
+    }
+    
+    public ArrayList<DocumentDvo> getDocumentCreatedByList() {
+        return documentCreatedByList;
+    }
+    
+    public void setDocumentCreatedByList(ArrayList<DocumentDvo> list) {
+        this.documentCreatedByList = list;
+    }
+    
+    public ArrayList<DocumentDvo> getDocumentUpdatedByList() {
+        return documentUpdatedByList;
+    }
+    
+    public void setDocumentUpdatedByList(ArrayList<DocumentDvo> list) {
+        this.documentUpdatedByList = list;
     }
     
     //
