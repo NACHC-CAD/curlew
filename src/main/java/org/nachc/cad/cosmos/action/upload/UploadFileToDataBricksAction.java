@@ -44,9 +44,6 @@ public class UploadFileToDataBricksAction {
 		dvo.setBlock(blockGuid);
 		dvo.setFileName(file.getName());
 		dvo.setFileDescription(description);
-		dvo.setFileType(docDefDvo.getFileType());
-		dvo.setDocumentRole(docDefDvo.getDocumentRole());
-		dvo.setDatabricksDir(docDefDvo.getDatabricksDir());
 		dvo.setDocumentDef(docDefDvo.getGuid());
 		dvo.setDatabricksFileName(file.getName());
 		dvo.setCreatedBy(createdByGuid);

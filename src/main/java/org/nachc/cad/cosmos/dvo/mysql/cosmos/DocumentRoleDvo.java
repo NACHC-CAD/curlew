@@ -101,8 +101,6 @@ public class DocumentRoleDvo implements Dvo {
     
     private ArrayList<DocumentDefDvo> documentDefDocumentRoleList = new ArrayList<DocumentDefDvo>();
     
-    private ArrayList<DocumentDvo> documentDocumentRoleList = new ArrayList<DocumentDvo>();
-    
     //
     // trivial getters and setters
     //
@@ -203,14 +201,6 @@ public class DocumentRoleDvo implements Dvo {
     
     public void setDocumentDefDocumentRoleList(ArrayList<DocumentDefDvo> list) {
         this.documentDefDocumentRoleList = list;
-    }
-    
-    public ArrayList<DocumentDvo> getDocumentDocumentRoleList() {
-        return documentDocumentRoleList;
-    }
-    
-    public void setDocumentDocumentRoleList(ArrayList<DocumentDvo> list) {
-        this.documentDocumentRoleList = list;
     }
     
     //

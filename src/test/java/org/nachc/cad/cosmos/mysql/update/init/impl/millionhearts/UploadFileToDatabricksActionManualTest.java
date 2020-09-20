@@ -1,9 +1,10 @@
-package org.nachc.cad.cosmos.action.upload;
+package org.nachc.cad.cosmos.mysql.update.init.impl.millionhearts;
 
 import java.io.File;
 import java.sql.Connection;
 
 import org.junit.Test;
+import org.nachc.cad.cosmos.action.upload.UploadFileToDataBricksAction;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.BlockDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.DocumentDefDvo;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.BlockDefProxy;
@@ -66,7 +67,7 @@ public class UploadFileToDatabricksActionManualTest {
 	}
 
 	private DocumentDefDvo getDocDef(String blockDefGuid, String dataGroup, Connection conn) {
-		return Dao.find(new DocumentDefDvo(), new String[] {"block_def", "data_group"}, new String[] {blockDefGuid, dataGroup}, conn);
+		return Dao.find(new DocumentDefDvo(), new String[] { "block_def", "data_group" }, new String[] { blockDefGuid, dataGroup }, conn);
 	}
 
 	private void delete(Connection conn) {

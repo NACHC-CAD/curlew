@@ -33,9 +33,6 @@ public class DocumentDvo implements Dvo {
         "block",
         "file_name",
         "file_description",
-        "file_type",
-        "document_role",
-        "databricks_dir",
         "document_def",
         "databricks_file_name",
         "created_by",
@@ -61,9 +58,6 @@ public class DocumentDvo implements Dvo {
         "block",
         "fileName",
         "fileDescription",
-        "fileType",
-        "documentRole",
-        "databricksDir",
         "documentDef",
         "databricksFileName",
         "createdBy",
@@ -81,9 +75,6 @@ public class DocumentDvo implements Dvo {
         "Block",
         "FileName",
         "FileDescription",
-        "FileType",
-        "DocumentRole",
-        "DatabricksDir",
         "DocumentDef",
         "DatabricksFileName",
         "CreatedBy",
@@ -107,12 +98,6 @@ public class DocumentDvo implements Dvo {
     
     private String fileDescription;
     
-    private String fileType;
-    
-    private String documentRole;
-    
-    private String databricksDir;
-    
     private String documentDef;
     
     private String databricksFileName;
@@ -126,10 +111,6 @@ public class DocumentDvo implements Dvo {
     private Date updatedDate;
     
     private BlockDvo blockDvo;
-    
-    private FileTypeDvo fileTypeDvo;
-    
-    private DocumentRoleDvo documentRoleDvo;
     
     private DocumentDefDvo documentDefDvo;
     
@@ -179,36 +160,6 @@ public class DocumentDvo implements Dvo {
     
     public String getFileDescription() {
         return this.fileDescription;
-    }
-    
-    // fileType
-    
-    public void setFileType(String val) {
-        this.fileType = val;
-    }
-    
-    public String getFileType() {
-        return this.fileType;
-    }
-    
-    // documentRole
-    
-    public void setDocumentRole(String val) {
-        this.documentRole = val;
-    }
-    
-    public String getDocumentRole() {
-        return this.documentRole;
-    }
-    
-    // databricksDir
-    
-    public void setDatabricksDir(String val) {
-        this.databricksDir = val;
-    }
-    
-    public String getDatabricksDir() {
-        return this.databricksDir;
     }
     
     // documentDef
@@ -279,26 +230,6 @@ public class DocumentDvo implements Dvo {
     
     public BlockDvo getBlockDvo() {
         return this.blockDvo;
-    }
-    
-    // fileTypeDvo
-    
-    public void setFileTypeDvo(FileTypeDvo dvo) {
-        this.fileTypeDvo = dvo;
-    }
-    
-    public FileTypeDvo getFileTypeDvo() {
-        return this.fileTypeDvo;
-    }
-    
-    // documentRoleDvo
-    
-    public void setDocumentRoleDvo(DocumentRoleDvo dvo) {
-        this.documentRoleDvo = dvo;
-    }
-    
-    public DocumentRoleDvo getDocumentRoleDvo() {
-        return this.documentRoleDvo;
     }
     
     // documentDefDvo
