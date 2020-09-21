@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.mysql.update.init.impl.millionhearts;
+package org.nachc.cad.cosmos.init.millionhearts;
 
 import java.io.File;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.mysql.update.init.impl.millionhearts;
+package org.nachc.cad.cosmos.init.millionhearts;
 
 import java.sql.Connection;
 import java.util.Date;
@@ -10,12 +10,14 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.ProjectDvo;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.BlockDefProxy;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.PersonProxy;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.ProjectProxy;
+import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 import org.yaorma.util.time.TimeUtil;
 
+import com.nach.core.util.databricks.file.DatabricksFileUtil;
 import com.nach.core.util.guid.GuidFactory;
 import com.nach.core.util.string.LoremIpsum;
 
@@ -58,6 +60,8 @@ public class CreateMillionHeartsProjectManualTest {
 	private void delete(Connection conn) {
 		String blockDefGuid = BlockDefProxy.getGuidForCode("MILLION_HEARTS_CSV", conn);
 		String projectGuid = ProjectProxy.getGuidForCode("MILLION_HEARTS", conn);
+		Database.update("delete from document where block in (select guid from block where block_def = ?)", blockDefGuid, conn);
+		Database.update("delete from block where block_def = ?", blockDefGuid, conn);
 		Database.update("delete from document_def where block_def = ?", blockDefGuid, conn);
 		Database.update("delete from block_def where guid = ?", blockDefGuid, conn);
 		Database.update("delete from project where guid = ?", projectGuid, conn);
