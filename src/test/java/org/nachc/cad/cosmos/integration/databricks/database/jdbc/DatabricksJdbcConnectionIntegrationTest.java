@@ -27,14 +27,25 @@ public class DatabricksJdbcConnectionIntegrationTest {
 		log.info("Got token: " + token);
 		Connection conn = DatabricksDbUtil.getConnection(url, token);
 		log.info("Got connection");
-		String sqlString = "show databases";
+		String sqlString; 
+		Data data;
+		// simple query to test connectivity
+		sqlString = "show databases";
 		log.info("Excecuting query: " + sqlString);
-		Data data = Database.query(sqlString, conn);
+		data = Database.query(sqlString, conn);
 		log.info("Got response:");
 		for(Map<String, String> row : data) {
 			log.info("\t" + row.get("namespace"));
 		}
 		assertTrue(data.size() > 0);
+		// check that the schema has been initialized
+		sqlString = "select * from cosmos.build_version";
+		data = Database.query(sqlString, conn);
+		assertTrue("Could not get data from build_version (DB not initiated)", data.size() > 0);
+		log.info("Got response:");
+		for(Map<String, String> row : data) {
+			log.info("\t" + row.get("versionNumber") + "\t" + row.get("fileName"));
+		}
 		log.info("Done.");
 	}
 	

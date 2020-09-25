@@ -18,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadFileToDatabricksActionManualTest {
 
+	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Million Hearts\\statins";
+	
 	@Test
 	public void shouldUploadFile() {
 		log.info("Starting test...");
@@ -55,13 +57,13 @@ public class UploadFileToDatabricksActionManualTest {
 	}
 
 	private File getDemoFile() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\projects\\million-hearts\\demo\\MosaicDemographicsStatin.csv";
+		String fileName = DIR + "\\demo\\Mosaic Demographics Statin.csv";
 		File file = new File(fileName);
 		return file;
 	}
 
 	private File getEncFile() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\projects\\million-hearts\\enc\\Mosaic Encounters Statin.csv";
+		String fileName = DIR + "\\enc\\Mosaic Encounters Statin.csv";
 		File file = new File(fileName);
 		return file;
 	}

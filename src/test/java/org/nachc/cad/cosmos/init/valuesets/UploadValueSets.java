@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.integration.databricks.valueset.init;
+package org.nachc.cad.cosmos.init.valuesets;
 
 import java.io.File;
 import java.sql.Connection;
