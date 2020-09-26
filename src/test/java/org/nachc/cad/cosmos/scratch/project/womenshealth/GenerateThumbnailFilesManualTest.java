@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.nach.core.util.file.FileUtil;
+import com.nach.core.util.string.StringUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +35,12 @@ public class GenerateThumbnailFilesManualTest {
 		for(File file : files) {
 			String thumb = FileUtil.head(file, 10);
 			log.info("FILE: " + file.getName() + "\n\n" + thumb + "\n");
+			String newFileName = FileUtil.getPrefix(file);
+			newFileName += "-thumbnail-10.csv";
+			File newFile = new File(thumbDir, newFileName);
+			log.info("Writing file: " + FileUtil.getCanonicalPath(newFile));
+			FileUtil.write(thumb, newFile);
+			log.info("Done writing file.");
 		}
 	}
 
