@@ -95,11 +95,11 @@ create table cosmos.raw_table_group_raw_table (
 
 create table cosmos.raw_table_group_col (
 	guid varchar(40),
-	raw_table varchar(40),
-	col varchar(256),
+	raw_table_group varchar(40),
+	col_name varchar(256),
 	primary key (guid),
-	unique (guid, col),
-	foreign key (raw_table) references raw_table (guid),
+	unique (raw_table_group, col_name),
+	foreign key (raw_table_group) references raw_table_group (guid),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),

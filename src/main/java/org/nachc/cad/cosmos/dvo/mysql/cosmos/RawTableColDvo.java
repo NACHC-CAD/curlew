@@ -35,6 +35,7 @@ public class RawTableColDvo implements Dvo {
         "dirty_name",
         "col_name",
         "col_alias",
+        "real_name",
         "created_by",
         "created_date",
         "updated_by",
@@ -60,6 +61,7 @@ public class RawTableColDvo implements Dvo {
         "dirtyName",
         "colName",
         "colAlias",
+        "realName",
         "createdBy",
         "createdDate",
         "updatedBy",
@@ -77,6 +79,7 @@ public class RawTableColDvo implements Dvo {
         "DirtyName",
         "ColName",
         "ColAlias",
+        "RealName",
         "CreatedBy",
         "CreatedDate",
         "UpdatedBy",
@@ -101,6 +104,8 @@ public class RawTableColDvo implements Dvo {
     private String colName;
     
     private String colAlias;
+    
+    private String realName;
     
     private String createdBy;
     
@@ -178,6 +183,16 @@ public class RawTableColDvo implements Dvo {
     
     public String getColAlias() {
         return this.colAlias;
+    }
+    
+    // realName
+    
+    public void setRealName(String val) {
+        this.realName = val;
+    }
+    
+    public String getRealName() {
+        return this.realName;
     }
     
     // createdBy

@@ -30,8 +30,8 @@ public class RawTableGroupColDvo implements Dvo {
     
     public static final String[] COLUMN_NAMES = {
         "guid",
-        "raw_table",
-        "col",
+        "raw_table_group",
+        "col_name",
         "created_by",
         "created_date",
         "updated_by",
@@ -52,8 +52,8 @@ public class RawTableGroupColDvo implements Dvo {
     
     public static final String[] JAVA_NAMES = {
         "guid",
-        "rawTable",
-        "col",
+        "rawTableGroup",
+        "colName",
         "createdBy",
         "createdDate",
         "updatedBy",
@@ -66,8 +66,8 @@ public class RawTableGroupColDvo implements Dvo {
     
     public static final String[] JAVA_NAMES_PROPER = {
         "Guid",
-        "RawTable",
-        "Col",
+        "RawTableGroup",
+        "ColName",
         "CreatedBy",
         "CreatedDate",
         "UpdatedBy",
@@ -83,9 +83,9 @@ public class RawTableGroupColDvo implements Dvo {
     
     private String guid;
     
-    private String rawTable;
+    private String rawTableGroup;
     
-    private String col;
+    private String colName;
     
     private String createdBy;
     
@@ -95,7 +95,7 @@ public class RawTableGroupColDvo implements Dvo {
     
     private Date updatedDate;
     
-    private RawTableDvo rawTableDvo;
+    private RawTableGroupDvo rawTableGroupDvo;
     
     private PersonDvo createdByDvo;
     
@@ -115,24 +115,24 @@ public class RawTableGroupColDvo implements Dvo {
         return this.guid;
     }
     
-    // rawTable
+    // rawTableGroup
     
-    public void setRawTable(String val) {
-        this.rawTable = val;
+    public void setRawTableGroup(String val) {
+        this.rawTableGroup = val;
     }
     
-    public String getRawTable() {
-        return this.rawTable;
+    public String getRawTableGroup() {
+        return this.rawTableGroup;
     }
     
-    // col
+    // colName
     
-    public void setCol(String val) {
-        this.col = val;
+    public void setColName(String val) {
+        this.colName = val;
     }
     
-    public String getCol() {
-        return this.col;
+    public String getColName() {
+        return this.colName;
     }
     
     // createdBy
@@ -175,14 +175,14 @@ public class RawTableGroupColDvo implements Dvo {
         return this.updatedDate;
     }
     
-    // rawTableDvo
+    // rawTableGroupDvo
     
-    public void setRawTableDvo(RawTableDvo dvo) {
-        this.rawTableDvo = dvo;
+    public void setRawTableGroupDvo(RawTableGroupDvo dvo) {
+        this.rawTableGroupDvo = dvo;
     }
     
-    public RawTableDvo getRawTableDvo() {
-        return this.rawTableDvo;
+    public RawTableGroupDvo getRawTableGroupDvo() {
+        return this.rawTableGroupDvo;
     }
     
     // createdByDvo

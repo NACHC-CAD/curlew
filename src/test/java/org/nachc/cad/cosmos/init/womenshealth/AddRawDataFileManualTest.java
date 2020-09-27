@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
+import org.nachc.cad.cosmos.dvo.mysql.cosmos.PersonDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
+import org.nachc.cad.cosmos.proxy.mysql.cosmos.PersonProxy;
+import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableGroupColProxy;
 import org.nachc.cad.cosmos.util.column.ColumnName;
 import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
 import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
@@ -28,34 +31,29 @@ public class AddRawDataFileManualTest {
 	public void shouldAddRawDataFile() {
 		log.info("Starting test...");
 		// get the file
-		File file = getFile();
-		// get the connection
+		File file = getOchin();
+		// get the connection and the created by record
 		log.info("Getting connection...");
 		Connection conn = MySqlConnectionFactory.getCosmosConnection();
+		PersonDvo createdBy = PersonProxy.getForUid("greshje", conn);
 		// create the records for the incoming file
-		log.info("Creating records...");
-		RawTableDvo tableDvo = createRawTableRecord(file, conn);
-		RawTableFileDvo fileDvo = createRawTableFileRecord(tableDvo, file, conn);
-		List<RawTableColDvo> colDvoList = createRawTableColRecords(tableDvo, file, conn);
-		RawTableGroupDvo groupDvo = getGroup(conn);
+		addFile(getOchin(), createdBy, conn);
+		addFile(getAliance(), createdBy, conn);
 		// done
 		log.info("Done.");
 	}
 
-	private RawTableGroupDvo getGroup(Connection conn) {
-		return Dao.find(new RawTableGroupDvo(), "code", "WOMENS_HEALTH_DEM", conn);
+	private void addFile(File file, PersonDvo createdBy, Connection conn) {
+		log.info("Creating records...");
+		RawTableDvo tableDvo = createRawTableRecord(file, conn);
+		RawTableFileDvo fileDvo = createRawTableFileRecord(tableDvo, file, conn);
+		List<RawTableColDvo> rawCols = createRawTableColRecords(tableDvo, file, conn);
+		RawTableGroupDvo groupDvo = getGroup(conn);
+		List<RawTableGroupColDvo> existingCols = getExistingColumns(groupDvo, conn);
+		List<RawTableGroupColDvo> allCols = addColumnsToGroup(groupDvo, rawCols, existingCols, createdBy.getGuid(), conn);
+		writeFileToDatabricks
 	}
-
-	private String getFileLocation() {
-		return "/FileStore/tables/prod/project/womens-health/raw/dem";
-	}
-
-	private File getFile() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\OchinDemographics-thumbnail-10.csv";
-		File file = new File(fileName);
-		return file;
-	}
-
+	
 	private RawTableDvo createRawTableRecord(File file, Connection conn) {
 		log.info("Creating raw_table record");
 		RawTableDvo dvo = new RawTableDvo();
@@ -100,8 +98,41 @@ public class AddRawDataFileManualTest {
 		return rtn;
 	}
 
+	private List<RawTableGroupColDvo> addColumnsToGroup(RawTableGroupDvo groupDvo, List<RawTableColDvo> rawCols, List<RawTableGroupColDvo> existingCols, String createdByGuid, Connection conn) {
+		List<RawTableGroupColDvo> rtn = RawTableGroupColProxy.addMissingCols(groupDvo.getGuid(), rawCols, existingCols, createdByGuid, conn);
+		log.info("Got " + rtn.size() + " columns");
+		for(RawTableGroupColDvo dvo : rtn) {
+			log.info("\t" + dvo.getColName());
+		}
+		return rtn;
+	}
+
+	//
+	// getters for resources
+	//
+	
+	private File getOchin() {
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\OchinDemographics-thumbnail-10.csv";
+		File file = new File(fileName);
+		return file;
+	}
+
+	private File getAliance() {
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\acdemo-thumbnail-10.csv";
+		File file = new File(fileName);
+		return file;
+	}
+
+	private RawTableGroupDvo getGroup(Connection conn) {
+		return Dao.find(new RawTableGroupDvo(), "code", "WOMENS_HEALTH_DEM", conn);
+	}
+
+	private String getFileLocation() {
+		return "/FileStore/tables/prod/project/womens-health/raw/dem";
+	}
+
 	private List<RawTableGroupColDvo> getExistingColumns(RawTableGroupDvo groupDvo, Connection conn) {
-		return Dao.findList(new RawTableGroupColDvo(), "raw_table", groupDvo.getGuid(), conn);
+		return Dao.findList(new RawTableGroupColDvo(), "raw_table_group", groupDvo.getGuid(), conn);
 	}
 
 }
