@@ -30,8 +30,11 @@ public class ColumnNameUtil {
 
 	public static String getCleanName(String dirtyName) {
 		String rtn = dirtyName;
+		rtn = rtn.replace(".", "_");
+		rtn = rtn.replace("-", "_");
 		rtn = StringUtil.removeSpecial(rtn);
 		rtn = DbToJavaNamingConverter.toDatabaseName(rtn);
+		rtn = StringUtil.removeLeading(rtn, "_");
 		return rtn;
 	}
 	

@@ -10,9 +10,9 @@ public class RawTableProxy {
 
 	public static String getDatabricksCreateTableSqlString(RawTableDvo dvo, RawTableFileDvo fileDvo, List<RawTableColDvo> cols) {
 		String sqlString = "";
-		sqlString += "create table " + dvo.getSchemaName() + ".`" + dvo.getRawTableName() + "` ( \n";
+		sqlString += "create table " + dvo.getRawTableSchema() + "." + dvo.getRawTableName() + " ( \n";
 		for(RawTableColDvo colDvo : cols) {
-			if(sqlString.endsWith("` ( \n") == false) {
+			if(sqlString.endsWith(" ( \n") == false) {
 				sqlString += ", \n";
 			} 
 			sqlString += "  " + colDvo.getColName() + " string";
