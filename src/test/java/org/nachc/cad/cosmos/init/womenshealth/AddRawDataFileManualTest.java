@@ -14,6 +14,7 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.PersonProxy;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableGroupColProxy;
+import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableProxy;
 import org.nachc.cad.cosmos.util.column.ColumnName;
 import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
 import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
@@ -39,6 +40,7 @@ public class AddRawDataFileManualTest {
 		// create the records for the incoming file
 		addFile(getOchin(), createdBy, conn);
 		addFile(getAliance(), createdBy, conn);
+		addFile(getDenver(), createdBy, conn);
 		// done
 		log.info("Done.");
 	}
@@ -51,9 +53,14 @@ public class AddRawDataFileManualTest {
 		RawTableGroupDvo groupDvo = getGroup(conn);
 		List<RawTableGroupColDvo> existingCols = getExistingColumns(groupDvo, conn);
 		List<RawTableGroupColDvo> allCols = addColumnsToGroup(groupDvo, rawCols, existingCols, createdBy.getGuid(), conn);
-		writeFileToDatabricks
+		createDatabricksRawDataTable(tableDvo, fileDvo, rawCols);
+		// writeFileToDatabricks(file, fileDvo);
 	}
-	
+
+	//
+	// mysql methods
+	//
+
 	private RawTableDvo createRawTableRecord(File file, Connection conn) {
 		log.info("Creating raw_table record");
 		RawTableDvo dvo = new RawTableDvo();
@@ -101,16 +108,28 @@ public class AddRawDataFileManualTest {
 	private List<RawTableGroupColDvo> addColumnsToGroup(RawTableGroupDvo groupDvo, List<RawTableColDvo> rawCols, List<RawTableGroupColDvo> existingCols, String createdByGuid, Connection conn) {
 		List<RawTableGroupColDvo> rtn = RawTableGroupColProxy.addMissingCols(groupDvo.getGuid(), rawCols, existingCols, createdByGuid, conn);
 		log.info("Got " + rtn.size() + " columns");
-		for(RawTableGroupColDvo dvo : rtn) {
+		for (RawTableGroupColDvo dvo : rtn) {
 			log.info("\t" + dvo.getColName());
 		}
 		return rtn;
 	}
 
 	//
+	// databricks methods
+	//
+
+	private void writeFileToDatabricks(File file, RawTableFileDvo fileDvo) {
+	}
+
+	private void createDatabricksRawDataTable(RawTableDvo dvo, RawTableFileDvo fileDvo, List<RawTableColDvo> cols) {
+		String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(dvo, fileDvo, cols);
+		log.info("Got sqlString: \n\n" + sqlString + "\n\n");
+	}
+
+	//
 	// getters for resources
 	//
-	
+
 	private File getOchin() {
 		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\OchinDemographics-thumbnail-10.csv";
 		File file = new File(fileName);
@@ -119,6 +138,12 @@ public class AddRawDataFileManualTest {
 
 	private File getAliance() {
 		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\acdemo-thumbnail-10.csv";
+		File file = new File(fileName);
+		return file;
+	}
+
+	private File getDenver() {
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\denverdemo-thumbnail-10.csv";
 		File file = new File(fileName);
 		return file;
 	}
