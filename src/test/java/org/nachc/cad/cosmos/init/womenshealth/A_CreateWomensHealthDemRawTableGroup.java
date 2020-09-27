@@ -12,7 +12,7 @@ import org.yaorma.database.Database;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateWomensHealthDemRawTableGroup {
+public class A_CreateWomensHealthDemRawTableGroup {
 
 	@Test
 	public void shouldCreateRawTableGroup() {

@@ -12,6 +12,7 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
+import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.PersonProxy;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableGroupColProxy;
 import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableProxy;
@@ -23,6 +24,7 @@ import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
+import org.yaorma.dvo.DvoUtil;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
@@ -33,7 +35,7 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class AddRawDataFileManualTest {
+public class B_AddRawDataFileManualTest {
 
 	@Test
 	public void shouldAddRawDataFile() {
@@ -45,26 +47,31 @@ public class AddRawDataFileManualTest {
 		File file = getOchin();
 		// get the connection and the created by record
 		log.info("Getting connection...");
-		Connection mysqlConn = MySqlConnectionFactory.getCosmosConnection();
+		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		// get databricks conn
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		PersonDvo createdBy = PersonProxy.getForUid("greshje", mysqlConn);
+		PersonDvo createdBy = PersonProxy.getForUid("greshje", mySqlConn);
 		// create the records for the incoming file
-		addFile(getOchin(), createdBy, mysqlConn, dbConn);
-		addFile(getAliance(), createdBy, mysqlConn, dbConn);
-		addFile(getDenver(), createdBy, mysqlConn, dbConn);
+		addFile(getOchin(), createdBy, mySqlConn, dbConn);
+		addFile(getAliance(), createdBy, mySqlConn, dbConn);
+		addFile(getDenver(), createdBy, mySqlConn, dbConn);
+		setAliases(mySqlConn);
+		Database.commit(mySqlConn);
 		// done
 		log.info("Done.");
 	}
 
 	private void addFile(File file, PersonDvo createdBy, Connection mysqlConn, Connection dbConn) {
 		log.info("Creating records...");
+		// mysql stuff
 		RawTableDvo tableDvo = createRawTableRecord(file, mysqlConn);
 		RawTableFileDvo fileDvo = createRawTableFileRecord(tableDvo, file, mysqlConn);
 		List<RawTableColDvo> rawCols = createRawTableColRecords(tableDvo, file, mysqlConn);
 		RawTableGroupDvo groupDvo = getGroup(mysqlConn);
 		List<RawTableGroupColDvo> existingCols = getExistingColumns(groupDvo, mysqlConn);
 		List<RawTableGroupColDvo> allCols = addColumnsToGroup(groupDvo, rawCols, existingCols, createdBy.getGuid(), mysqlConn);
+		addToGroup(groupDvo, tableDvo, createdBy.getGuid(), mysqlConn);
+		// databricks stuff
 		createDatabricksRawDataTable(tableDvo, fileDvo, rawCols, dbConn);
 		writeFileToDatabricks(file, fileDvo);
 	}
@@ -125,6 +132,16 @@ public class AddRawDataFileManualTest {
 			log.info("\t" + dvo.getColName());
 		}
 		return rtn;
+	}
+
+	private void addToGroup(RawTableGroupDvo groupDvo, RawTableDvo tableDvo, String createdByGuid, Connection mysqlConn) {
+		log.info("Createing group record");
+		RawTableGroupRawTableDvo dvo = new RawTableGroupRawTableDvo();
+		CosmosDvoUtil.init(dvo, createdByGuid);
+		dvo.setRawTable(tableDvo.getGuid());
+		dvo.setRawTableGroup(groupDvo.getGuid());
+		Dao.insert(dvo, mysqlConn);
+		log.info("Group record created.");
 	}
 
 	//
@@ -191,4 +208,23 @@ public class AddRawDataFileManualTest {
 		return Dao.findList(new RawTableGroupColDvo(), "raw_table_group", groupDvo.getGuid(), conn);
 	}
 
+	//
+	// one offs (update to demonstrate column aliases
+	//
+	
+	private void setAliases(Connection conn) {
+		log.info("Setting aliases");
+		String sqlString = "update cosmos.raw_table_col set col_alias = ? where col_name = ?";
+		Database.update(sqlString, new String[] {"access_to_care", "accessto_care"}, conn);
+		Database.update(sqlString, new String[] {"age", "age_at_the_endof_measurement_year"}, conn);
+		Database.update(sqlString, new String[] {"education", "education_level"}, conn);
+		Database.update(sqlString, new String[] {"ethnicity", "ethnicity_standard_description"}, conn);
+		Database.update(sqlString, new String[] {"sex", "gender"}, conn);
+		Database.update(sqlString, new String[] {"insurance", "health_insurance_type"}, conn);
+		Database.update(sqlString, new String[] {"m1n", "m1num"}, conn);
+		Database.update(sqlString, new String[] {"race", "race_standard_descr"}, conn);
+		Database.update(sqlString, new String[] {"transportation", "transporation"}, conn);
+		log.info("Done setting aliases");
+	}
+	
 }

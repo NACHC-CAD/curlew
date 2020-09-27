@@ -66,6 +66,7 @@ create table cosmos.raw_table_col (
 	dirty_name varchar(256),
 	col_name varchar(256),
 	col_alias varchar(256),
+    real_name varchar(256),
 	primary key (guid),
 	unique (raw_table, col_name),
 	foreign key (raw_table) references raw_table(guid),
