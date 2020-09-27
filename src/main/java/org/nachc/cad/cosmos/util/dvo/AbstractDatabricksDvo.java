@@ -6,6 +6,8 @@ import org.yaorma.util.string.DbToJavaNamingConverter;
 import lombok.Getter;
 import lombok.Setter;
 
+// TODO: (JEG) GET RID OF THIS
+
 @Getter
 @Setter
 public abstract class AbstractDatabricksDvo implements Dvo {

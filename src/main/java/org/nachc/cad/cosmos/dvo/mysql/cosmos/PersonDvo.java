@@ -155,6 +155,30 @@ public class PersonDvo implements Dvo {
     
     private ArrayList<ProjectDvo> projectUpdatedByList = new ArrayList<ProjectDvo>();
     
+    private ArrayList<RawTableDvo> rawTableCreatedByList = new ArrayList<RawTableDvo>();
+    
+    private ArrayList<RawTableDvo> rawTableUpdatedByList = new ArrayList<RawTableDvo>();
+    
+    private ArrayList<RawTableColDvo> rawTableColCreatedByList = new ArrayList<RawTableColDvo>();
+    
+    private ArrayList<RawTableColDvo> rawTableColUpdatedByList = new ArrayList<RawTableColDvo>();
+    
+    private ArrayList<RawTableFileDvo> rawTableFileCreatedByList = new ArrayList<RawTableFileDvo>();
+    
+    private ArrayList<RawTableFileDvo> rawTableFileUpdatedByList = new ArrayList<RawTableFileDvo>();
+    
+    private ArrayList<RawTableGroupDvo> rawTableGroupCreatedByList = new ArrayList<RawTableGroupDvo>();
+    
+    private ArrayList<RawTableGroupDvo> rawTableGroupUpdatedByList = new ArrayList<RawTableGroupDvo>();
+    
+    private ArrayList<RawTableGroupColDvo> rawTableGroupColCreatedByList = new ArrayList<RawTableGroupColDvo>();
+    
+    private ArrayList<RawTableGroupColDvo> rawTableGroupColUpdatedByList = new ArrayList<RawTableGroupColDvo>();
+    
+    private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableCreatedByList = new ArrayList<RawTableGroupRawTableDvo>();
+    
+    private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableUpdatedByList = new ArrayList<RawTableGroupRawTableDvo>();
+    
     private ArrayList<StatusDvo> statusCreatedByList = new ArrayList<StatusDvo>();
     
     private ArrayList<StatusDvo> statusUpdatedByList = new ArrayList<StatusDvo>();
@@ -435,6 +459,102 @@ public class PersonDvo implements Dvo {
     
     public void setProjectUpdatedByList(ArrayList<ProjectDvo> list) {
         this.projectUpdatedByList = list;
+    }
+    
+    public ArrayList<RawTableDvo> getRawTableCreatedByList() {
+        return rawTableCreatedByList;
+    }
+    
+    public void setRawTableCreatedByList(ArrayList<RawTableDvo> list) {
+        this.rawTableCreatedByList = list;
+    }
+    
+    public ArrayList<RawTableDvo> getRawTableUpdatedByList() {
+        return rawTableUpdatedByList;
+    }
+    
+    public void setRawTableUpdatedByList(ArrayList<RawTableDvo> list) {
+        this.rawTableUpdatedByList = list;
+    }
+    
+    public ArrayList<RawTableColDvo> getRawTableColCreatedByList() {
+        return rawTableColCreatedByList;
+    }
+    
+    public void setRawTableColCreatedByList(ArrayList<RawTableColDvo> list) {
+        this.rawTableColCreatedByList = list;
+    }
+    
+    public ArrayList<RawTableColDvo> getRawTableColUpdatedByList() {
+        return rawTableColUpdatedByList;
+    }
+    
+    public void setRawTableColUpdatedByList(ArrayList<RawTableColDvo> list) {
+        this.rawTableColUpdatedByList = list;
+    }
+    
+    public ArrayList<RawTableFileDvo> getRawTableFileCreatedByList() {
+        return rawTableFileCreatedByList;
+    }
+    
+    public void setRawTableFileCreatedByList(ArrayList<RawTableFileDvo> list) {
+        this.rawTableFileCreatedByList = list;
+    }
+    
+    public ArrayList<RawTableFileDvo> getRawTableFileUpdatedByList() {
+        return rawTableFileUpdatedByList;
+    }
+    
+    public void setRawTableFileUpdatedByList(ArrayList<RawTableFileDvo> list) {
+        this.rawTableFileUpdatedByList = list;
+    }
+    
+    public ArrayList<RawTableGroupDvo> getRawTableGroupCreatedByList() {
+        return rawTableGroupCreatedByList;
+    }
+    
+    public void setRawTableGroupCreatedByList(ArrayList<RawTableGroupDvo> list) {
+        this.rawTableGroupCreatedByList = list;
+    }
+    
+    public ArrayList<RawTableGroupDvo> getRawTableGroupUpdatedByList() {
+        return rawTableGroupUpdatedByList;
+    }
+    
+    public void setRawTableGroupUpdatedByList(ArrayList<RawTableGroupDvo> list) {
+        this.rawTableGroupUpdatedByList = list;
+    }
+    
+    public ArrayList<RawTableGroupColDvo> getRawTableGroupColCreatedByList() {
+        return rawTableGroupColCreatedByList;
+    }
+    
+    public void setRawTableGroupColCreatedByList(ArrayList<RawTableGroupColDvo> list) {
+        this.rawTableGroupColCreatedByList = list;
+    }
+    
+    public ArrayList<RawTableGroupColDvo> getRawTableGroupColUpdatedByList() {
+        return rawTableGroupColUpdatedByList;
+    }
+    
+    public void setRawTableGroupColUpdatedByList(ArrayList<RawTableGroupColDvo> list) {
+        this.rawTableGroupColUpdatedByList = list;
+    }
+    
+    public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableCreatedByList() {
+        return rawTableGroupRawTableCreatedByList;
+    }
+    
+    public void setRawTableGroupRawTableCreatedByList(ArrayList<RawTableGroupRawTableDvo> list) {
+        this.rawTableGroupRawTableCreatedByList = list;
+    }
+    
+    public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableUpdatedByList() {
+        return rawTableGroupRawTableUpdatedByList;
+    }
+    
+    public void setRawTableGroupRawTableUpdatedByList(ArrayList<RawTableGroupRawTableDvo> list) {
+        this.rawTableGroupRawTableUpdatedByList = list;
     }
     
     public ArrayList<StatusDvo> getStatusCreatedByList() {
