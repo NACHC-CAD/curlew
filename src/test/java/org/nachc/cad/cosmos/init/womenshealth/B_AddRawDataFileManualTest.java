@@ -179,19 +179,19 @@ public class B_AddRawDataFileManualTest {
 	//
 
 	private File getOchin() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\OchinDemographics-thumbnail-10.csv";
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\OchinDemographics.csv";
 		File file = new File(fileName);
 		return file;
 	}
 
 	private File getAliance() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\acdemo-thumbnail-10.csv";
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\acdemo.csv";
 		File file = new File(fileName);
 		return file;
 	}
 
 	private File getDenver() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\thumb\\denverdemo-thumbnail-10.csv";
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health\\demo\\denverdemo.csv";
 		File file = new File(fileName);
 		return file;
 	}

@@ -9,11 +9,14 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
+import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 import org.yaorma.database.Row;
+
+import com.nach.core.util.databricks.database.DatabricksDbUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,23 +26,37 @@ public class C_CreateRawTableGroupTableManualTest {
 	@Test
 	public void shouldCreateGroupTable() {
 		log.info("Starting test...");
-		// get the connection
-		log.info("Getting connection...");
-		Connection conn = MySqlConnectionFactory.getCosmosConnection();
+		// get the mySql connection
+		log.info("Getting MySql connection...");
+		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		// get the group
 		log.info("Getting group");
-		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", "WOMENS_HEALTH_DEM", conn);
+		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", "WOMENS_HEALTH_DEM", mySqlConn);
 		log.info("Got group with guid: " + tableGroup.getGuid());
 		// get the distinct columns
-		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), conn);
+		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), mySqlConn);
 		// get the tables in the group
 		log.info("Getting tables in group");
-		List<RawTableGroupRawTableDvo> tables = Dao.findList(new RawTableGroupRawTableDvo(), "raw_table_group", tableGroup.getGuid(), conn);
+		List<RawTableGroupRawTableDvo> tables = Dao.findList(new RawTableGroupRawTableDvo(), "raw_table_group", tableGroup.getGuid(), mySqlConn);
 		log.info("Got " + tables.size() + " tables");
+		String sqlString = "create table " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName() + " as \n";
 		for (RawTableGroupRawTableDvo table : tables) {
-			String sqlString = getQueryStringForTable(table.getRawTable(), groupCols, conn);
-			log.info("GOT SQL STRING: \n\n" + sqlString + "\n\n");
+			if(sqlString.endsWith(" as \n") == false) {
+				sqlString += "\n\nunion all \n\n";
+			}
+			String tableSql = getQueryStringForTable(table.getRawTable(), groupCols, mySqlConn);
+			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
+			sqlString += tableSql;
 		}
+		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
+		log.info("DROPPING table: " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
+		// create the table in databricks
+		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+		Database.update("drop table if exists " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		log.info("CREATING table: " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
+		Database.update(sqlString, dbConn);
+		log.info("Refreshing table");
+		Database.update("refresh table " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		log.info("Done.");
 	}
 
