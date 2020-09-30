@@ -55,7 +55,7 @@ public class C_CreateRawTableGroupTableManualTest {
 		Database.update("drop table if exists " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		log.info("CREATING table: " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
 		Database.update(sqlString, dbConn);
-		log.info("Refreshing table");
+		log.info("Refreshing table: "+ tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
 		Database.update("refresh table " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		log.info("Done.");
 	}

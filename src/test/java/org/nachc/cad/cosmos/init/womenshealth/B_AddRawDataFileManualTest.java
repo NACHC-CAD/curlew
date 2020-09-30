@@ -24,7 +24,6 @@ import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
-import org.yaorma.dvo.DvoUtil;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
@@ -40,16 +39,27 @@ public class B_AddRawDataFileManualTest {
 	@Test
 	public void shouldAddRawDataFile() {
 		log.info("Starting test...");
-		log.info("DOING rmdir (COMMENT THIS OUT)");
-		log.info(DatabricksFileUtilFactory.get().rmdir(this.getFileLocation()).getResponse());
-		log.info("Done with rmdir");
-		// get the file
-		File file = getOchin();
 		// get the connection and the created by record
 		log.info("Getting connection...");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		// get databricks conn
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+		log.info("DOING rmdir (COMMENT THIS OUT)");
+		DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(this.getFileLocation());
+		log.info("Got response (" + resp.isSuccess() + "): " + resp.getStatusCode() + " \n" + resp.getResponse());
+		log.info("DROPPING WOMENS HEALTH SCHEMAS");
+		log.info("Creating...");
+		DatabricksDbUtil.dropDatabase("prj_raw_womens_health", dbConn);
+		log.info("Dropping...");
+		DatabricksDbUtil.dropDatabase("prj_grp_womens_health", dbConn);
+		log.info("Dropping...");
+		DatabricksDbUtil.createDatabase("prj_raw_womens_health", dbConn);
+		log.info("Creating...");
+		DatabricksDbUtil.createDatabase("prj_grp_womens_health", dbConn);
+		log.info("Done with rmdir/drop schemas");
+		// get the file
+		File file = getOchin();
+		// get the createdBy record
 		PersonDvo createdBy = PersonProxy.getForUid("greshje", mySqlConn);
 		// create the records for the incoming file
 		addFile(getOchin(), createdBy, mySqlConn, dbConn);
@@ -160,7 +170,7 @@ public class B_AddRawDataFileManualTest {
 		resp = util.put(fileDvo.getFileLocation(), file);
 		log.info("Success: " + resp.isSuccess());
 		log.info("Got response (" + resp.isSuccess() + ") " + resp.getElapsedSeconds() + " sec: " + resp.getFileName() + "\n" + resp.getResponse());
-		if(resp.isSuccess() == false) {
+		if (resp.isSuccess() == false) {
 			throw new DatabricksFileException(resp, "Did not get success response from server writing file: " + fileDvo.getFileLocation() + "/" + fileDvo.getFileName());
 		}
 	}
@@ -211,20 +221,20 @@ public class B_AddRawDataFileManualTest {
 	//
 	// one offs (update to demonstrate column aliases
 	//
-	
+
 	private void setAliases(Connection conn) {
 		log.info("Setting aliases");
 		String sqlString = "update cosmos.raw_table_col set col_alias = ? where col_name = ?";
-		Database.update(sqlString, new String[] {"access_to_care", "accessto_care"}, conn);
-		Database.update(sqlString, new String[] {"age", "age_at_the_endof_measurement_year"}, conn);
-		Database.update(sqlString, new String[] {"education", "education_level"}, conn);
-		Database.update(sqlString, new String[] {"ethnicity", "ethnicity_standard_description"}, conn);
-		Database.update(sqlString, new String[] {"sex", "gender"}, conn);
-		Database.update(sqlString, new String[] {"insurance", "health_insurance_type"}, conn);
-		Database.update(sqlString, new String[] {"m1n", "m1num"}, conn);
-		Database.update(sqlString, new String[] {"race", "race_standard_descr"}, conn);
-		Database.update(sqlString, new String[] {"transportation", "transporation"}, conn);
+		Database.update(sqlString, new String[] { "access_to_care", "accessto_care" }, conn);
+		Database.update(sqlString, new String[] { "age", "age_at_the_endof_measurement_year" }, conn);
+		Database.update(sqlString, new String[] { "education", "education_level" }, conn);
+		Database.update(sqlString, new String[] { "ethnicity", "ethnicity_standard_description" }, conn);
+		Database.update(sqlString, new String[] { "sex", "gender" }, conn);
+		Database.update(sqlString, new String[] { "insurance", "health_insurance_type" }, conn);
+		Database.update(sqlString, new String[] { "m1n", "m1num" }, conn);
+		Database.update(sqlString, new String[] { "race", "race_standard_descr" }, conn);
+		Database.update(sqlString, new String[] { "transportation", "transporation" }, conn);
 		log.info("Done setting aliases");
 	}
-	
+
 }

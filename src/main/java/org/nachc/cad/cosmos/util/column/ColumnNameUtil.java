@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.yaorma.util.string.DbToJavaNamingConverter;
 
-import com.nach.core.util.CsvUtil;
+import com.nach.core.util.csv.CsvUtil;
 import com.nach.core.util.file.FileUtil;
 import com.nach.core.util.string.StringUtil;
 
@@ -37,5 +37,5 @@ public class ColumnNameUtil {
 		rtn = StringUtil.removeLeading(rtn, "_");
 		return rtn;
 	}
-	
+
 }

@@ -23,7 +23,7 @@ public class RawTableProxy {
 		sqlString += "options ( \n";
 		sqlString += "  header = \"true\", \n";
 		sqlString += "  inferSchema = \"false\", \n";
-		sqlString += "  delimiter = \",\", \n";
+		// sqlString += "  delimiter = \",|\", \n";
 		sqlString += "  path = \"" + fileDvo.getFileLocation() + "/" + fileDvo.getFileName() + "\" \n";
 		sqlString += ") \n";	
 		return sqlString;
