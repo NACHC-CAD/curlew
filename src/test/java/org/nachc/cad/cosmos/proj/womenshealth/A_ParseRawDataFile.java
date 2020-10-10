@@ -32,7 +32,7 @@ public class A_ParseRawDataFile {
 	}
 
 	private static void processSheet(File file, Sheet sheet, File outDir) {
-		String fileName = FileUtil.getPrefix(file);
+		String fileName = FileUtil.getPrefix(file) + "_";
 		fileName = fileName + sheet.getSheetName() + ".csv";
 		File outFile = new File(outDir, fileName);
 		log.info("Writing file: " + fileName);
