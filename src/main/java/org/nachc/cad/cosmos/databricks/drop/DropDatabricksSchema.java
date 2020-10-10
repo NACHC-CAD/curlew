@@ -30,6 +30,8 @@ public class DropDatabricksSchema {
 		log.info("Doing drop");
 		log.info("Dropping cosmos");
 		DatabricksDbUtil.dropDatabase("cosmos", conn);
+		log.info("Dropping rxnorm");
+		DatabricksDbUtil.dropDatabase("rxnorm", conn);
 		log.info("Dropping value_set");
 		DatabricksDbUtil.dropDatabase("value_set", conn);
 		log.info("Deleting prod files...");

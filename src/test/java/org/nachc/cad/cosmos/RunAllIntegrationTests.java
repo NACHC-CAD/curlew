@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RunWith(WildcardPatternSuite.class)
-@SuiteClasses({ "**/*Test.class" })
+@SuiteClasses({ "**/*IntegrationTest.class" })
 public class RunAllIntegrationTests {
 
 	@BeforeClass
