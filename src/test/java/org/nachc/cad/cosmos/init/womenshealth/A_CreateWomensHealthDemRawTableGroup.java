@@ -25,7 +25,8 @@ public class A_CreateWomensHealthDemRawTableGroup {
 		dvo.setCode("WOMENS_HEALTH_DEM");
 		dvo.setName("Women's Health Demographics Table");
 		dvo.setDescription("This table contains the raw data for DEMOGRAPHICS data from all sources for this project.");
-		dvo.setTableSchema("prj_grp_womens_health");
+		dvo.setRawTableSchema("prj_raw_womens_health");
+		dvo.setGroupTableSchema("prj_grp_womens_health");
 		dvo.setGroupTableName("demographics");
 		log.info("Doing insert...");
 		Dao.insert(dvo, conn);

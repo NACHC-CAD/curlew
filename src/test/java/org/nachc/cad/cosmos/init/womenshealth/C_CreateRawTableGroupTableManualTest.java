@@ -39,7 +39,7 @@ public class C_CreateRawTableGroupTableManualTest {
 		log.info("Getting tables in group");
 		List<RawTableGroupRawTableDvo> tables = Dao.findList(new RawTableGroupRawTableDvo(), "raw_table_group", tableGroup.getGuid(), mySqlConn);
 		log.info("Got " + tables.size() + " tables");
-		String sqlString = "create table " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName() + " as \n";
+		String sqlString = "create table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName() + " as \n";
 		for (RawTableGroupRawTableDvo table : tables) {
 			if(sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
@@ -49,14 +49,14 @@ public class C_CreateRawTableGroupTableManualTest {
 			sqlString += tableSql;
 		}
 		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
-		log.info("DROPPING table: " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
+		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		// create the table in databricks
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		Database.update("drop table if exists " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
-		log.info("CREATING table: " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
+		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		Database.update(sqlString, dbConn);
-		log.info("Refreshing table: "+ tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName());
-		Database.update("refresh table " + tableGroup.getTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		log.info("Refreshing table: "+ tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
+		Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		log.info("Done.");
 	}
 

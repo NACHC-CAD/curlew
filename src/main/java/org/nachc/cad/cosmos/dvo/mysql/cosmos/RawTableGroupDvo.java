@@ -33,7 +33,8 @@ public class RawTableGroupDvo implements Dvo {
         "code",
         "name",
         "description",
-        "table_schema",
+        "raw_table_schema",
+        "group_table_schema",
         "group_table_name",
         "created_by",
         "created_date",
@@ -58,7 +59,8 @@ public class RawTableGroupDvo implements Dvo {
         "code",
         "name",
         "description",
-        "tableSchema",
+        "rawTableSchema",
+        "groupTableSchema",
         "groupTableName",
         "createdBy",
         "createdDate",
@@ -75,7 +77,8 @@ public class RawTableGroupDvo implements Dvo {
         "Code",
         "Name",
         "Description",
-        "TableSchema",
+        "RawTableSchema",
+        "GroupTableSchema",
         "GroupTableName",
         "CreatedBy",
         "CreatedDate",
@@ -98,7 +101,9 @@ public class RawTableGroupDvo implements Dvo {
     
     private String description;
     
-    private String tableSchema;
+    private String rawTableSchema;
+    
+    private String groupTableSchema;
     
     private String groupTableName;
     
@@ -114,9 +119,9 @@ public class RawTableGroupDvo implements Dvo {
     
     private PersonDvo updatedByDvo;
     
-    private ArrayList<RawTableGroupColDvo> rawTableGroupColRawTableGroupList = new ArrayList<RawTableGroupColDvo>();
-    
     private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableRawTableGroupList = new ArrayList<RawTableGroupRawTableDvo>();
+    
+    private ArrayList<RawTableGroupColDvo> rawTableGroupColRawTableGroupList = new ArrayList<RawTableGroupColDvo>();
     
     //
     // trivial getters and setters
@@ -162,14 +167,24 @@ public class RawTableGroupDvo implements Dvo {
         return this.description;
     }
     
-    // tableSchema
+    // rawTableSchema
     
-    public void setTableSchema(String val) {
-        this.tableSchema = val;
+    public void setRawTableSchema(String val) {
+        this.rawTableSchema = val;
     }
     
-    public String getTableSchema() {
-        return this.tableSchema;
+    public String getRawTableSchema() {
+        return this.rawTableSchema;
+    }
+    
+    // groupTableSchema
+    
+    public void setGroupTableSchema(String val) {
+        this.groupTableSchema = val;
+    }
+    
+    public String getGroupTableSchema() {
+        return this.groupTableSchema;
     }
     
     // groupTableName
@@ -242,20 +257,20 @@ public class RawTableGroupDvo implements Dvo {
         return this.updatedByDvo;
     }
     
-    public ArrayList<RawTableGroupColDvo> getRawTableGroupColRawTableGroupList() {
-        return rawTableGroupColRawTableGroupList;
-    }
-    
-    public void setRawTableGroupColRawTableGroupList(ArrayList<RawTableGroupColDvo> list) {
-        this.rawTableGroupColRawTableGroupList = list;
-    }
-    
     public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableRawTableGroupList() {
         return rawTableGroupRawTableRawTableGroupList;
     }
     
     public void setRawTableGroupRawTableRawTableGroupList(ArrayList<RawTableGroupRawTableDvo> list) {
         this.rawTableGroupRawTableRawTableGroupList = list;
+    }
+    
+    public ArrayList<RawTableGroupColDvo> getRawTableGroupColRawTableGroupList() {
+        return rawTableGroupColRawTableGroupList;
+    }
+    
+    public void setRawTableGroupColRawTableGroupList(ArrayList<RawTableGroupColDvo> list) {
+        this.rawTableGroupColRawTableGroupList = list;
     }
     
     //

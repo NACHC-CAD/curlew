@@ -16,7 +16,7 @@ public class CreateRawTableGroupRecordAction {
 		dvo.setCode((params.getProtocolName() + "_" + params.getDataGroupAbr()).toUpperCase());
 		dvo.setName(params.getProtocolNamePretty() + " " + params.getDataGroupName() + " Table");
 		dvo.setDescription("This table contains the raw data for the " + params.getDataGroupName());
-		dvo.setTableSchema(("prj_grp_" + params.getProtocolName()).toLowerCase());
+		dvo.setGroupTableSchema(("prj_grp_" + params.getProtocolName()).toLowerCase());
 		dvo.setGroupTableName(params.getDataGroupName());
 		Dao.insert(dvo, conn);
 		return dvo;
