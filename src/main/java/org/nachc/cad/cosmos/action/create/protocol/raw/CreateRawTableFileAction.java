@@ -24,6 +24,7 @@ public class CreateRawTableFileAction {
 		dvo.setFileSizeUnits("B");
 		dvo.setRawTable(params.getRawTableDvo().getGuid());
 		Dao.insert(dvo, conn);
+		params.setRawTableFileDvo(dvo);
 		log.info("Done creating raw_table_file record");
 	}
 	

@@ -145,6 +145,7 @@ public class B_AddRawDataFileManualTest {
 	}
 
 	private void addToGroup(RawTableGroupDvo groupDvo, RawTableDvo tableDvo, String createdByGuid, Connection mysqlConn) {
+		// (JEG) START HERE
 		log.info("Createing group record");
 		RawTableGroupRawTableDvo dvo = new RawTableGroupRawTableDvo();
 		CosmosDvoUtil.init(dvo, createdByGuid);

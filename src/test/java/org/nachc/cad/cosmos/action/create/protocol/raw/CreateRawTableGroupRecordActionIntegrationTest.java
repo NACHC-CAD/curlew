@@ -17,39 +17,34 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 	@Test
 	public void shouldCreateRecord() {
 		log.info("Starting test...");
-		// get the database connections for databricks and mysql
+		CreateProtocolRawDataParams params = CreateRawTableGroupRecordIntegrationTestHelper.getParams();
+		// doDatabricksCreate(params);
+		doMySqlCreate(params);
+		log.info("Done.");
+	}
+
+	private void doMySqlCreate(CreateProtocolRawDataParams params) {
 		log.info("Getting MYSQL connection");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		log.info("Getting DATABRICKS connection");
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		// get the parameters for the test
-		CreateProtocolRawDataParams params = CreateRawTableGroupRecordIntegrationTestHelper.getParams();
-
-		//
-		// delete last run
-		//
-
 		log.info("Cleaning up");
-		CreateRawTableGroupRecordIntegrationTestHelper.cleanUp(params, mySqlConn, dbConn);
-
-		//
-		// upload file (databricks stuff)
-		//
-
-		// CreateRawDataDatabricksSchema.execute(params, dbConn);
-		// UploadRawDataFileToDatabricksAction.execute(params, dbConn);
-
-		//
-		// upload file (mysql stuff)
-		//
-
+		CreateRawTableGroupRecordIntegrationTestHelper.cleanupMySql(params, mySqlConn);
 		log.info("Creating mysql stuff");
 		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
 		CreateRawTableAction.execute(params, mySqlConn);
 		CreateRawTableFileAction.execute(params, mySqlConn);
 		CreateRawTableColAction.execute(params, mySqlConn);
+		CreateRawTableGroupMembershipTable.execute(params, mySqlConn);
 		Database.commit(mySqlConn);
-		log.info("Done.");
+	}
+
+	private void doDatabricksCreate(CreateProtocolRawDataParams params) {
+		log.info("Getting DATABRICKS connection");
+		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+		log.info("Cleaning up");
+		CreateRawTableGroupRecordIntegrationTestHelper.doDatabricksCleanUp(params, dbConn);
+		log.info("Creating Databricks stuff");
+		CreateRawDataDatabricksSchema.execute(params, dbConn);
+		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
 	}
 
 }
