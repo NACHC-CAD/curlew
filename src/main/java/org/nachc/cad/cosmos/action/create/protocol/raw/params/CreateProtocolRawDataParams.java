@@ -1,10 +1,14 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.params;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
+import org.nachc.cad.cosmos.util.column.ColumnName;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +37,8 @@ public class CreateProtocolRawDataParams {
 
 	private String createdBy;
 	
+	private char delimiter;
+	
 	//
 	// generated parameters
 	//
@@ -40,6 +46,8 @@ public class CreateProtocolRawDataParams {
 	private RawTableGroupDvo rawTableGroupDvo;
 	
 	private RawTableDvo rawTableDvo;
+	
+	private ArrayList<RawTableColDvo> rawTableColList;
 	
 	//
 	// non-trivial getters

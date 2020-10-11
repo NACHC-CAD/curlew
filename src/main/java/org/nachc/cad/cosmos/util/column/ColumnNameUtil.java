@@ -13,9 +13,13 @@ import com.nach.core.util.string.StringUtil;
 public class ColumnNameUtil {
 
 	public static List<ColumnName> getColumnNames(File file) {
+		return getColumnNames(file, ',');
+	}
+
+	public static List<ColumnName> getColumnNames(File file, char delim) {
 		ArrayList<ColumnName> rtn = new ArrayList<ColumnName>();
 		String headerLine = FileUtil.head(file, 1);
-		List<String> columnNames = CsvUtil.parseLine(headerLine);
+		List<String> columnNames = CsvUtil.parseLine(headerLine, delim);
 		int cnt = 0;
 		for (String str : columnNames) {
 			cnt++;

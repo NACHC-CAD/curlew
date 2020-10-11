@@ -4,7 +4,9 @@ import java.io.File;
 import java.sql.Connection;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
+import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
+import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
@@ -25,6 +27,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		params.setDataGroupName("Demographics");
 		params.setDataGroupAbr("demo");
 		params.setDatabricksFileLocation("/FileStore/tables/integration-test/womens-health/demo");
+		params.setDelimiter('|');
 		params.setDatabricksFileName(file.getName());
 		params.setFile(file);
 		return params;
@@ -50,8 +53,12 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		log.info("Response from delete: " + resp.getResponse());
 		// drop the mysql stuff
 		log.info("Dropping MySql stuff");
-		// RAW TABLE FILE
-		Database.update("delete from raw_table where raw_table_schema = ? and raw_table_name = ?", new String[] {params.getRawTableSchemaName(), params.getRawTableName()}, mySqlConn);
+		String rawTableGuid = getRawTableGuid(params, mySqlConn);
+		if (rawTableGuid != null) {
+			Database.update("delete from raw_table_col where raw_table = ?", new String[] { rawTableGuid }, mySqlConn);
+		}
+		Database.update("delete from raw_table_file where file_location = ? and file_name = ?", new String[] { params.getDatabricksFileLocation(), params.getDatabricksFileName() }, mySqlConn);
+		Database.update("delete from raw_table where raw_table_schema = ? and raw_table_name = ?", new String[] { params.getRawTableSchemaName(), params.getRawTableName() }, mySqlConn);
 		Database.update("delete from raw_table_group where lower(code) = 'wmns_health_demo'", mySqlConn);
 		log.info("Done with clean up");
 	}
@@ -61,5 +68,13 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		File file = new File(fileName);
 		return file;
 	}
-	
+
+	private static String getRawTableGuid(CreateProtocolRawDataParams params, Connection mySqlConn) {
+		RawTableDvo dvo = Dao.find(new RawTableDvo(), new String[] { "raw_table_schema", "raw_table_name" }, new String[] { params.getRawTableSchemaName(), params.getRawTableName() }, mySqlConn);
+		if (dvo != null) {
+			return dvo.getGuid();
+		} else {
+			return null;
+		}
+	}
 }

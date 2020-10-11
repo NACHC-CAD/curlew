@@ -46,6 +46,8 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 		log.info("Creating mysql stuff");
 		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
 		CreateRawTableAction.execute(params, mySqlConn);
+		CreateRawTableFileAction.execute(params, mySqlConn);
+		CreateRawTableColAction.execute(params, mySqlConn);
 		Database.commit(mySqlConn);
 		log.info("Done.");
 	}
