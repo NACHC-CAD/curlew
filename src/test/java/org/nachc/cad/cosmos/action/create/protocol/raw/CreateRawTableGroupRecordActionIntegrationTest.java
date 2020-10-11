@@ -17,19 +17,35 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 	@Test
 	public void shouldCreateRecord() {
 		log.info("Starting test...");
-		CreateProtocolRawDataParams params = CreateRawTableGroupRecordIntegrationTestHelper.getParams();
+		// get the database connections for databricks and mysql
 		log.info("Getting MYSQL connection");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		log.info("Getting DATABRICKS connection");
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+		// get the parameters for the test
+		CreateProtocolRawDataParams params = CreateRawTableGroupRecordIntegrationTestHelper.getParams();
+
+		//
+		// delete last run
+		//
+
 		log.info("Cleaning up");
 		CreateRawTableGroupRecordIntegrationTestHelper.cleanUp(params, mySqlConn, dbConn);
-		// mysql stuff
+
+		//
+		// upload file (databricks stuff)
+		//
+
+		CreateRawDataDatabricksSchema.execute(params, dbConn);
+		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
+
+		//
+		// upload file (mysql stuff)
+		//
+
 		log.info("Creating mysql stuff");
 		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
 		Database.commit(mySqlConn);
-		// databricks stuff
-		CreateRawDataDatabricksSchema.execute(params, dbConn);
 		log.info("Done.");
 	}
 
