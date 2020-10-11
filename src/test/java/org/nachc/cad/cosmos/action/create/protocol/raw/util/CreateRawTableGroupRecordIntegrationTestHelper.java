@@ -50,6 +50,8 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		log.info("Response from delete: " + resp.getResponse());
 		// drop the mysql stuff
 		log.info("Dropping MySql stuff");
+		// RAW TABLE FILE
+		Database.update("delete from raw_table where raw_table_schema = ? and raw_table_name = ?", new String[] {params.getRawTableSchemaName(), params.getRawTableName()}, mySqlConn);
 		Database.update("delete from raw_table_group where lower(code) = 'wmns_health_demo'", mySqlConn);
 		log.info("Done with clean up");
 	}

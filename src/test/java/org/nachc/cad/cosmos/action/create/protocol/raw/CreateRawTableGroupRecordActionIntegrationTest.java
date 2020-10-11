@@ -36,8 +36,8 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 		// upload file (databricks stuff)
 		//
 
-		CreateRawDataDatabricksSchema.execute(params, dbConn);
-		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
+		// CreateRawDataDatabricksSchema.execute(params, dbConn);
+		// UploadRawDataFileToDatabricksAction.execute(params, dbConn);
 
 		//
 		// upload file (mysql stuff)
@@ -45,6 +45,7 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 
 		log.info("Creating mysql stuff");
 		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
+		CreateRawTableAction.execute(params, mySqlConn);
 		Database.commit(mySqlConn);
 		log.info("Done.");
 	}

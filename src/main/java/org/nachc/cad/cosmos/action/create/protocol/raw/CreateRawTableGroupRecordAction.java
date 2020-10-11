@@ -13,12 +13,13 @@ public class CreateRawTableGroupRecordAction {
 	public static RawTableGroupDvo execute(CreateProtocolRawDataParams params, Connection conn) {
 		RawTableGroupDvo dvo = new RawTableGroupDvo();
 		CosmosDvoUtil.init(dvo, params.getCreatedBy(), conn);
-		dvo.setCode((params.getProtocolName() + "_" + params.getDataGroupAbr()).toUpperCase());
-		dvo.setName(params.getProtocolNamePretty() + " " + params.getDataGroupName() + " Table");
-		dvo.setDescription("This table contains the raw data for the " + params.getDataGroupName());
-		dvo.setGroupTableSchema(("prj_grp_" + params.getProtocolName()).toLowerCase());
+		dvo.setCode(params.getRawTableGroupCode());
+		dvo.setName(params.getRawTableGroupName());
+		dvo.setDescription(params.getRawTableGroupDescription());
+		dvo.setGroupTableSchema(params.getGroupTableSchemaName());
 		dvo.setGroupTableName(params.getDataGroupName());
 		Dao.insert(dvo, conn);
+		params.setRawTableGroupDvo(dvo);
 		return dvo;
 	}
 
