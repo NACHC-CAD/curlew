@@ -3,6 +3,8 @@ package org.nachc.cad.cosmos.action.create.protocol.raw;
 import java.sql.Connection;
 
 import org.junit.Test;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateRawDataTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.UploadRawDataFileToDatabricksAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
 import org.nachc.cad.cosmos.action.create.protocol.raw.util.CreateRawTableGroupRecordIntegrationTestHelper;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
@@ -18,8 +20,8 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 	public void shouldCreateRecord() {
 		log.info("Starting test...");
 		CreateProtocolRawDataParams params = CreateRawTableGroupRecordIntegrationTestHelper.getParams();
-		// doDatabricksCreate(params);
 		doMySqlCreate(params);
+		doDatabricksCreate(params);
 		log.info("Done.");
 	}
 
@@ -38,13 +40,16 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 	}
 
 	private void doDatabricksCreate(CreateProtocolRawDataParams params) {
+		// get connection and clean up
 		log.info("Getting DATABRICKS connection");
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
 		log.info("Cleaning up");
-		CreateRawTableGroupRecordIntegrationTestHelper.doDatabricksCleanUp(params, dbConn);
+		CreateRawTableGroupRecordIntegrationTestHelper.cleanUpDatabricks(params, dbConn);
+		// actual create stuff
 		log.info("Creating Databricks stuff");
 		CreateRawDataDatabricksSchema.execute(params, dbConn);
 		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
+		CreateRawDataTableAction.execute(params, dbConn);
 	}
 
 }

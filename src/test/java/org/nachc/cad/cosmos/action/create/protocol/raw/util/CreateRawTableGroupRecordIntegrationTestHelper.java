@@ -45,7 +45,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	 */
 	public static void cleanUp(CreateProtocolRawDataParams params, Connection mySqlConn, Connection dbConn) {
 		log.info("Doing clean up...");
-		doDatabricksCleanUp(params, dbConn);
+		cleanUpDatabricks(params, dbConn);
 		cleanupMySql(params, mySqlConn);
 		log.info("Done with clean up");
 	}
@@ -55,7 +55,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	 * Cleanup for databricks. 
 	 * 
 	 */
-	public static void doDatabricksCleanUp(CreateProtocolRawDataParams params, Connection dbConn) {
+	public static void cleanUpDatabricks(CreateProtocolRawDataParams params, Connection dbConn) {
 		// drop the databricks stuff
 		String databaseName;
 		// drop prj schema
@@ -69,7 +69,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		// delete the file from databricks
 		log.info("Deleting databricks file: " + params.getDatabricksFilePath());
 		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
-		DatabricksFileUtilResponse resp = util.delete(params.getDatabricksFilePath());
+		DatabricksFileUtilResponse resp = util.rmdir(params.getDatabricksFileLocation());
 		log.info("Status: " + resp.getStatusCode());
 		log.info("Success: " + resp.isSuccess());
 		log.info("Response from delete: " + resp.getResponse());
@@ -100,7 +100,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	//
 	
 	private static File getTestFile() {
-		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\extracted\\AllianceChicago\\NACHC_UCSF_Patient_Demographic.txt";
+		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\thumb\\demo\\ac\\THUBMNAIL_10_NACHC_UCSF_Patient_Demographic.txt";
 		File file = new File(fileName);
 		return file;
 	}

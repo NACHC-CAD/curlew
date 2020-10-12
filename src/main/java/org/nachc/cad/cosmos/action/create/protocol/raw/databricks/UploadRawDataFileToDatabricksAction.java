@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw;
+package org.nachc.cad.cosmos.action.create.protocol.raw.databricks;
 
 import java.sql.Connection;
 
