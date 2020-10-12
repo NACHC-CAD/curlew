@@ -75,7 +75,8 @@ create table cosmos.raw_table_file (
     file_size_units varchar(8),
     org_code varchar(64),
     proj_code varchar(64),
-	unique (raw_table, file_location, file_name),
+    unique (raw_table),
+    unique (file_location, file_name),
     foreign key(org_code) references org_code(code),
     foreign key(proj_code) references proj_code(code),
 	created_by varchar(40),
@@ -113,21 +114,6 @@ create table cosmos.raw_table_group_raw_table (
 	foreign key (raw_table_group) references raw_table_group (guid),
 	foreign key (raw_table) references raw_table(guid),
 	unique (raw_table_group, raw_table),
-	created_by varchar(40),
-    created_date datetime,
-    updated_by varchar(40),
-    updated_date datetime,
-    foreign key (created_by) references person (guid),
-    foreign key (updated_by) references person (guid)
-);
-
-create table cosmos.raw_table_group_col (
-	guid varchar(40),
-	raw_table_group varchar(40),
-	col_name varchar(256),
-	primary key (guid),
-	unique (raw_table_group, col_name),
-	foreign key (raw_table_group) references raw_table_group (guid),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),

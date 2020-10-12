@@ -121,8 +121,6 @@ public class RawTableGroupDvo implements Dvo {
     
     private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableRawTableGroupList = new ArrayList<RawTableGroupRawTableDvo>();
     
-    private ArrayList<RawTableGroupColDvo> rawTableGroupColRawTableGroupList = new ArrayList<RawTableGroupColDvo>();
-    
     //
     // trivial getters and setters
     //
@@ -263,14 +261,6 @@ public class RawTableGroupDvo implements Dvo {
     
     public void setRawTableGroupRawTableRawTableGroupList(ArrayList<RawTableGroupRawTableDvo> list) {
         this.rawTableGroupRawTableRawTableGroupList = list;
-    }
-    
-    public ArrayList<RawTableGroupColDvo> getRawTableGroupColRawTableGroupList() {
-        return rawTableGroupColRawTableGroupList;
-    }
-    
-    public void setRawTableGroupColRawTableGroupList(ArrayList<RawTableGroupColDvo> list) {
-        this.rawTableGroupColRawTableGroupList = list;
     }
     
     //
