@@ -10,6 +10,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableColAc
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableFileAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupMembershipTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
+import org.yaorma.database.Database;
 
 public class AddRawDataFileAction {
 
@@ -23,6 +24,7 @@ public class AddRawDataFileAction {
 		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
 		CreateRawDataTableAction.execute(params, dbConn);
 		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn);
+		Database.commit(mySqlConn);
 	}
 
 }
