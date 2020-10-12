@@ -10,6 +10,26 @@ drop table if exists cosmos.raw_table_file;
 drop table if exists cosmos.raw_table;
 drop table if exists cosmos.raw_table_group;
 
+create table org_code (
+	code varchar(64),
+    name varchar(256),
+    primary key (code),
+    unique(name)
+);
+
+insert into org_code values ('ac', 'Alliance Chicago');
+insert into org_code values ('denver', 'Denver Health');
+insert into org_code values ('ochin', 'Oregon Community Health Information Network');
+
+create table proj_code (
+	code varchar(64),
+    name varchar(256),
+    primary key (code),
+    unique(name)
+);
+
+insert into proj_code values ('womens_health', 'Women''s Health');
+
 create table cosmos.raw_table_group (
 	guid varchar(40),
 	code varchar(256),
@@ -53,7 +73,11 @@ create table cosmos.raw_table_file (
 	file_name varchar(256),
     file_size long,
     file_size_units varchar(8),
+    org_code varchar(64),
+    proj_code varchar(64),
 	unique (raw_table, file_location, file_name),
+    foreign key(org_code) references org_code(code),
+    foreign key(proj_code) references proj_code(code),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),

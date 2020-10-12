@@ -8,6 +8,7 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
+import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,9 @@ public class CreateProtocolRawDataParams {
 	// initial parameters
 	//
 
-	private String protocolName;
+	private String projCode;
+	
+	private String orgCode;
 
 	private String protocolNamePretty;
 
@@ -30,7 +33,7 @@ public class CreateProtocolRawDataParams {
 
 	private String databricksFileLocation;
 
-	private String databricksFileName;
+	private String fileName;
 
 	private File file;
 
@@ -61,7 +64,11 @@ public class CreateProtocolRawDataParams {
 	//
 
 	public String getDatabricksFilePath() {
-		return databricksFileLocation + "/" + databricksFileName;
+		return databricksFileLocation + "/" + this.getDatabricksFileName();
+	}
+	
+	public String getDatabricksFileName() {
+		return ColumnNameUtil.getCleanName(this.fileName);
 	}
 
 	//
@@ -69,7 +76,7 @@ public class CreateProtocolRawDataParams {
 	//
 
 	public String getGroupTableSchemaName() {
-		return ("prj_grp_" + this.getProtocolName()).toLowerCase();
+		return ("prj_grp_" + this.getProjCode()).toLowerCase();
 	}
 
 	public String getRawTableGroupDescription() {
@@ -81,7 +88,7 @@ public class CreateProtocolRawDataParams {
 	}
 
 	public String getRawTableGroupCode() {
-		return (this.getProtocolName() + "_" + this.getDataGroupAbr()).toUpperCase();
+		return (this.getProjCode() + "_" + this.getDataGroupAbr()).toLowerCase();
 	}
 
 	//
@@ -89,11 +96,12 @@ public class CreateProtocolRawDataParams {
 	//
 
 	public String getRawTableSchemaName() {
-		return ("prj_raw_" + this.getProtocolName()).toLowerCase();
+		return ("prj_raw_" + this.getProjCode()).toLowerCase();
 	}
 
 	public String getRawTableName() {
-		return (protocolName + "_" + dataGroupAbr).toLowerCase();
+		String rtn = this.projCode + "_" + this.orgCode + "_" + this.dataGroupAbr + "_" + this.getDatabricksFileName();
+		return rtn;
 	}
 
 }

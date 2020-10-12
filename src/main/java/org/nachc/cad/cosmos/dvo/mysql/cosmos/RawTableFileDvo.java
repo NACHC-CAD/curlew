@@ -35,6 +35,8 @@ public class RawTableFileDvo implements Dvo {
         "file_name",
         "file_size",
         "file_size_units",
+        "org_code",
+        "proj_code",
         "created_by",
         "created_date",
         "updated_by",
@@ -59,6 +61,8 @@ public class RawTableFileDvo implements Dvo {
         "fileName",
         "fileSize",
         "fileSizeUnits",
+        "orgCode",
+        "projCode",
         "createdBy",
         "createdDate",
         "updatedBy",
@@ -76,6 +80,8 @@ public class RawTableFileDvo implements Dvo {
         "FileName",
         "FileSize",
         "FileSizeUnits",
+        "OrgCode",
+        "ProjCode",
         "CreatedBy",
         "CreatedDate",
         "UpdatedBy",
@@ -101,6 +107,10 @@ public class RawTableFileDvo implements Dvo {
     
     private String fileSizeUnits;
     
+    private String orgCode;
+    
+    private String projCode;
+    
     private String createdBy;
     
     private Date createdDate;
@@ -108,6 +118,10 @@ public class RawTableFileDvo implements Dvo {
     private String updatedBy;
     
     private Date updatedDate;
+    
+    private OrgCodeDvo orgDvo;
+    
+    private ProjCodeDvo projDvo;
     
     private PersonDvo createdByDvo;
     
@@ -177,6 +191,26 @@ public class RawTableFileDvo implements Dvo {
         return this.fileSizeUnits;
     }
     
+    // orgCode
+    
+    public void setOrgCode(String val) {
+        this.orgCode = val;
+    }
+    
+    public String getOrgCode() {
+        return this.orgCode;
+    }
+    
+    // projCode
+    
+    public void setProjCode(String val) {
+        this.projCode = val;
+    }
+    
+    public String getProjCode() {
+        return this.projCode;
+    }
+    
     // createdBy
     
     public void setCreatedBy(String val) {
@@ -215,6 +249,26 @@ public class RawTableFileDvo implements Dvo {
     
     public Date getUpdatedDate() {
         return this.updatedDate;
+    }
+    
+    // orgDvo
+    
+    public void setOrgDvo(OrgCodeDvo dvo) {
+        this.orgDvo = dvo;
+    }
+    
+    public OrgCodeDvo getOrgDvo() {
+        return this.orgDvo;
+    }
+    
+    // projDvo
+    
+    public void setProjDvo(ProjCodeDvo dvo) {
+        this.projDvo = dvo;
+    }
+    
+    public ProjCodeDvo getProjDvo() {
+        return this.projDvo;
     }
     
     // createdByDvo

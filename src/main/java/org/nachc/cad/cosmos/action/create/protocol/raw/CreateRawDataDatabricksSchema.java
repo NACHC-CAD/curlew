@@ -15,11 +15,11 @@ public class CreateRawDataDatabricksSchema {
 		// drop the databricks stuff
 		String databaseName;
 		// drop prj schema
-		databaseName = "prj_grp_" + params.getProtocolName();
+		databaseName = "prj_grp_" + params.getProjCode();
 		log.info("Creating databricks schema: " + databaseName);
 		DatabricksDbUtil.createDatabase(databaseName, conn);
 		// drop raw schema
-		databaseName = "prj_raw_" + params.getProtocolName();
+		databaseName = "prj_raw_" + params.getProjCode();
 		log.info("Creating databricks schema: " + databaseName);
 		DatabricksDbUtil.createDatabase(databaseName, conn);
 	}

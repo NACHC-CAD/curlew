@@ -27,13 +27,14 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		CreateProtocolRawDataParams params = new CreateProtocolRawDataParams();
 		File file = getTestFile();
 		params.setCreatedBy("greshje");
-		params.setProtocolName("wmns_health");
-		params.setProtocolNamePretty("Wmns's Health");
+		params.setOrgCode("ac");
+		params.setProjCode("womens_health");
+		params.setProtocolNamePretty("Women's Health");
 		params.setDataGroupName("Demographics");
 		params.setDataGroupAbr("demo");
 		params.setDatabricksFileLocation("/FileStore/tables/integration-test/womens-health/demo");
 		params.setDelimiter('|');
-		params.setDatabricksFileName(file.getName());
+		params.setFileName(file.getName());
 		params.setFile(file);
 		return params;
 	}
@@ -59,11 +60,11 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		// drop the databricks stuff
 		String databaseName;
 		// drop prj schema
-		databaseName = "prj_grp_" + params.getProtocolName();
+		databaseName = "prj_grp_" + params.getProjCode();
 		log.info("Dropping databricks schema: " + databaseName);
 		DatabricksDbUtil.dropDatabase(databaseName, dbConn);
 		// drop raw schema
-		databaseName = "prj_raw_" + params.getProtocolName();
+		databaseName = "prj_raw_" + params.getProjCode();
 		log.info("Dropping databricks schema: " + databaseName);
 		DatabricksDbUtil.dropDatabase(databaseName, dbConn);
 		// delete the file from databricks
@@ -91,9 +92,8 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		Database.update("delete from raw_table_file where file_location = ? and file_name = ?", new String[] { params.getDatabricksFileLocation(), params.getDatabricksFileName() }, mySqlConn);
 		Database.update("delete from raw_table_file where file_location = ? and file_name = ?", new String[] { params.getDatabricksFileLocation(), params.getDatabricksFileName() }, mySqlConn);
 		Database.update("delete from raw_table where raw_table_schema = ? and raw_table_name = ?", new String[] { params.getRawTableSchemaName(), params.getRawTableName() }, mySqlConn);
-		Database.update("delete from raw_table_group where lower(code) = 'wmns_health_demo'", mySqlConn);
+		Database.update("delete from raw_table_group where lower(code) = ?", params.getRawTableGroupCode(), mySqlConn);
 	}
-
 
 	//
 	// file used for tests (called by the getParams() method above)
