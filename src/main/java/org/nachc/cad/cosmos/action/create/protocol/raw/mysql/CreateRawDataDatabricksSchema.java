@@ -12,16 +12,17 @@ import lombok.extern.slf4j.Slf4j;
 public class CreateRawDataDatabricksSchema {
 
 	public static void execute(RawDataFileUploadParams params, Connection conn) {
-		// drop the databricks stuff
 		String databaseName;
-		// drop prj schema
+		// create raw table schema
 		databaseName = params.getRawTableSchemaName();
 		log.info("Creating databricks schema: " + databaseName);
 		DatabricksDbUtil.createDatabase(databaseName, conn);
-		// drop raw schema
+		// create group table schema
 		databaseName = params.getGroupTableSchemaName();
 		log.info("Creating databricks schema: " + databaseName);
 		DatabricksDbUtil.createDatabase(databaseName, conn);
+		// done
+		log.info("Done creating Databricks schema");
 	}
 
 }

@@ -65,8 +65,7 @@ public class CreateGrpDataTableAction {
 		sqlString += "	distinct coalesce(col.col_alias, col.col_name) col_name \n";
 		sqlString += "from \n";
 		sqlString += "	raw_table_group grp \n";
-		sqlString += "    join raw_table_group_raw_table grptab on grp.guid = grptab.raw_table_group \n";
-		sqlString += "    join raw_table raw on raw.guid = grptab.raw_table \n";
+		sqlString += "  join raw_table raw on raw.raw_table_group = grp.guid \n";
 		sqlString += "	join raw_table_col col on raw.guid = col.raw_table \n";
 		sqlString += "where \n";
 		sqlString += "	grp.guid = ? \n";

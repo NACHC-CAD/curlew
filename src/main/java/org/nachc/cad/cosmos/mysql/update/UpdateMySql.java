@@ -1,6 +1,7 @@
 package org.nachc.cad.cosmos.mysql.update;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class UpdateMySql {
 		log.info("* * * UPDATING SCHEMA * * *");
 		// get the connection
 		Connection conn = MySqlConnectionFactory.getMysqlConnection("");
+		update(conn);
+	}
+
+	public static void update(Connection conn) {
 		// init the schema if it does not exist
 		boolean schemaExists = schemaExists(conn);
 		if (schemaExists == false) {
@@ -34,7 +39,7 @@ public class UpdateMySql {
 		// done
 		log.info("Done.");
 	}
-
+	
 	private static boolean schemaExists(Connection conn) {
 		log.info("Looking for schema");
 		String sqlString = "select * from information_schema.schemata where schema_name = 'cosmos'";
@@ -50,7 +55,7 @@ public class UpdateMySql {
 
 	private static void initSchema(Connection conn) {
 		String fileName = "/org/nachc/cad/cosmos/mysql/update/sql/000-create-schema.sql";
-		File file = FileUtil.getFile(fileName);
+		File file = FileUtil.getFile(fileName, true);
 		log.info("Executing script for: " + FileUtil.getCanonicalPath(file));
 		Database.executeSqlScript(file, conn);
 		log.info("Done executing init script.");
@@ -69,7 +74,7 @@ public class UpdateMySql {
 		int lastFileNumber = Integer.parseInt(lastFileNumberStr);
 		log.info("Last file: " + lastFileNumber + "\t" + lastFileName);
 		String dirName = "/org/nachc/cad/cosmos/mysql/update/sql";
-		File dir = FileUtil.getFile(dirName);
+		File dir = FileUtil.getFile(dirName, true);
 		List<File> files = FileUtil.listFiles(dir, "*.sql");
 		for (File file : files) {
 			log.info("Looking at file: " + file.getName());

@@ -35,8 +35,8 @@ public class DeleteRawDataGroupAction {
 			log.info("Doing databricks drop for " + dvo.getRawTableSchema());
 			//DatabricksDbUtil.dropDatabase(dvo.getRawTableSchema(), dbConn);
 			log.info("Deleting files from: " + dvo.getFileLocation());
-			// DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
-			// fileUtil.rmdir(dvo.getFileLocation());
+			DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
+			fileUtil.rmdir(dvo.getFileLocation());
 			// mysql stuff
 			Database.update("delete from raw_table_col where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
 			Database.update("delete from raw_table_file where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);

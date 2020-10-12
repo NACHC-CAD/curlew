@@ -2,16 +2,17 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.util;
 
 import java.io.File;
 import java.sql.Connection;
+import java.util.List;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
+import org.nachc.cad.cosmos.mysql.drop.DropMySqlSchema;
+import org.nachc.cad.cosmos.mysql.update.UpdateMySql;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
-import com.nach.core.util.databricks.file.DatabricksFileUtil;
-import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,39 +42,33 @@ public class AddRawDataFileIntegrationTestUtil {
 
 	/**
 	 * 
-	 * Method to remove records created using the above parameters.  
+	 * Method to remove records created using the above parameters.
 	 * 
 	 */
 	public static void cleanUp(RawDataFileUploadParams params, Connection mySqlConn, Connection dbConn) {
 		log.info("Doing clean up...");
-		cleanUpDatabricks(params, dbConn);
-		cleanupMySql(params, mySqlConn);
+		burnDatabricksToTheGround(dbConn);
+		cleanUpMySql(params, mySqlConn);
 		log.info("Done with clean up");
 	}
 
 	/**
 	 * 
-	 * Cleanup for databricks. 
+	 * Cleanup for databricks.
 	 * 
 	 */
-	public static void cleanUpDatabricks(RawDataFileUploadParams params, Connection dbConn) {
-		// drop the databricks stuff
-		String databaseName;
-		// drop prj schema
-		databaseName = "prj_grp_" + params.getProjCode();
-		log.info("Dropping databricks schema: " + databaseName);
-		DatabricksDbUtil.dropDatabase(databaseName, dbConn);
-		// drop raw schema
-		databaseName = "prj_raw_" + params.getProjCode();
-		log.info("Dropping databricks schema: " + databaseName);
-		DatabricksDbUtil.dropDatabase(databaseName, dbConn);
-		// delete the file from databricks
-		log.info("Deleting databricks file: " + params.getDatabricksFileLocation());
-		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
-		DatabricksFileUtilResponse resp = util.rmdir(params.getDatabricksFileLocation());
-		log.info("Status: " + resp.getStatusCode());
-		log.info("Success: " + resp.isSuccess());
-		log.info("Response from delete: " + resp.getResponse());
+	public static void burnDatabricksToTheGround(Connection dbConn) {
+		DatabricksFileUtilFactory.get().rmdir("/FileStore/tables");
+		List<String> schema = DatabricksDbUtil.listRawSchema(dbConn);
+		for (String str : schema) {
+			log.info("Dropping schema: " + str);
+			DatabricksDbUtil.dropDatabase(str, dbConn);
+		}
+	}
+
+	public static void burnMySqlToTheGround(Connection mySqlConn) {
+		Database.update("drop schema if exists cosmos", mySqlConn);
+		UpdateMySql.update(mySqlConn);
 	}
 
 	/**
@@ -81,7 +76,7 @@ public class AddRawDataFileIntegrationTestUtil {
 	 * Cleanup for mysql
 	 * 
 	 */
-	public static void cleanupMySql(RawDataFileUploadParams params, Connection mySqlConn) {
+	public static void cleanUpMySql(RawDataFileUploadParams params, Connection mySqlConn) {
 		// drop the mysql stuff
 		log.info("Dropping MySql stuff");
 		String rawTableGuid = getRawTableGuid(params, mySqlConn);
@@ -98,7 +93,7 @@ public class AddRawDataFileIntegrationTestUtil {
 	//
 	// file used for tests (called by the getParams() method above)
 	//
-	
+
 	private static File getTestFile() {
 		String fileName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\thumb\\demo\\ac\\THUBMNAIL_10_NACHC_UCSF_Patient_Demographic.txt";
 		File file = new File(fileName);
@@ -108,7 +103,7 @@ public class AddRawDataFileIntegrationTestUtil {
 	//
 	// method to get the guid back from the database
 	//
-	
+
 	private static String getRawTableGuid(RawDataFileUploadParams params, Connection mySqlConn) {
 		RawTableDvo dvo = Dao.find(new RawTableDvo(), new String[] { "raw_table_schema", "raw_table_name" }, new String[] { params.getRawTableSchemaName(), params.getRawTableName() }, mySqlConn);
 		if (dvo != null) {

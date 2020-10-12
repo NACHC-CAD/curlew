@@ -10,6 +10,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroup
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.action.create.protocol.raw.util.AddRawDataFileIntegrationTestUtil;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
+import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
 
@@ -36,12 +37,26 @@ public class AddRawDataFileActionManualTest {
 
 	private RawDataFileUploadParams init(Connection mySqlConn, Connection dbConn) {
 		RawDataFileUploadParams params = AddRawDataFileIntegrationTestUtil.getParams();
-		DeleteRawDataGroupAction.delete(params.getRawTableGroupCode(), dbConn, mySqlConn);
-		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
-		//DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), dbConn);
-		//DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), dbConn);
-		//CreateRawDataDatabricksSchema.execute(params, dbConn);
+		cleanUpDatabricks(mySqlConn, dbConn, params);
+		cleanUpMySql(mySqlConn, dbConn, params);
 		return params;
 	}
 
+	private void cleanUpDatabricks(Connection mySqlConn, Connection dbConn, RawDataFileUploadParams params) {
+		// clear the files off of data bricks
+		DatabricksFileUtilFactory.get().rmdir("/FileStore/tables/integration-test");
+		// drop the raw and grp databases in data bricks
+		DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), dbConn);
+		DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), dbConn);
+		// create the raw and grp databases in data bricks
+		CreateRawDataDatabricksSchema.execute(params, dbConn);
+	}
+	
+	private void cleanUpMySql(Connection mySqlConn, Connection dbConn, RawDataFileUploadParams params) {
+		// delete the old
+		DeleteRawDataGroupAction.delete(params.getRawTableGroupCode(), dbConn, mySqlConn);
+		// create a new empty raw data group
+		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
+	}
+	
 }
