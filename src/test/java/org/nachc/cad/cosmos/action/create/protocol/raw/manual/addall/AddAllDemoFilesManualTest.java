@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw.manual;
+package org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall;
 
 import java.io.File;
 import java.sql.Connection;
@@ -82,17 +82,5 @@ public class AddAllDemoFilesManualTest {
 		// create a new empty raw data group
 		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
 	}
-	
-	/*
-	private RawDataFileUploadParams init(Connection mySqlConn, Connection dbConn) {
-		RawDataFileUploadParams params = AddRawDataFileIntegrationTestUtil.getParams();
-		AddRawDataFileIntegrationTestUtil.cleanUp(params, mySqlConn, dbConn);
-		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
-		CreateRawDataDatabricksSchema.execute(params, dbConn);
-		return params;
-	}
-	*/
-	
 
-	
 }
