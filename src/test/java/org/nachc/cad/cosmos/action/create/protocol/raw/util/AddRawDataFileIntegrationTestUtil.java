@@ -3,7 +3,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.util;
 import java.io.File;
 import java.sql.Connection;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.yaorma.dao.Dao;
@@ -16,15 +16,15 @@ import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateRawTableGroupRecordIntegrationTestHelper {
+public class AddRawDataFileIntegrationTestUtil {
 
 	/**
 	 * 
 	 * Method to get test parameters for integration tests.
 	 * 
 	 */
-	public static CreateProtocolRawDataParams getParams() {
-		CreateProtocolRawDataParams params = new CreateProtocolRawDataParams();
+	public static RawDataFileUploadParams getParams() {
+		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		File file = getTestFile();
 		params.setCreatedBy("greshje");
 		params.setOrgCode("ac");
@@ -44,7 +44,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	 * Method to remove records created using the above parameters.  
 	 * 
 	 */
-	public static void cleanUp(CreateProtocolRawDataParams params, Connection mySqlConn, Connection dbConn) {
+	public static void cleanUp(RawDataFileUploadParams params, Connection mySqlConn, Connection dbConn) {
 		log.info("Doing clean up...");
 		cleanUpDatabricks(params, dbConn);
 		cleanupMySql(params, mySqlConn);
@@ -56,7 +56,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	 * Cleanup for databricks. 
 	 * 
 	 */
-	public static void cleanUpDatabricks(CreateProtocolRawDataParams params, Connection dbConn) {
+	public static void cleanUpDatabricks(RawDataFileUploadParams params, Connection dbConn) {
 		// drop the databricks stuff
 		String databaseName;
 		// drop prj schema
@@ -81,7 +81,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	 * Cleanup for mysql
 	 * 
 	 */
-	public static void cleanupMySql(CreateProtocolRawDataParams params, Connection mySqlConn) {
+	public static void cleanupMySql(RawDataFileUploadParams params, Connection mySqlConn) {
 		// drop the mysql stuff
 		log.info("Dropping MySql stuff");
 		String rawTableGuid = getRawTableGuid(params, mySqlConn);
@@ -109,7 +109,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 	// method to get the guid back from the database
 	//
 	
-	private static String getRawTableGuid(CreateProtocolRawDataParams params, Connection mySqlConn) {
+	private static String getRawTableGuid(RawDataFileUploadParams params, Connection mySqlConn) {
 		RawTableDvo dvo = Dao.find(new RawTableDvo(), new String[] { "raw_table_schema", "raw_table_name" }, new String[] { params.getRawTableSchemaName(), params.getRawTableName() }, mySqlConn);
 		if (dvo != null) {
 			return dvo.getGuid();

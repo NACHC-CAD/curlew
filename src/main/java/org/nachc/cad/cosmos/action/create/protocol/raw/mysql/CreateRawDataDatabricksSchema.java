@@ -1,8 +1,8 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw;
+package org.nachc.cad.cosmos.action.create.protocol.raw.mysql;
 
 import java.sql.Connection;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
 
@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateRawDataDatabricksSchema {
 
-	public static void execute(CreateProtocolRawDataParams params, Connection conn) {
+	public static void execute(RawDataFileUploadParams params, Connection conn) {
 		// drop the databricks stuff
 		String databaseName;
 		// drop prj schema

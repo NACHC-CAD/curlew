@@ -1,10 +1,10 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw;
+package org.nachc.cad.cosmos.action.create.protocol.raw.mysql;
 
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.util.column.ColumnName;
 import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateRawTableColAction {
 
-	public static void execute(CreateProtocolRawDataParams params, Connection conn) {
+	public static void execute(RawDataFileUploadParams params, Connection conn) {
 		log.info("Creating raw_table_col records");
 		ArrayList<RawTableColDvo> rtn = new ArrayList<RawTableColDvo>();
 		List<ColumnName> colNames = ColumnNameUtil.getColumnNames(params.getFile(), params.getDelimiter());

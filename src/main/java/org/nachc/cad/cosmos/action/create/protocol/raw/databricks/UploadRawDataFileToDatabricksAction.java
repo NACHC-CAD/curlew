@@ -2,7 +2,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.databricks;
 
 import java.sql.Connection;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadRawDataFileToDatabricksAction {
 
-	public static void execute(CreateProtocolRawDataParams params, Connection conn) {
+	public static void execute(RawDataFileUploadParams params, Connection conn) {
 		log.info("Writing file to databricks...");
 		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
 		log.info("Writing file...");

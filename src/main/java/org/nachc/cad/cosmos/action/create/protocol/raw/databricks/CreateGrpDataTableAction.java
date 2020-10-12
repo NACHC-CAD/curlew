@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
@@ -19,7 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateGrpDataTableAction {
 
-	public static void execute(CreateProtocolRawDataParams params, Connection dbConn, Connection mySqlConn) {
+	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn) {
+		execute(params, dbConn, mySqlConn, false);
+	}
+
+	
+	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn, boolean refresh) {
 		// get the group
 		log.info("Getting group");
 		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", params.getRawTableGroupCode(), mySqlConn);
@@ -45,8 +50,10 @@ public class CreateGrpDataTableAction {
 		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		Database.update(sqlString, dbConn);
-		log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
-		Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		if(refresh == true) {
+			log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
+			Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		}
 		log.info("Done.");
 	}
 

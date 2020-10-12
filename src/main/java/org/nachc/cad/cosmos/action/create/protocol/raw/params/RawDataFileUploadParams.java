@@ -15,7 +15,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateProtocolRawDataParams {
+public class RawDataFileUploadParams {
 
 	//
 	// initial parameters
