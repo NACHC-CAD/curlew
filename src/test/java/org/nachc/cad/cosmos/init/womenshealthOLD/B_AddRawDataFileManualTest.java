@@ -1,41 +1,11 @@
 package org.nachc.cad.cosmos.init.womenshealthOLD;
 
-import java.io.File;
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.PersonDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupColDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
-import org.nachc.cad.cosmos.proxy.mysql.cosmos.PersonProxy;
-import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableGroupColProxy;
-import org.nachc.cad.cosmos.proxy.mysql.cosmos.RawTableProxy;
-import org.nachc.cad.cosmos.util.column.ColumnName;
-import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
-import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
-import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
-import org.yaorma.dao.Dao;
-import org.yaorma.database.Database;
-
-import com.nach.core.util.databricks.database.DatabricksDbUtil;
-import com.nach.core.util.databricks.file.DatabricksFileUtil;
-import com.nach.core.util.databricks.file.exception.DatabricksFileException;
-import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
-import com.nach.core.util.file.FileUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class B_AddRawDataFileManualTest {
 
+	/*
 	@Test
 	public void shouldAddRawDataFile() {
 		log.info("Starting test...");
@@ -237,5 +207,7 @@ public class B_AddRawDataFileManualTest {
 		Database.update(sqlString, new String[] { "transportation", "transporation" }, conn);
 		log.info("Done setting aliases");
 	}
+
+	*/
 
 }

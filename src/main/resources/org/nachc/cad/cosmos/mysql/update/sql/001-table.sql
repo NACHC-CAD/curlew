@@ -35,6 +35,7 @@ create table cosmos.raw_table_group (
 	code varchar(256),
 	name varchar(256),
 	description varchar(256),
+	file_location varchar(256),
 	raw_table_schema varchar(256),
 	group_table_schema varchar(256),
 	group_table_name varchar(256),
@@ -44,6 +45,7 @@ create table cosmos.raw_table_group (
 	unique(description),
 	unique(raw_table_schema),
 	unique(group_table_schema),
+    unique(file_location),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),
@@ -56,7 +58,9 @@ create table cosmos.raw_table (
 	guid varchar(40),
 	raw_table_schema varchar(256),
 	raw_table_name varchar(256),
+    raw_table_group varchar(256),
 	primary key (guid),
+    foreign key (raw_table_group) references raw_table_group (guid),
 	unique (raw_table_schema, raw_table_name),
 	created_by varchar(40),
     created_date datetime,
@@ -105,20 +109,3 @@ create table cosmos.raw_table_col (
     foreign key (created_by) references person (guid),
     foreign key (updated_by) references person (guid)
 );
-
-create table cosmos.raw_table_group_raw_table (
-	guid varchar(40),
-	raw_table_group varchar(40),
-	raw_table varchar(40),
-	primary key (guid),
-	foreign key (raw_table_group) references raw_table_group (guid),
-	foreign key (raw_table) references raw_table(guid),
-	unique (raw_table_group, raw_table),
-	created_by varchar(40),
-    created_date datetime,
-    updated_by varchar(40),
-    updated_date datetime,
-    foreign key (created_by) references person (guid),
-    foreign key (updated_by) references person (guid)
-);
-

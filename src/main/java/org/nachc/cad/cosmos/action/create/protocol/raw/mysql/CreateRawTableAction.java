@@ -18,6 +18,7 @@ public class CreateRawTableAction {
 		CosmosDvoUtil.init(dvo, params.getCreatedBy(), conn);
 		dvo.setRawTableSchema(params.getRawTableSchemaName());
 		dvo.setRawTableName(params.getRawTableName());
+		dvo.setRawTableGroup(params.getRawTableGroupDvo().getGuid());
 		Dao.insert(dvo, conn);
 		params.setRawTableDvo(dvo);
 		log.info("Creating raw_table record");

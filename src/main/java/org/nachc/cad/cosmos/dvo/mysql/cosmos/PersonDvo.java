@@ -171,10 +171,6 @@ public class PersonDvo implements Dvo {
     
     private ArrayList<RawTableGroupDvo> rawTableGroupUpdatedByList = new ArrayList<RawTableGroupDvo>();
     
-    private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableCreatedByList = new ArrayList<RawTableGroupRawTableDvo>();
-    
-    private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableUpdatedByList = new ArrayList<RawTableGroupRawTableDvo>();
-    
     private ArrayList<StatusDvo> statusCreatedByList = new ArrayList<StatusDvo>();
     
     private ArrayList<StatusDvo> statusUpdatedByList = new ArrayList<StatusDvo>();
@@ -519,22 +515,6 @@ public class PersonDvo implements Dvo {
     
     public void setRawTableGroupUpdatedByList(ArrayList<RawTableGroupDvo> list) {
         this.rawTableGroupUpdatedByList = list;
-    }
-    
-    public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableCreatedByList() {
-        return rawTableGroupRawTableCreatedByList;
-    }
-    
-    public void setRawTableGroupRawTableCreatedByList(ArrayList<RawTableGroupRawTableDvo> list) {
-        this.rawTableGroupRawTableCreatedByList = list;
-    }
-    
-    public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableUpdatedByList() {
-        return rawTableGroupRawTableUpdatedByList;
-    }
-    
-    public void setRawTableGroupRawTableUpdatedByList(ArrayList<RawTableGroupRawTableDvo> list) {
-        this.rawTableGroupRawTableUpdatedByList = list;
     }
     
     public ArrayList<StatusDvo> getStatusCreatedByList() {

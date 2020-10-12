@@ -19,6 +19,7 @@ public class CreateRawTableGroupRecordAction {
 		dvo.setGroupTableSchema(params.getGroupTableSchemaName());
 		dvo.setGroupTableName(params.getDataGroupName());
 		dvo.setRawTableSchema(params.getRawTableSchemaName());
+		dvo.setFileLocation(params.getDatabricksFileLocation());
 		Dao.insert(dvo, conn);
 		params.setRawTableGroupDvo(dvo);
 		return dvo;

@@ -10,7 +10,6 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawDataDatabr
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableColAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableFileAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupMembershipTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.action.create.protocol.raw.util.AddRawDataFileIntegrationTestUtil;
@@ -42,7 +41,6 @@ public class AddRawDataFileStepByStepIntegrationTest {
 		CreateRawTableAction.execute(params, mySqlConn);
 		CreateRawTableFileAction.execute(params, mySqlConn);
 		CreateRawTableColAction.execute(params, mySqlConn);
-		CreateRawTableGroupMembershipTable.execute(params, mySqlConn);
 		Database.commit(mySqlConn);
 	}
 

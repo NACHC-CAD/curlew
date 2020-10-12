@@ -33,6 +33,7 @@ public class RawTableGroupDvo implements Dvo {
         "code",
         "name",
         "description",
+        "file_location",
         "raw_table_schema",
         "group_table_schema",
         "group_table_name",
@@ -59,6 +60,7 @@ public class RawTableGroupDvo implements Dvo {
         "code",
         "name",
         "description",
+        "fileLocation",
         "rawTableSchema",
         "groupTableSchema",
         "groupTableName",
@@ -77,6 +79,7 @@ public class RawTableGroupDvo implements Dvo {
         "Code",
         "Name",
         "Description",
+        "FileLocation",
         "RawTableSchema",
         "GroupTableSchema",
         "GroupTableName",
@@ -101,6 +104,8 @@ public class RawTableGroupDvo implements Dvo {
     
     private String description;
     
+    private String fileLocation;
+    
     private String rawTableSchema;
     
     private String groupTableSchema;
@@ -119,7 +124,7 @@ public class RawTableGroupDvo implements Dvo {
     
     private PersonDvo updatedByDvo;
     
-    private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableRawTableGroupList = new ArrayList<RawTableGroupRawTableDvo>();
+    private ArrayList<RawTableDvo> rawTableRawTableGroupList = new ArrayList<RawTableDvo>();
     
     //
     // trivial getters and setters
@@ -163,6 +168,16 @@ public class RawTableGroupDvo implements Dvo {
     
     public String getDescription() {
         return this.description;
+    }
+    
+    // fileLocation
+    
+    public void setFileLocation(String val) {
+        this.fileLocation = val;
+    }
+    
+    public String getFileLocation() {
+        return this.fileLocation;
     }
     
     // rawTableSchema
@@ -255,12 +270,12 @@ public class RawTableGroupDvo implements Dvo {
         return this.updatedByDvo;
     }
     
-    public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableRawTableGroupList() {
-        return rawTableGroupRawTableRawTableGroupList;
+    public ArrayList<RawTableDvo> getRawTableRawTableGroupList() {
+        return rawTableRawTableGroupList;
     }
     
-    public void setRawTableGroupRawTableRawTableGroupList(ArrayList<RawTableGroupRawTableDvo> list) {
-        this.rawTableGroupRawTableRawTableGroupList = list;
+    public void setRawTableRawTableGroupList(ArrayList<RawTableDvo> list) {
+        this.rawTableRawTableGroupList = list;
     }
     
     //

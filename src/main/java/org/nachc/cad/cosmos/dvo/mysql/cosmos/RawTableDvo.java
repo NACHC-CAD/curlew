@@ -32,6 +32,7 @@ public class RawTableDvo implements Dvo {
         "guid",
         "raw_table_schema",
         "raw_table_name",
+        "raw_table_group",
         "created_by",
         "created_date",
         "updated_by",
@@ -54,6 +55,7 @@ public class RawTableDvo implements Dvo {
         "guid",
         "rawTableSchema",
         "rawTableName",
+        "rawTableGroup",
         "createdBy",
         "createdDate",
         "updatedBy",
@@ -68,6 +70,7 @@ public class RawTableDvo implements Dvo {
         "Guid",
         "RawTableSchema",
         "RawTableName",
+        "RawTableGroup",
         "CreatedBy",
         "CreatedDate",
         "UpdatedBy",
@@ -87,6 +90,8 @@ public class RawTableDvo implements Dvo {
     
     private String rawTableName;
     
+    private String rawTableGroup;
+    
     private String createdBy;
     
     private Date createdDate;
@@ -95,13 +100,13 @@ public class RawTableDvo implements Dvo {
     
     private Date updatedDate;
     
+    private RawTableGroupDvo rawTableGroupDvo;
+    
     private PersonDvo createdByDvo;
     
     private PersonDvo updatedByDvo;
     
     private ArrayList<RawTableColDvo> rawTableColRawTableList = new ArrayList<RawTableColDvo>();
-    
-    private ArrayList<RawTableGroupRawTableDvo> rawTableGroupRawTableRawTableList = new ArrayList<RawTableGroupRawTableDvo>();
     
     //
     // trivial getters and setters
@@ -135,6 +140,16 @@ public class RawTableDvo implements Dvo {
     
     public String getRawTableName() {
         return this.rawTableName;
+    }
+    
+    // rawTableGroup
+    
+    public void setRawTableGroup(String val) {
+        this.rawTableGroup = val;
+    }
+    
+    public String getRawTableGroup() {
+        return this.rawTableGroup;
     }
     
     // createdBy
@@ -177,6 +192,16 @@ public class RawTableDvo implements Dvo {
         return this.updatedDate;
     }
     
+    // rawTableGroupDvo
+    
+    public void setRawTableGroupDvo(RawTableGroupDvo dvo) {
+        this.rawTableGroupDvo = dvo;
+    }
+    
+    public RawTableGroupDvo getRawTableGroupDvo() {
+        return this.rawTableGroupDvo;
+    }
+    
     // createdByDvo
     
     public void setCreatedByDvo(PersonDvo dvo) {
@@ -203,14 +228,6 @@ public class RawTableDvo implements Dvo {
     
     public void setRawTableColRawTableList(ArrayList<RawTableColDvo> list) {
         this.rawTableColRawTableList = list;
-    }
-    
-    public ArrayList<RawTableGroupRawTableDvo> getRawTableGroupRawTableRawTableList() {
-        return rawTableGroupRawTableRawTableList;
-    }
-    
-    public void setRawTableGroupRawTableRawTableList(ArrayList<RawTableGroupRawTableDvo> list) {
-        this.rawTableGroupRawTableRawTableList = list;
     }
     
     //

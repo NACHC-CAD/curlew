@@ -8,7 +8,6 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadP
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Data;
 import org.yaorma.database.Database;
@@ -23,7 +22,6 @@ public class CreateGrpDataTableAction {
 		execute(params, dbConn, mySqlConn, false);
 	}
 
-	
 	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn, boolean refresh) {
 		// get the group
 		log.info("Getting group");
@@ -33,14 +31,14 @@ public class CreateGrpDataTableAction {
 		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), mySqlConn);
 		// get the tables in the group
 		log.info("Getting tables in group");
-		List<RawTableGroupRawTableDvo> tables = Dao.findList(new RawTableGroupRawTableDvo(), "raw_table_group", tableGroup.getGuid(), mySqlConn);
+		List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), mySqlConn);
 		log.info("Got " + tables.size() + " tables");
 		String sqlString = "create table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName() + " as \n";
-		for (RawTableGroupRawTableDvo table : tables) {
+		for (RawTableDvo table : tables) {
 			if (sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
 			}
-			String tableSql = getQueryStringForTable(table.getRawTable(), groupCols, mySqlConn);
+			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, mySqlConn);
 			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
 			sqlString += tableSql;
 		}
@@ -50,7 +48,7 @@ public class CreateGrpDataTableAction {
 		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		Database.update(sqlString, dbConn);
-		if(refresh == true) {
+		if (refresh == true) {
 			log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 			Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
 		}

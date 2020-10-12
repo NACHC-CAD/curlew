@@ -7,7 +7,6 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
 import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
 
 import lombok.Getter;
@@ -22,7 +21,7 @@ public class RawDataFileUploadParams {
 	//
 
 	private String projCode;
-	
+
 	private String orgCode;
 
 	private String protocolNamePretty;
@@ -53,8 +52,6 @@ public class RawDataFileUploadParams {
 
 	private ArrayList<RawTableColDvo> rawTableColList;
 
-	private RawTableGroupRawTableDvo rawTableGroupRawTableDvo;
-
 	//
 	// non-trivial getters
 	//
@@ -64,7 +61,7 @@ public class RawDataFileUploadParams {
 	//
 
 	public String getGroupTableSchemaName() {
-		return ("prj_grp_" + this.getProjCode()).toLowerCase();
+		return ("prj_grp_" + this.getProjCode()).toLowerCase() + "_" + this.getDataGroupAbr();
 	}
 
 	public String getRawTableGroupDescription() {
@@ -84,7 +81,7 @@ public class RawDataFileUploadParams {
 	//
 
 	public String getRawTableSchemaName() {
-		return ("prj_raw_" + this.getProjCode()).toLowerCase();
+		return ("prj_raw_" + this.getProjCode()).toLowerCase() + "_" + this.getDataGroupAbr();
 	}
 
 	public String getRawTableName() {
@@ -99,7 +96,7 @@ public class RawDataFileUploadParams {
 	public String getDatabricksFilePathxx() {
 		return databricksFileLocation + "/" + this.getDatabricksFileName();
 	}
-	
+
 	public String getDatabricksFileName() {
 		return getRawTableName();
 	}

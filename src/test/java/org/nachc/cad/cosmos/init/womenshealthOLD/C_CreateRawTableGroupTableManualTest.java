@@ -1,28 +1,10 @@
 package org.nachc.cad.cosmos.init.womenshealthOLD;
 
-import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupRawTableDvo;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
-import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
-import org.yaorma.dao.Dao;
-import org.yaorma.database.Data;
-import org.yaorma.database.Database;
-import org.yaorma.database.Row;
-
-import com.nach.core.util.databricks.database.DatabricksDbUtil;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class C_CreateRawTableGroupTableManualTest {
-
+/*
 	@Test
 	public void shouldCreateGroupTable() {
 		log.info("Starting test...");
@@ -134,5 +116,5 @@ public class C_CreateRawTableGroupTableManualTest {
 		}
 		return null;
 	}
-
+*/
 }

@@ -10,6 +10,9 @@ import org.yaorma.database.Database;
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class DeleteRawDataGroupAction {
 
 	/**
@@ -21,20 +24,27 @@ public class DeleteRawDataGroupAction {
 	 * women's health demographics)
 	 * 
 	 */
-
-	public static void execute(String rawTableGroupCode, Connection dbConn, Connection mySqlConn) {
+	public static void delete(String rawTableGroupCode, Connection dbConn, Connection mySqlConn) {
+		log.info("* * * DOING DROP * * *");
+		log.info("Doing drop for: " + rawTableGroupCode);
 		RawTableGroupDvo dvo = getRawTableGroup(rawTableGroupCode, mySqlConn);
-
-		DatabricksDbUtil.dropDatabase(dvo.getGroupTableSchema(), dbConn);
-		DatabricksDbUtil.dropDatabase(dvo.getRawTableSchema(), dbConn);
-		DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
-		
-		
-		Database.update("delete from raw_table_group_raw_table where raw_table_group = ?", dvo.getGuid(), mySqlConn);
-		Database.update("delete from raw_table_col where raw_table in (select raw_table from raw_table_group_raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
-		Database.update("delete from raw_table_file where raw_table in (select raw_table from raw_table_group_raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
-		Database.update("delete from raw_table where guid in (select raw_table from raw_table_group_raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
-		Database.update("delete from raw_table_group where guid = ?", dvo.getGuid(), mySqlConn);
+		if(dvo != null) {
+			// databricks stuff
+			log.info("Doing databricks drop for " + dvo.getGroupTableSchema());
+			//DatabricksDbUtil.dropDatabase(dvo.getGroupTableSchema(), dbConn);
+			log.info("Doing databricks drop for " + dvo.getRawTableSchema());
+			//DatabricksDbUtil.dropDatabase(dvo.getRawTableSchema(), dbConn);
+			log.info("Deleting files from: " + dvo.getFileLocation());
+			// DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
+			// fileUtil.rmdir(dvo.getFileLocation());
+			// mysql stuff
+			Database.update("delete from raw_table_col where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
+			Database.update("delete from raw_table_file where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
+			Database.update("delete from raw_table where raw_table_group = ?", dvo.getGuid(), mySqlConn);
+			Database.update("delete from raw_table_group where guid = ?", dvo.getGuid(), mySqlConn);
+			Database.commit(mySqlConn);
+			log.info("Done with delete");
+		}
 	}
 
 	private static RawTableGroupDvo getRawTableGroup(String rawTableGroupCode, Connection mySqlConn) {
