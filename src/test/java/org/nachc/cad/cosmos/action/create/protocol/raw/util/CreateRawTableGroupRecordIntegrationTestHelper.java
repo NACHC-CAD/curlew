@@ -68,7 +68,7 @@ public class CreateRawTableGroupRecordIntegrationTestHelper {
 		log.info("Dropping databricks schema: " + databaseName);
 		DatabricksDbUtil.dropDatabase(databaseName, dbConn);
 		// delete the file from databricks
-		log.info("Deleting databricks file: " + params.getDatabricksFilePath());
+		log.info("Deleting databricks file: " + params.getDatabricksFileLocation());
 		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
 		DatabricksFileUtilResponse resp = util.rmdir(params.getDatabricksFileLocation());
 		log.info("Status: " + resp.getStatusCode());

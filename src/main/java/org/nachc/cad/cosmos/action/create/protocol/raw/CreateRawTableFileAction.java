@@ -19,7 +19,7 @@ public class CreateRawTableFileAction {
 		RawTableFileDvo dvo = new RawTableFileDvo();
 		CosmosDvoUtil.init(dvo, params.getCreatedBy(), conn);
 		dvo.setFileLocation(params.getDatabricksFileLocation());
-		dvo.setFileName(params.getDatabricksFileName());
+		dvo.setFileName(params.getFile().getName());
 		dvo.setFileSize(FileUtil.getSize(params.getFile()));
 		dvo.setFileSizeUnits("B");
 		dvo.setRawTable(params.getRawTableDvo().getGuid());

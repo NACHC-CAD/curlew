@@ -60,18 +60,6 @@ public class CreateProtocolRawDataParams {
 	//
 
 	//
-	// databricks stuff
-	//
-
-	public String getDatabricksFilePath() {
-		return databricksFileLocation + "/" + this.getDatabricksFileName();
-	}
-	
-	public String getDatabricksFileName() {
-		return ColumnNameUtil.getCleanName(this.fileName);
-	}
-
-	//
 	// raw_data_group stuff
 	//
 
@@ -100,8 +88,20 @@ public class CreateProtocolRawDataParams {
 	}
 
 	public String getRawTableName() {
-		String rtn = this.projCode + "_" + this.orgCode + "_" + this.dataGroupAbr + "_" + this.getDatabricksFileName();
+		String rtn = this.projCode + "_" + this.orgCode + "_" + this.dataGroupAbr + "_" + ColumnNameUtil.getCleanName(this.fileName);
 		return rtn;
+	}
+
+	//
+	// databricks stuff
+	//
+
+	public String getDatabricksFilePathxx() {
+		return databricksFileLocation + "/" + this.getDatabricksFileName();
+	}
+	
+	public String getDatabricksFileName() {
+		return getRawTableName();
 	}
 
 }
