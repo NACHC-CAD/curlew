@@ -9,12 +9,16 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 public class RawTableProxy {
 
 	public static String getDatabricksCreateTableSqlString(RawTableDvo dvo, RawTableFileDvo fileDvo, List<RawTableColDvo> cols) {
+		return getDatabricksCreateTableSqlString(dvo, fileDvo, cols, null);
+	}
+
+	public static String getDatabricksCreateTableSqlString(RawTableDvo dvo, RawTableFileDvo fileDvo, List<RawTableColDvo> cols, Character delimiter) {
 		String sqlString = "";
 		sqlString += "create table " + dvo.getRawTableSchema() + "." + dvo.getRawTableName() + " ( \n";
-		for(RawTableColDvo colDvo : cols) {
-			if(sqlString.endsWith(" ( \n") == false) {
+		for (RawTableColDvo colDvo : cols) {
+			if (sqlString.endsWith(" ( \n") == false) {
 				sqlString += ", \n";
-			} 
+			}
 			sqlString += "  " + colDvo.getColName() + " string";
 		}
 		sqlString += " \n";
@@ -23,9 +27,11 @@ public class RawTableProxy {
 		sqlString += "options ( \n";
 		sqlString += "  header = \"true\", \n";
 		sqlString += "  inferSchema = \"false\", \n";
-		// sqlString += "  delimiter = \",|\", \n";
+		if (delimiter != null) {
+			sqlString += "  delimiter = \"" + delimiter + "\", \n";
+		}
 		sqlString += "  path = \"" + fileDvo.getFileLocation() + "/" + fileDvo.getFileName() + "\" \n";
-		sqlString += ") \n";	
+		sqlString += ") \n";
 		return sqlString;
 	}
 

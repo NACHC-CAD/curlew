@@ -18,6 +18,7 @@ public class CreateRawTableGroupRecordAction {
 		dvo.setDescription(params.getRawTableGroupDescription());
 		dvo.setGroupTableSchema(params.getGroupTableSchemaName());
 		dvo.setGroupTableName(params.getDataGroupName());
+		dvo.setRawTableSchema(params.getRawTableSchemaName());
 		Dao.insert(dvo, conn);
 		params.setRawTableGroupDvo(dvo);
 		return dvo;

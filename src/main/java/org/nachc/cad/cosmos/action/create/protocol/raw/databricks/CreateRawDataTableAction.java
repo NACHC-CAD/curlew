@@ -18,7 +18,7 @@ public class CreateRawDataTableAction {
 		String tableName = params.getRawTableName();
 		DatabricksDbUtil.dropTable(schemaName, tableName, conn);
 		// String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(dvo, fileDvo, cols);
-		String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(params.getRawTableDvo(), params.getRawTableFileDvo(), params.getRawTableColList());
+		String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(params.getRawTableDvo(), params.getRawTableFileDvo(), params.getRawTableColList(), params.getDelimiter());
 		log.info("Got sqlString: \n\n" + sqlString + "\n\n");
 		log.info("Doing update...");
 		Database.update(sqlString, conn);
