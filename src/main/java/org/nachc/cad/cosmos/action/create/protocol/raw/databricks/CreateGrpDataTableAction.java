@@ -38,7 +38,7 @@ public class CreateGrpDataTableAction {
 			if (sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
 			}
-			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, mySqlConn);
+			String tableSql = getQueryStringForTable(params, table.getGuid(), groupCols, mySqlConn);
 			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
 			sqlString += tableSql;
 		}
@@ -81,7 +81,7 @@ public class CreateGrpDataTableAction {
 	// method to get the query string for a member table
 	//
 
-	private static String getQueryStringForTable(String rawTableGuid, List<String> groupCols, Connection conn) {
+	private static String getQueryStringForTable(RawDataFileUploadParams params, String rawTableGuid, List<String> groupCols, Connection conn) {
 		log.info("Creating query for table with guid: " + rawTableGuid);
 		RawTableDvo tableDvo = Dao.find(new RawTableDvo(), "guid", rawTableGuid, conn);
 		List<RawTableColDvo> tableCols = Dao.findList(new RawTableColDvo(), "raw_table", rawTableGuid, conn);
@@ -89,23 +89,21 @@ public class CreateGrpDataTableAction {
 		String sqlString = "";
 		sqlString += "select \n";
 		for (String colName : groupCols) {
-			if (sqlString.endsWith("select \n") == false) {
-				sqlString += ", \n";
-			}
 			RawTableColDvo dvo;
 			dvo = getAsAlias(colName, tableCols);
 			if (dvo != null) {
-				sqlString += "  " + dvo.getColName() + " as " + dvo.getColAlias();
+				sqlString += "  " + dvo.getColName() + " as " + dvo.getColAlias() + ", \n";
 				continue;
 			}
 			dvo = getAsName(colName, tableCols);
 			if (dvo != null) {
-				sqlString += "  " + dvo.getColName();
+				sqlString += "  " + dvo.getColName() + ", \n";
 				continue;
 			}
-			sqlString += "  null as " + colName;
+			sqlString += "  null as " + colName + ", \n";
 		}
-		sqlString += "\n";
+		sqlString += "'" + params.getOrgCode() + "' as org, \n";
+		sqlString += "'" + params.getRawTableName() + "' as raw_table \n";
 		sqlString += "from \n";
 		sqlString += "  " + tableDvo.getRawTableSchema() + "." + tableDvo.getRawTableName();
 		return sqlString;

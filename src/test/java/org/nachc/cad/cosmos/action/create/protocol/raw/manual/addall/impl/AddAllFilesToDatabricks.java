@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.group.DeleteRawDataGroupAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawDataDatabricksSchema;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
@@ -35,6 +36,8 @@ public class AddAllFilesToDatabricks {
 			updateParams(params, file);
 			AddRawDataFileAction.execute(params, dbConn, mySqlConn);
 		}
+		log.info("Creating group table");
+		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn);
 		log.info("Done.");
 
 	}

@@ -21,7 +21,6 @@ public class AddRawDataFileAction {
 		// databricks stuff
 		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
 		CreateRawDataTableAction.execute(params, dbConn);
-		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn);
 		Database.commit(mySqlConn);
 	}
 
