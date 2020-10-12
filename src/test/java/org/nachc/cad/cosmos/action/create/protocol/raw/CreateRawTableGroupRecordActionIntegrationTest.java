@@ -3,6 +3,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw;
 import java.sql.Connection;
 
 import org.junit.Test;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateRawDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.UploadRawDataFileToDatabricksAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.CreateProtocolRawDataParams;
@@ -20,14 +21,14 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 	public void shouldCreateRecord() {
 		log.info("Starting test...");
 		CreateProtocolRawDataParams params = CreateRawTableGroupRecordIntegrationTestHelper.getParams();
-		doMySqlCreate(params);
-		doDatabricksCreate(params);
+		log.info("Getting MYSQL connection");
+		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
+		doMySqlCreate(params, mySqlConn);
+		doDatabricksCreate(params, mySqlConn);
 		log.info("Done.");
 	}
 
-	private void doMySqlCreate(CreateProtocolRawDataParams params) {
-		log.info("Getting MYSQL connection");
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
+	private void doMySqlCreate(CreateProtocolRawDataParams params, Connection mySqlConn) {
 		log.info("Cleaning up");
 		CreateRawTableGroupRecordIntegrationTestHelper.cleanupMySql(params, mySqlConn);
 		log.info("Creating mysql stuff");
@@ -39,7 +40,7 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 		Database.commit(mySqlConn);
 	}
 
-	private void doDatabricksCreate(CreateProtocolRawDataParams params) {
+	private void doDatabricksCreate(CreateProtocolRawDataParams params, Connection mySqlConn) {
 		// get connection and clean up
 		log.info("Getting DATABRICKS connection");
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
@@ -50,6 +51,7 @@ public class CreateRawTableGroupRecordActionIntegrationTest {
 		CreateRawDataDatabricksSchema.execute(params, dbConn);
 		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
 		CreateRawDataTableAction.execute(params, dbConn);
+		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn);
 	}
 
 }
