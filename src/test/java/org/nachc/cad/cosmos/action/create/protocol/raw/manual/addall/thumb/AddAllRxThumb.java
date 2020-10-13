@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AddAllRxThumb {
 
 	@Test
-	public void shouldUploadFile() {
+	public void exec() {
 		log.info("Starting test...");
 		String rootDirName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\thumb\\rx";
 		AddAllFilesToDatabricks.AddAllFiles(getParams(), rootDirName);
