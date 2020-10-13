@@ -7,6 +7,7 @@ import java.util.List;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
+import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Data;
@@ -84,6 +85,7 @@ public class CreateGrpDataTableAction {
 	private static String getQueryStringForTable(RawDataFileUploadParams params, String rawTableGuid, List<String> groupCols, Connection conn) {
 		log.info("Creating query for table with guid: " + rawTableGuid);
 		RawTableDvo tableDvo = Dao.find(new RawTableDvo(), "guid", rawTableGuid, conn);
+		RawTableFileDvo fileDvo = Dao.find(new RawTableFileDvo(), "raw_table", rawTableGuid, conn);
 		List<RawTableColDvo> tableCols = Dao.findList(new RawTableColDvo(), "raw_table", rawTableGuid, conn);
 		log.info("Got " + tableCols.size() + " cols for guid: " + rawTableGuid);
 		String sqlString = "";
@@ -102,8 +104,8 @@ public class CreateGrpDataTableAction {
 			}
 			sqlString += "  null as " + colName + ", \n";
 		}
-		sqlString += "'" + params.getOrgCode() + "' as org, \n";
-		sqlString += "'" + params.getRawTableName() + "' as raw_table \n";
+		sqlString += "'" + fileDvo.getOrgCode() + "' as org, \n";
+		sqlString += "'" + tableDvo.getRawTableName() + "' as raw_table \n";
 		sqlString += "from \n";
 		sqlString += "  " + tableDvo.getRawTableSchema() + "." + tableDvo.getRawTableName();
 		return sqlString;
