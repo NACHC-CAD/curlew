@@ -31,7 +31,12 @@ public class UpdateEncGroupTable {
 		updateColumnAliaises(mySqlConn);
 		Database.commit(mySqlConn);
 		log.info("DELETING DB FILE");
-		DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/enc");
+		DatabricksFileUtilResponse resp;
+		resp = DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/enc");
+		log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
+		resp = DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/enc_dup_dates");
+		log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
+		resp = DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/enc_detail");
 		log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
 		log.info("UPDATING GROUP TABLE");
 		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn, true);

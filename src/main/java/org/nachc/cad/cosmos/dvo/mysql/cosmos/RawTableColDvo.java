@@ -29,15 +29,15 @@ public class RawTableColDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "guid",
-        "raw_table",
-        "col_index",
-        "dirty_name",
-        "col_name",
         "col_alias",
-        "real_name",
+        "col_index",
+        "col_name",
         "created_by",
         "created_date",
+        "dirty_name",
+        "guid",
+        "raw_table",
+        "real_name",
         "updated_by",
         "updated_date"
     };
@@ -55,15 +55,15 @@ public class RawTableColDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "guid",
-        "rawTable",
-        "colIndex",
-        "dirtyName",
-        "colName",
         "colAlias",
-        "realName",
+        "colIndex",
+        "colName",
         "createdBy",
         "createdDate",
+        "dirtyName",
+        "guid",
+        "rawTable",
+        "realName",
         "updatedBy",
         "updatedDate"
     };
@@ -73,15 +73,15 @@ public class RawTableColDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "Guid",
-        "RawTable",
-        "ColIndex",
-        "DirtyName",
-        "ColName",
         "ColAlias",
-        "RealName",
+        "ColIndex",
+        "ColName",
         "CreatedBy",
         "CreatedDate",
+        "DirtyName",
+        "Guid",
+        "RawTable",
+        "RealName",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -93,23 +93,23 @@ public class RawTableColDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String guid;
-    
-    private String rawTable;
+    private String colAlias;
     
     private Integer colIndex;
     
-    private String dirtyName;
-    
     private String colName;
-    
-    private String colAlias;
-    
-    private String realName;
     
     private String createdBy;
     
     private Date createdDate;
+    
+    private String dirtyName;
+    
+    private String guid;
+    
+    private String rawTable;
+    
+    private String realName;
     
     private String updatedBy;
     
@@ -124,6 +124,66 @@ public class RawTableColDvo implements Dvo {
     //
     // trivial getters and setters
     //
+    
+    // colAlias
+    
+    public void setColAlias(String val) {
+        this.colAlias = val;
+    }
+    
+    public String getColAlias() {
+        return this.colAlias;
+    }
+    
+    // colIndex
+    
+    public void setColIndex(Integer val) {
+        this.colIndex = val;
+    }
+    
+    public Integer getColIndex() {
+        return this.colIndex;
+    }
+    
+    // colName
+    
+    public void setColName(String val) {
+        this.colName = val;
+    }
+    
+    public String getColName() {
+        return this.colName;
+    }
+    
+    // createdBy
+    
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
+    }
+    
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+    
+    // createdDate
+    
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
+    }
+    
+    public Date getCreatedDate() {
+        return this.createdDate;
+    }
+    
+    // dirtyName
+    
+    public void setDirtyName(String val) {
+        this.dirtyName = val;
+    }
+    
+    public String getDirtyName() {
+        return this.dirtyName;
+    }
     
     // guid
     
@@ -145,46 +205,6 @@ public class RawTableColDvo implements Dvo {
         return this.rawTable;
     }
     
-    // colIndex
-    
-    public void setColIndex(Integer val) {
-        this.colIndex = val;
-    }
-    
-    public Integer getColIndex() {
-        return this.colIndex;
-    }
-    
-    // dirtyName
-    
-    public void setDirtyName(String val) {
-        this.dirtyName = val;
-    }
-    
-    public String getDirtyName() {
-        return this.dirtyName;
-    }
-    
-    // colName
-    
-    public void setColName(String val) {
-        this.colName = val;
-    }
-    
-    public String getColName() {
-        return this.colName;
-    }
-    
-    // colAlias
-    
-    public void setColAlias(String val) {
-        this.colAlias = val;
-    }
-    
-    public String getColAlias() {
-        return this.colAlias;
-    }
-    
     // realName
     
     public void setRealName(String val) {
@@ -193,26 +213,6 @@ public class RawTableColDvo implements Dvo {
     
     public String getRealName() {
         return this.realName;
-    }
-    
-    // createdBy
-    
-    public void setCreatedBy(String val) {
-        this.createdBy = val;
-    }
-    
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-    
-    // createdDate
-    
-    public void setCreatedDate(Date val) {
-        this.createdDate = val;
-    }
-    
-    public Date getCreatedDate() {
-        return this.createdDate;
     }
     
     // updatedBy

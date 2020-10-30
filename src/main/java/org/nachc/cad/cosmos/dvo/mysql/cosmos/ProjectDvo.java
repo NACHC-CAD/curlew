@@ -29,12 +29,12 @@ public class ProjectDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "guid",
         "code",
-        "name",
-        "description",
         "created_by",
         "created_date",
+        "description",
+        "guid",
+        "name",
         "updated_by",
         "updated_date"
     };
@@ -52,12 +52,12 @@ public class ProjectDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "guid",
         "code",
-        "name",
-        "description",
         "createdBy",
         "createdDate",
+        "description",
+        "guid",
+        "name",
         "updatedBy",
         "updatedDate"
     };
@@ -67,12 +67,12 @@ public class ProjectDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "Guid",
         "Code",
-        "Name",
-        "Description",
         "CreatedBy",
         "CreatedDate",
+        "Description",
+        "Guid",
+        "Name",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -84,17 +84,17 @@ public class ProjectDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String guid;
-    
     private String code;
-    
-    private String name;
-    
-    private String description;
     
     private String createdBy;
     
     private Date createdDate;
+    
+    private String description;
+    
+    private String guid;
+    
+    private String name;
     
     private String updatedBy;
     
@@ -110,16 +110,6 @@ public class ProjectDvo implements Dvo {
     // trivial getters and setters
     //
     
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
     // code
     
     public void setCode(String val) {
@@ -128,26 +118,6 @@ public class ProjectDvo implements Dvo {
     
     public String getCode() {
         return this.code;
-    }
-    
-    // name
-    
-    public void setName(String val) {
-        this.name = val;
-    }
-    
-    public String getName() {
-        return this.name;
-    }
-    
-    // description
-    
-    public void setDescription(String val) {
-        this.description = val;
-    }
-    
-    public String getDescription() {
-        return this.description;
     }
     
     // createdBy
@@ -168,6 +138,36 @@ public class ProjectDvo implements Dvo {
     
     public Date getCreatedDate() {
         return this.createdDate;
+    }
+    
+    // description
+    
+    public void setDescription(String val) {
+        this.description = val;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
+    }
+    
+    // name
+    
+    public void setName(String val) {
+        this.name = val;
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
     // updatedBy

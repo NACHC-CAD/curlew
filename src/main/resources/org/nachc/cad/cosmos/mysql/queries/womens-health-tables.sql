@@ -14,6 +14,13 @@ create table enc_detail as select * from prj_grp_womens_health_enc.Encounter;
 
 
 
+-- 
+-- WOMENS HEALTH ENCOUNTER TABLE
+--
+
+
+use womens_health;
+drop table if exists enc;
 create table enc as (
 select distinct
   patient_id,
@@ -40,6 +47,9 @@ select distinct
   max(est_delivery_date) max_est_delivery_date,
   min(est_delivery_date) min_est_delivery_date
 from enc_detail
+where 1 = 1
+  and patient_id is not null
+  and encounter_id is not null
 group by 1,2,3,4,5,6,7
 )
 ;
