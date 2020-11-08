@@ -29,17 +29,17 @@ public class PersonDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "created_by",
-        "created_date",
-        "display_name",
-        "fname",
         "guid",
+        "username",
+        "fname",
         "lname",
+        "display_name",
         "password",
         "salt",
+        "created_by",
+        "created_date",
         "updated_by",
-        "updated_date",
-        "username"
+        "updated_date"
     };
     
     //
@@ -55,17 +55,17 @@ public class PersonDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "createdBy",
-        "createdDate",
-        "displayName",
-        "fname",
         "guid",
+        "username",
+        "fname",
         "lname",
+        "displayName",
         "password",
         "salt",
+        "createdBy",
+        "createdDate",
         "updatedBy",
-        "updatedDate",
-        "username"
+        "updatedDate"
     };
     
     //
@@ -73,17 +73,17 @@ public class PersonDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "CreatedBy",
-        "CreatedDate",
-        "DisplayName",
-        "Fname",
         "Guid",
+        "Username",
+        "Fname",
         "Lname",
+        "DisplayName",
         "Password",
         "Salt",
+        "CreatedBy",
+        "CreatedDate",
         "UpdatedBy",
-        "UpdatedDate",
-        "Username"
+        "UpdatedDate"
     };
     
     
@@ -93,27 +93,27 @@ public class PersonDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String createdBy;
+    private String guid;
     
-    private Date createdDate;
-    
-    private String displayName;
+    private String username;
     
     private String fname;
     
-    private String guid;
-    
     private String lname;
+    
+    private String displayName;
     
     private String password;
     
     private String salt;
     
+    private String createdBy;
+    
+    private Date createdDate;
+    
     private String updatedBy;
     
     private Date updatedDate;
-    
-    private String username;
     
     private PersonDvo createdByDvo;
     
@@ -179,34 +179,24 @@ public class PersonDvo implements Dvo {
     // trivial getters and setters
     //
     
-    // createdBy
+    // guid
     
-    public void setCreatedBy(String val) {
-        this.createdBy = val;
+    public void setGuid(String val) {
+        this.guid = val;
     }
     
-    public String getCreatedBy() {
-        return this.createdBy;
+    public String getGuid() {
+        return this.guid;
     }
     
-    // createdDate
+    // username
     
-    public void setCreatedDate(Date val) {
-        this.createdDate = val;
+    public void setUsername(String val) {
+        this.username = val;
     }
     
-    public Date getCreatedDate() {
-        return this.createdDate;
-    }
-    
-    // displayName
-    
-    public void setDisplayName(String val) {
-        this.displayName = val;
-    }
-    
-    public String getDisplayName() {
-        return this.displayName;
+    public String getUsername() {
+        return this.username;
     }
     
     // fname
@@ -219,16 +209,6 @@ public class PersonDvo implements Dvo {
         return this.fname;
     }
     
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
     // lname
     
     public void setLname(String val) {
@@ -237,6 +217,16 @@ public class PersonDvo implements Dvo {
     
     public String getLname() {
         return this.lname;
+    }
+    
+    // displayName
+    
+    public void setDisplayName(String val) {
+        this.displayName = val;
+    }
+    
+    public String getDisplayName() {
+        return this.displayName;
     }
     
     // password
@@ -259,6 +249,26 @@ public class PersonDvo implements Dvo {
         return this.salt;
     }
     
+    // createdBy
+    
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
+    }
+    
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+    
+    // createdDate
+    
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
+    }
+    
+    public Date getCreatedDate() {
+        return this.createdDate;
+    }
+    
     // updatedBy
     
     public void setUpdatedBy(String val) {
@@ -277,16 +287,6 @@ public class PersonDvo implements Dvo {
     
     public Date getUpdatedDate() {
         return this.updatedDate;
-    }
-    
-    // username
-    
-    public void setUsername(String val) {
-        this.username = val;
-    }
-    
-    public String getUsername() {
-        return this.username;
     }
     
     // createdByDvo

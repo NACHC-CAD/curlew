@@ -29,12 +29,12 @@ public class RawTableDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
+        "guid",
+        "raw_table_schema",
+        "raw_table_name",
+        "raw_table_group",
         "created_by",
         "created_date",
-        "guid",
-        "raw_table_group",
-        "raw_table_name",
-        "raw_table_schema",
         "updated_by",
         "updated_date"
     };
@@ -52,12 +52,12 @@ public class RawTableDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
+        "guid",
+        "rawTableSchema",
+        "rawTableName",
+        "rawTableGroup",
         "createdBy",
         "createdDate",
-        "guid",
-        "rawTableGroup",
-        "rawTableName",
-        "rawTableSchema",
         "updatedBy",
         "updatedDate"
     };
@@ -67,12 +67,12 @@ public class RawTableDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
+        "Guid",
+        "RawTableSchema",
+        "RawTableName",
+        "RawTableGroup",
         "CreatedBy",
         "CreatedDate",
-        "Guid",
-        "RawTableGroup",
-        "RawTableName",
-        "RawTableSchema",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -84,17 +84,17 @@ public class RawTableDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String createdBy;
-    
-    private Date createdDate;
-    
     private String guid;
     
-    private String rawTableGroup;
+    private String rawTableSchema;
     
     private String rawTableName;
     
-    private String rawTableSchema;
+    private String rawTableGroup;
+    
+    private String createdBy;
+    
+    private Date createdDate;
     
     private String updatedBy;
     
@@ -111,6 +111,46 @@ public class RawTableDvo implements Dvo {
     //
     // trivial getters and setters
     //
+    
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
+    }
+    
+    // rawTableSchema
+    
+    public void setRawTableSchema(String val) {
+        this.rawTableSchema = val;
+    }
+    
+    public String getRawTableSchema() {
+        return this.rawTableSchema;
+    }
+    
+    // rawTableName
+    
+    public void setRawTableName(String val) {
+        this.rawTableName = val;
+    }
+    
+    public String getRawTableName() {
+        return this.rawTableName;
+    }
+    
+    // rawTableGroup
+    
+    public void setRawTableGroup(String val) {
+        this.rawTableGroup = val;
+    }
+    
+    public String getRawTableGroup() {
+        return this.rawTableGroup;
+    }
     
     // createdBy
     
@@ -130,46 +170,6 @@ public class RawTableDvo implements Dvo {
     
     public Date getCreatedDate() {
         return this.createdDate;
-    }
-    
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
-    // rawTableGroup
-    
-    public void setRawTableGroup(String val) {
-        this.rawTableGroup = val;
-    }
-    
-    public String getRawTableGroup() {
-        return this.rawTableGroup;
-    }
-    
-    // rawTableName
-    
-    public void setRawTableName(String val) {
-        this.rawTableName = val;
-    }
-    
-    public String getRawTableName() {
-        return this.rawTableName;
-    }
-    
-    // rawTableSchema
-    
-    public void setRawTableSchema(String val) {
-        this.rawTableSchema = val;
-    }
-    
-    public String getRawTableSchema() {
-        return this.rawTableSchema;
     }
     
     // updatedBy

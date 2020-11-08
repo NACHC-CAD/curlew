@@ -29,20 +29,20 @@ public class DocumentDefDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
+        "guid",
+        "row_id",
         "block_def",
+        "file_type",
+        "document_role",
+        "data_group",
+        "name",
+        "description",
+        "validator",
+        "databricks_dir",
         "created_by",
         "created_date",
-        "data_group",
-        "databricks_dir",
-        "description",
-        "document_role",
-        "file_type",
-        "guid",
-        "name",
-        "row_id",
         "updated_by",
-        "updated_date",
-        "validator"
+        "updated_date"
     };
     
     //
@@ -58,20 +58,20 @@ public class DocumentDefDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
+        "guid",
+        "rowId",
         "blockDef",
+        "fileType",
+        "documentRole",
+        "dataGroup",
+        "name",
+        "description",
+        "validator",
+        "databricksDir",
         "createdBy",
         "createdDate",
-        "dataGroup",
-        "databricksDir",
-        "description",
-        "documentRole",
-        "fileType",
-        "guid",
-        "name",
-        "rowId",
         "updatedBy",
-        "updatedDate",
-        "validator"
+        "updatedDate"
     };
     
     //
@@ -79,20 +79,20 @@ public class DocumentDefDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
+        "Guid",
+        "RowId",
         "BlockDef",
+        "FileType",
+        "DocumentRole",
+        "DataGroup",
+        "Name",
+        "Description",
+        "Validator",
+        "DatabricksDir",
         "CreatedBy",
         "CreatedDate",
-        "DataGroup",
-        "DatabricksDir",
-        "Description",
-        "DocumentRole",
-        "FileType",
-        "Guid",
-        "Name",
-        "RowId",
         "UpdatedBy",
-        "UpdatedDate",
-        "Validator"
+        "UpdatedDate"
     };
     
     
@@ -102,33 +102,33 @@ public class DocumentDefDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
+    private String guid;
+    
+    private Integer rowId;
+    
     private String blockDef;
+    
+    private String fileType;
+    
+    private String documentRole;
+    
+    private String dataGroup;
+    
+    private String name;
+    
+    private String description;
+    
+    private String validator;
+    
+    private String databricksDir;
     
     private String createdBy;
     
     private Date createdDate;
     
-    private String dataGroup;
-    
-    private String databricksDir;
-    
-    private String description;
-    
-    private String documentRole;
-    
-    private String fileType;
-    
-    private String guid;
-    
-    private String name;
-    
-    private Integer rowId;
-    
     private String updatedBy;
     
     private Date updatedDate;
-    
-    private String validator;
     
     private BlockDefDvo blockDefDvo;
     
@@ -148,6 +148,26 @@ public class DocumentDefDvo implements Dvo {
     // trivial getters and setters
     //
     
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
+    }
+    
+    // rowId
+    
+    public void setRowId(Integer val) {
+        this.rowId = val;
+    }
+    
+    public Integer getRowId() {
+        return this.rowId;
+    }
+    
     // blockDef
     
     public void setBlockDef(String val) {
@@ -156,6 +176,76 @@ public class DocumentDefDvo implements Dvo {
     
     public String getBlockDef() {
         return this.blockDef;
+    }
+    
+    // fileType
+    
+    public void setFileType(String val) {
+        this.fileType = val;
+    }
+    
+    public String getFileType() {
+        return this.fileType;
+    }
+    
+    // documentRole
+    
+    public void setDocumentRole(String val) {
+        this.documentRole = val;
+    }
+    
+    public String getDocumentRole() {
+        return this.documentRole;
+    }
+    
+    // dataGroup
+    
+    public void setDataGroup(String val) {
+        this.dataGroup = val;
+    }
+    
+    public String getDataGroup() {
+        return this.dataGroup;
+    }
+    
+    // name
+    
+    public void setName(String val) {
+        this.name = val;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    // description
+    
+    public void setDescription(String val) {
+        this.description = val;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
+    // validator
+    
+    public void setValidator(String val) {
+        this.validator = val;
+    }
+    
+    public String getValidator() {
+        return this.validator;
+    }
+    
+    // databricksDir
+    
+    public void setDatabricksDir(String val) {
+        this.databricksDir = val;
+    }
+    
+    public String getDatabricksDir() {
+        return this.databricksDir;
     }
     
     // createdBy
@@ -178,86 +268,6 @@ public class DocumentDefDvo implements Dvo {
         return this.createdDate;
     }
     
-    // dataGroup
-    
-    public void setDataGroup(String val) {
-        this.dataGroup = val;
-    }
-    
-    public String getDataGroup() {
-        return this.dataGroup;
-    }
-    
-    // databricksDir
-    
-    public void setDatabricksDir(String val) {
-        this.databricksDir = val;
-    }
-    
-    public String getDatabricksDir() {
-        return this.databricksDir;
-    }
-    
-    // description
-    
-    public void setDescription(String val) {
-        this.description = val;
-    }
-    
-    public String getDescription() {
-        return this.description;
-    }
-    
-    // documentRole
-    
-    public void setDocumentRole(String val) {
-        this.documentRole = val;
-    }
-    
-    public String getDocumentRole() {
-        return this.documentRole;
-    }
-    
-    // fileType
-    
-    public void setFileType(String val) {
-        this.fileType = val;
-    }
-    
-    public String getFileType() {
-        return this.fileType;
-    }
-    
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
-    // name
-    
-    public void setName(String val) {
-        this.name = val;
-    }
-    
-    public String getName() {
-        return this.name;
-    }
-    
-    // rowId
-    
-    public void setRowId(Integer val) {
-        this.rowId = val;
-    }
-    
-    public Integer getRowId() {
-        return this.rowId;
-    }
-    
     // updatedBy
     
     public void setUpdatedBy(String val) {
@@ -276,16 +286,6 @@ public class DocumentDefDvo implements Dvo {
     
     public Date getUpdatedDate() {
         return this.updatedDate;
-    }
-    
-    // validator
-    
-    public void setValidator(String val) {
-        this.validator = val;
-    }
-    
-    public String getValidator() {
-        return this.validator;
     }
     
     // blockDefDvo

@@ -29,13 +29,13 @@ public class BlockDefDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
+        "guid",
         "code",
+        "name",
+        "description",
+        "project",
         "created_by",
         "created_date",
-        "description",
-        "guid",
-        "name",
-        "project",
         "updated_by",
         "updated_date"
     };
@@ -53,13 +53,13 @@ public class BlockDefDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
+        "guid",
         "code",
+        "name",
+        "description",
+        "project",
         "createdBy",
         "createdDate",
-        "description",
-        "guid",
-        "name",
-        "project",
         "updatedBy",
         "updatedDate"
     };
@@ -69,13 +69,13 @@ public class BlockDefDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
+        "Guid",
         "Code",
+        "Name",
+        "Description",
+        "Project",
         "CreatedBy",
         "CreatedDate",
-        "Description",
-        "Guid",
-        "Name",
-        "Project",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -87,19 +87,19 @@ public class BlockDefDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
+    private String guid;
+    
     private String code;
+    
+    private String name;
+    
+    private String description;
+    
+    private String project;
     
     private String createdBy;
     
     private Date createdDate;
-    
-    private String description;
-    
-    private String guid;
-    
-    private String name;
-    
-    private String project;
     
     private String updatedBy;
     
@@ -119,6 +119,16 @@ public class BlockDefDvo implements Dvo {
     // trivial getters and setters
     //
     
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
+    }
+    
     // code
     
     public void setCode(String val) {
@@ -127,6 +137,36 @@ public class BlockDefDvo implements Dvo {
     
     public String getCode() {
         return this.code;
+    }
+    
+    // name
+    
+    public void setName(String val) {
+        this.name = val;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    // description
+    
+    public void setDescription(String val) {
+        this.description = val;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
+    // project
+    
+    public void setProject(String val) {
+        this.project = val;
+    }
+    
+    public String getProject() {
+        return this.project;
     }
     
     // createdBy
@@ -147,46 +187,6 @@ public class BlockDefDvo implements Dvo {
     
     public Date getCreatedDate() {
         return this.createdDate;
-    }
-    
-    // description
-    
-    public void setDescription(String val) {
-        this.description = val;
-    }
-    
-    public String getDescription() {
-        return this.description;
-    }
-    
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
-    // name
-    
-    public void setName(String val) {
-        this.name = val;
-    }
-    
-    public String getName() {
-        return this.name;
-    }
-    
-    // project
-    
-    public void setProject(String val) {
-        this.project = val;
-    }
-    
-    public String getProject() {
-        return this.project;
     }
     
     // updatedBy
