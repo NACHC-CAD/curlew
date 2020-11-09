@@ -29,8 +29,8 @@ public class BuildVersionDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "version_number",
-        "file_name"
+        "file_name",
+        "version_number"
     };
     
     //
@@ -45,8 +45,8 @@ public class BuildVersionDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "versionNumber",
-        "fileName"
+        "fileName",
+        "versionNumber"
     };
     
     //
@@ -54,8 +54,8 @@ public class BuildVersionDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "VersionNumber",
-        "FileName"
+        "FileName",
+        "VersionNumber"
     };
     
     
@@ -65,23 +65,13 @@ public class BuildVersionDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String versionNumber;
-    
     private String fileName;
+    
+    private String versionNumber;
     
     //
     // trivial getters and setters
     //
-    
-    // versionNumber
-    
-    public void setVersionNumber(String val) {
-        this.versionNumber = val;
-    }
-    
-    public String getVersionNumber() {
-        return this.versionNumber;
-    }
     
     // fileName
     
@@ -91,6 +81,16 @@ public class BuildVersionDvo implements Dvo {
     
     public String getFileName() {
         return this.fileName;
+    }
+    
+    // versionNumber
+    
+    public void setVersionNumber(String val) {
+        this.versionNumber = val;
+    }
+    
+    public String getVersionNumber() {
+        return this.versionNumber;
     }
     
     //

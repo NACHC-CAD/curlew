@@ -24,6 +24,7 @@ public class AddAllDemoThumb {
 		params.setProtocolNamePretty("Women's Health");
 		params.setDataGroupName("Demographics");
 		params.setDataGroupAbr("demo");
+		params.setProjCode("womens_health");
 		params.setDatabricksFileLocation("/FileStore/tables/integration-test/womens-health/demo");
 		return params;
 	}

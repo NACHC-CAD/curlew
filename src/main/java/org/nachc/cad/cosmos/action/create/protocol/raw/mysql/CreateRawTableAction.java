@@ -19,6 +19,7 @@ public class CreateRawTableAction {
 		dvo.setRawTableSchema(params.getRawTableSchemaName());
 		dvo.setRawTableName(params.getRawTableName());
 		dvo.setRawTableGroup(params.getRawTableGroupDvo().getGuid());
+		dvo.setProject(params.getProjCode());
 		Dao.insert(dvo, conn);
 		params.setRawTableDvo(dvo);
 		log.info("Creating raw_table record");

@@ -9,7 +9,7 @@ from
 ;
 
 --
--- query for all files
+-- query for all raw data files
 -- 
 
 select 

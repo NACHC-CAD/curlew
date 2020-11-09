@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAllRxThumb;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
+import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
@@ -32,11 +33,9 @@ public class UpdateRxGroupTable {
 	}
 
 	private void updateColumnAliaises(Connection conn) {
+		// TODO: FIX THIS
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		// TODO: THIS WAS DONE IN MYSQL MANUALLY, FIX THIS (JEG)
-		// CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo",
-		// "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "dummy_id",
-		// "patient_id", conn);
+		// CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ac_enc_nachc__ucsf__patient__encounters_txt", "dummy_id", "patient_id", conn);
 	}
 
 }

@@ -32,6 +32,7 @@ insert into proj_code values ('womens_health', 'Women''s Health');
 
 create table cosmos.raw_table_group (
 	guid varchar(40),
+    project varchar(64) not null,
 	code varchar(256),
 	name varchar(256),
 	description varchar(256),
@@ -46,6 +47,7 @@ create table cosmos.raw_table_group (
 	unique(raw_table_schema),
 	unique(group_table_schema),
     unique(file_location),
+    foreign key (project) references proj_code (code),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),
@@ -56,11 +58,13 @@ create table cosmos.raw_table_group (
 
 create table cosmos.raw_table (
 	guid varchar(40),
+    project varchar(64) not null,
 	raw_table_schema varchar(256),
 	raw_table_name varchar(256),
     raw_table_group varchar(256),
 	primary key (guid),
     foreign key (raw_table_group) references raw_table_group (guid),
+    foreign key (project) references  proj_code (code),
 	unique (raw_table_schema, raw_table_name),
 	created_by varchar(40),
     created_date datetime,
@@ -72,17 +76,17 @@ create table cosmos.raw_table (
 
 create table cosmos.raw_table_file (
 	guid varchar(40),
+    project varchar(64) not null,
 	raw_table varchar(40),
 	file_location varchar(256),
 	file_name varchar(256),
     file_size long,
     file_size_units varchar(8),
     org_code varchar(64),
-    proj_code varchar(64),
     unique (raw_table),
     unique (file_location, file_name),
-    foreign key(org_code) references org_code(code),
-    foreign key(proj_code) references proj_code(code),
+    foreign key(org_code) references org_code (code),
+    foreign key(project) references proj_code (code),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),
@@ -93,6 +97,7 @@ create table cosmos.raw_table_file (
 
 create table cosmos.raw_table_col (
 	guid varchar(40),
+    project varchar(64) not null,
 	raw_table varchar(256),
     col_index int,
 	dirty_name varchar(256),
@@ -102,6 +107,7 @@ create table cosmos.raw_table_col (
 	primary key (guid),
 	unique (raw_table, col_name),
 	foreign key (raw_table) references raw_table(guid),
+    foreign key (project) references  proj_code (code),
 	created_by varchar(40),
     created_date datetime,
     updated_by varchar(40),

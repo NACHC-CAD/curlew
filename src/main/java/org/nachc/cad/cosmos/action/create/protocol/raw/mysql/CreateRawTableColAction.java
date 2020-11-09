@@ -28,6 +28,7 @@ public class CreateRawTableColAction {
 			dvo.setColIndex(colName.getColIndex());
 			dvo.setColName(colName.getColName());
 			dvo.setDirtyName(colName.getDirtyName());
+			dvo.setProject(params.getProjCode());
 			rtn.add(dvo);
 		}
 		log.info("Doing inserts...");
