@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UpdateDemoGroupTable {
 
 	@Test
-	public void shouldDoUpdate() {
+	public void doUpdate() {
 		log.info("Updating group table...");
 		RawDataFileUploadParams params = AddAllDemoThumb.getParams();
 		log.info("Getting mySql connection");

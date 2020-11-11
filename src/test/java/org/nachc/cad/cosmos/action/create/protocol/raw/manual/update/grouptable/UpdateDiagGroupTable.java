@@ -24,7 +24,7 @@ public class UpdateDiagGroupTable {
 	private static final RawDataFileUploadParams PARAMS = AddAllDxThumb.getParams();
 	
 	@Test
-	public void shouldDoUpdate() {
+	public void doUpdate() {
 		log.info("Updating group table...");
 		// mysql stuff
 		log.info("Getting mySql connection");

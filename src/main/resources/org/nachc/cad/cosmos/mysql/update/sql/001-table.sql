@@ -3,32 +3,25 @@
 -- Higher level tables and table relationships will be delt with elsewhere
 --
 
-drop table if exists cosmos.raw_table_group_col;
-drop table if exists cosmos.raw_table_group_raw_table;
-drop table if exists cosmos.raw_table_col;
-drop table if exists cosmos.raw_table_file;
-drop table if exists cosmos.raw_table;
-drop table if exists cosmos.raw_table_group;
+use cosmos;
 
-create table org_code (
-	code varchar(64),
-    name varchar(256),
-    primary key (code),
-    unique(name)
+create table proj_url (
+	guid varchar(40),
+	project varchar(64) not null,
+    sort_order int,
+    url varchar(256) not null,
+    url_type varchar(256) not null,
+    link_text varchar(256) not null,
+    url_description varchar(256),
+    primary key (guid),
+    foreign key (project) references proj_code(code),
+	created_by varchar(40),
+    created_date datetime,
+    updated_by varchar(40),
+    updated_date datetime,
+    foreign key (created_by) references person (guid),
+    foreign key (updated_by) references person (guid)
 );
-
-insert into org_code values ('ac', 'Alliance Chicago');
-insert into org_code values ('denver', 'Denver Health');
-insert into org_code values ('ochin', 'Oregon Community Health Information Network');
-
-create table proj_code (
-	code varchar(64),
-    name varchar(256),
-    primary key (code),
-    unique(name)
-);
-
-insert into proj_code values ('womens_health', 'Women''s Health');
 
 create table cosmos.raw_table_group (
 	guid varchar(40),

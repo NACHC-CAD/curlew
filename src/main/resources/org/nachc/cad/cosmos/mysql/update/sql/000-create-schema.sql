@@ -4,6 +4,26 @@ create schema cosmos;
 
 use cosmos;
 
+create table cosmos.org_code (
+	code varchar(64),
+    name varchar(256),
+    primary key (code),
+    unique(name)
+);
+
+insert into cosmos.org_code values ('ac', 'Alliance Chicago');
+insert into cosmos.org_code values ('denver', 'Denver Health');
+insert into cosmos.org_code values ('ochin', 'Oregon Community Health Information Network');
+
+create table cosmos.proj_code (
+	code varchar(64),
+    name varchar(256),
+    primary key (code),
+    unique(name)
+);
+
+insert into cosmos.proj_code values ('womens_health', 'Women''s Health');
+
 create table cosmos.person (
 	guid varchar(40),
     username varchar(64),

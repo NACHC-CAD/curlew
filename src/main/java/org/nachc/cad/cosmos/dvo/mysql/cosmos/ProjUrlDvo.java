@@ -1,5 +1,5 @@
 //
-// Data Value Object (DVO) for raw_table
+// Data Value Object (DVO) for proj_url
 //
 
 package org.nachc.cad.cosmos.dvo.mysql.cosmos;
@@ -10,13 +10,13 @@ import java.util.Date;
 
 import org.yaorma.dvo.Dvo;
 
-public class RawTableDvo implements Dvo {
+public class ProjUrlDvo implements Dvo {
 
     //
     // tableName
     //
     
-    public static final String TABLE_NAME = "raw_table";
+    public static final String TABLE_NAME = "proj_url";
     
     //
     // schemaName
@@ -31,9 +31,11 @@ public class RawTableDvo implements Dvo {
     public static final String[] COLUMN_NAMES = {
         "guid",
         "project",
-        "raw_table_schema",
-        "raw_table_name",
-        "raw_table_group",
+        "sort_order",
+        "url",
+        "url_type",
+        "link_text",
+        "url_description",
         "created_by",
         "created_date",
         "updated_by",
@@ -55,9 +57,11 @@ public class RawTableDvo implements Dvo {
     public static final String[] JAVA_NAMES = {
         "guid",
         "project",
-        "rawTableSchema",
-        "rawTableName",
-        "rawTableGroup",
+        "sortOrder",
+        "url",
+        "urlType",
+        "linkText",
+        "urlDescription",
         "createdBy",
         "createdDate",
         "updatedBy",
@@ -71,9 +75,11 @@ public class RawTableDvo implements Dvo {
     public static final String[] JAVA_NAMES_PROPER = {
         "Guid",
         "Project",
-        "RawTableSchema",
-        "RawTableName",
-        "RawTableGroup",
+        "SortOrder",
+        "Url",
+        "UrlType",
+        "LinkText",
+        "UrlDescription",
         "CreatedBy",
         "CreatedDate",
         "UpdatedBy",
@@ -91,11 +97,15 @@ public class RawTableDvo implements Dvo {
     
     private String project;
     
-    private String rawTableSchema;
+    private Integer sortOrder;
     
-    private String rawTableName;
+    private String url;
     
-    private String rawTableGroup;
+    private String urlType;
+    
+    private String linkText;
+    
+    private String urlDescription;
     
     private String createdBy;
     
@@ -105,15 +115,11 @@ public class RawTableDvo implements Dvo {
     
     private Date updatedDate;
     
-    private RawTableGroupDvo rawTableGroupDvo;
-    
     private ProjCodeDvo projectDvo;
     
     private PersonDvo createdByDvo;
     
     private PersonDvo updatedByDvo;
-    
-    private ArrayList<RawTableColDvo> rawTableColRawTableList = new ArrayList<RawTableColDvo>();
     
     //
     // trivial getters and setters
@@ -139,34 +145,54 @@ public class RawTableDvo implements Dvo {
         return this.project;
     }
     
-    // rawTableSchema
+    // sortOrder
     
-    public void setRawTableSchema(String val) {
-        this.rawTableSchema = val;
+    public void setSortOrder(Integer val) {
+        this.sortOrder = val;
     }
     
-    public String getRawTableSchema() {
-        return this.rawTableSchema;
+    public Integer getSortOrder() {
+        return this.sortOrder;
     }
     
-    // rawTableName
+    // url
     
-    public void setRawTableName(String val) {
-        this.rawTableName = val;
+    public void setUrl(String val) {
+        this.url = val;
     }
     
-    public String getRawTableName() {
-        return this.rawTableName;
+    public String getUrl() {
+        return this.url;
     }
     
-    // rawTableGroup
+    // urlType
     
-    public void setRawTableGroup(String val) {
-        this.rawTableGroup = val;
+    public void setUrlType(String val) {
+        this.urlType = val;
     }
     
-    public String getRawTableGroup() {
-        return this.rawTableGroup;
+    public String getUrlType() {
+        return this.urlType;
+    }
+    
+    // linkText
+    
+    public void setLinkText(String val) {
+        this.linkText = val;
+    }
+    
+    public String getLinkText() {
+        return this.linkText;
+    }
+    
+    // urlDescription
+    
+    public void setUrlDescription(String val) {
+        this.urlDescription = val;
+    }
+    
+    public String getUrlDescription() {
+        return this.urlDescription;
     }
     
     // createdBy
@@ -209,16 +235,6 @@ public class RawTableDvo implements Dvo {
         return this.updatedDate;
     }
     
-    // rawTableGroupDvo
-    
-    public void setRawTableGroupDvo(RawTableGroupDvo dvo) {
-        this.rawTableGroupDvo = dvo;
-    }
-    
-    public RawTableGroupDvo getRawTableGroupDvo() {
-        return this.rawTableGroupDvo;
-    }
-    
     // projectDvo
     
     public void setProjectDvo(ProjCodeDvo dvo) {
@@ -247,14 +263,6 @@ public class RawTableDvo implements Dvo {
     
     public PersonDvo getUpdatedByDvo() {
         return this.updatedByDvo;
-    }
-    
-    public ArrayList<RawTableColDvo> getRawTableColRawTableList() {
-        return rawTableColRawTableList;
-    }
-    
-    public void setRawTableColRawTableList(ArrayList<RawTableColDvo> list) {
-        this.rawTableColRawTableList = list;
     }
     
     //

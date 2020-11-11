@@ -29,17 +29,17 @@ public class RawTableGroupDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
+        "guid",
+        "project",
         "code",
-        "created_by",
-        "created_date",
+        "name",
         "description",
         "file_location",
-        "group_table_name",
-        "group_table_schema",
-        "guid",
-        "name",
-        "project",
         "raw_table_schema",
+        "group_table_schema",
+        "group_table_name",
+        "created_by",
+        "created_date",
         "updated_by",
         "updated_date"
     };
@@ -57,17 +57,17 @@ public class RawTableGroupDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
+        "guid",
+        "project",
         "code",
-        "createdBy",
-        "createdDate",
+        "name",
         "description",
         "fileLocation",
-        "groupTableName",
-        "groupTableSchema",
-        "guid",
-        "name",
-        "project",
         "rawTableSchema",
+        "groupTableSchema",
+        "groupTableName",
+        "createdBy",
+        "createdDate",
         "updatedBy",
         "updatedDate"
     };
@@ -77,17 +77,17 @@ public class RawTableGroupDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
+        "Guid",
+        "Project",
         "Code",
-        "CreatedBy",
-        "CreatedDate",
+        "Name",
         "Description",
         "FileLocation",
-        "GroupTableName",
-        "GroupTableSchema",
-        "Guid",
-        "Name",
-        "Project",
         "RawTableSchema",
+        "GroupTableSchema",
+        "GroupTableName",
+        "CreatedBy",
+        "CreatedDate",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -99,27 +99,27 @@ public class RawTableGroupDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
+    private String guid;
+    
+    private String project;
+    
     private String code;
     
-    private String createdBy;
-    
-    private Date createdDate;
+    private String name;
     
     private String description;
     
     private String fileLocation;
     
-    private String groupTableName;
+    private String rawTableSchema;
     
     private String groupTableSchema;
     
-    private String guid;
+    private String groupTableName;
     
-    private String name;
+    private String createdBy;
     
-    private String project;
-    
-    private String rawTableSchema;
+    private Date createdDate;
     
     private String updatedBy;
     
@@ -137,6 +137,26 @@ public class RawTableGroupDvo implements Dvo {
     // trivial getters and setters
     //
     
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
+    }
+    
+    // project
+    
+    public void setProject(String val) {
+        this.project = val;
+    }
+    
+    public String getProject() {
+        return this.project;
+    }
+    
     // code
     
     public void setCode(String val) {
@@ -147,24 +167,14 @@ public class RawTableGroupDvo implements Dvo {
         return this.code;
     }
     
-    // createdBy
+    // name
     
-    public void setCreatedBy(String val) {
-        this.createdBy = val;
+    public void setName(String val) {
+        this.name = val;
     }
     
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-    
-    // createdDate
-    
-    public void setCreatedDate(Date val) {
-        this.createdDate = val;
-    }
-    
-    public Date getCreatedDate() {
-        return this.createdDate;
+    public String getName() {
+        return this.name;
     }
     
     // description
@@ -187,14 +197,14 @@ public class RawTableGroupDvo implements Dvo {
         return this.fileLocation;
     }
     
-    // groupTableName
+    // rawTableSchema
     
-    public void setGroupTableName(String val) {
-        this.groupTableName = val;
+    public void setRawTableSchema(String val) {
+        this.rawTableSchema = val;
     }
     
-    public String getGroupTableName() {
-        return this.groupTableName;
+    public String getRawTableSchema() {
+        return this.rawTableSchema;
     }
     
     // groupTableSchema
@@ -207,44 +217,34 @@ public class RawTableGroupDvo implements Dvo {
         return this.groupTableSchema;
     }
     
-    // guid
+    // groupTableName
     
-    public void setGuid(String val) {
-        this.guid = val;
+    public void setGroupTableName(String val) {
+        this.groupTableName = val;
     }
     
-    public String getGuid() {
-        return this.guid;
+    public String getGroupTableName() {
+        return this.groupTableName;
     }
     
-    // name
+    // createdBy
     
-    public void setName(String val) {
-        this.name = val;
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
     }
     
-    public String getName() {
-        return this.name;
+    public String getCreatedBy() {
+        return this.createdBy;
     }
     
-    // project
+    // createdDate
     
-    public void setProject(String val) {
-        this.project = val;
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
     }
     
-    public String getProject() {
-        return this.project;
-    }
-    
-    // rawTableSchema
-    
-    public void setRawTableSchema(String val) {
-        this.rawTableSchema = val;
-    }
-    
-    public String getRawTableSchema() {
-        return this.rawTableSchema;
+    public Date getCreatedDate() {
+        return this.createdDate;
     }
     
     // updatedBy

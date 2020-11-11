@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UpdateRxGroupTable {
 
 	@Test
-	public void shouldDoUpdate() {
+	public void doUpdate() {
 		log.info("Updating group table...");
 		RawDataFileUploadParams params = AddAllRxThumb.getParams();
 		log.info("Getting mySql connection");
@@ -33,9 +33,7 @@ public class UpdateRxGroupTable {
 	}
 
 	private void updateColumnAliaises(Connection conn) {
-		// TODO: FIX THIS
-		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		// CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ac_enc_nachc__ucsf__patient__encounters_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "dummy_id", "patient_id", conn);
 	}
 
 }

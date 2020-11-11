@@ -70,13 +70,15 @@ public class ProjCodeDvo implements Dvo {
     
     private String name;
     
-    private ArrayList<RawTableDvo> rawTableProjectList = new ArrayList<RawTableDvo>();
+    private ArrayList<ProjUrlDvo> projUrlProjectList = new ArrayList<ProjUrlDvo>();
     
-    private ArrayList<RawTableColDvo> rawTableColProjectList = new ArrayList<RawTableColDvo>();
+    private ArrayList<RawTableGroupDvo> rawTableGroupProjectList = new ArrayList<RawTableGroupDvo>();
+    
+    private ArrayList<RawTableDvo> rawTableProjectList = new ArrayList<RawTableDvo>();
     
     private ArrayList<RawTableFileDvo> rawTableFileProjectList = new ArrayList<RawTableFileDvo>();
     
-    private ArrayList<RawTableGroupDvo> rawTableGroupProjectList = new ArrayList<RawTableGroupDvo>();
+    private ArrayList<RawTableColDvo> rawTableColProjectList = new ArrayList<RawTableColDvo>();
     
     //
     // trivial getters and setters
@@ -102,20 +104,28 @@ public class ProjCodeDvo implements Dvo {
         return this.name;
     }
     
+    public ArrayList<ProjUrlDvo> getProjUrlProjectList() {
+        return projUrlProjectList;
+    }
+    
+    public void setProjUrlProjectList(ArrayList<ProjUrlDvo> list) {
+        this.projUrlProjectList = list;
+    }
+    
+    public ArrayList<RawTableGroupDvo> getRawTableGroupProjectList() {
+        return rawTableGroupProjectList;
+    }
+    
+    public void setRawTableGroupProjectList(ArrayList<RawTableGroupDvo> list) {
+        this.rawTableGroupProjectList = list;
+    }
+    
     public ArrayList<RawTableDvo> getRawTableProjectList() {
         return rawTableProjectList;
     }
     
     public void setRawTableProjectList(ArrayList<RawTableDvo> list) {
         this.rawTableProjectList = list;
-    }
-    
-    public ArrayList<RawTableColDvo> getRawTableColProjectList() {
-        return rawTableColProjectList;
-    }
-    
-    public void setRawTableColProjectList(ArrayList<RawTableColDvo> list) {
-        this.rawTableColProjectList = list;
     }
     
     public ArrayList<RawTableFileDvo> getRawTableFileProjectList() {
@@ -126,12 +136,12 @@ public class ProjCodeDvo implements Dvo {
         this.rawTableFileProjectList = list;
     }
     
-    public ArrayList<RawTableGroupDvo> getRawTableGroupProjectList() {
-        return rawTableGroupProjectList;
+    public ArrayList<RawTableColDvo> getRawTableColProjectList() {
+        return rawTableColProjectList;
     }
     
-    public void setRawTableGroupProjectList(ArrayList<RawTableGroupDvo> list) {
-        this.rawTableGroupProjectList = list;
+    public void setRawTableColProjectList(ArrayList<RawTableColDvo> list) {
+        this.rawTableColProjectList = list;
     }
     
     //

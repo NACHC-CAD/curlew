@@ -29,16 +29,16 @@ public class RawTableFileDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "created_by",
-        "created_date",
+        "guid",
+        "project",
+        "raw_table",
         "file_location",
         "file_name",
         "file_size",
         "file_size_units",
-        "guid",
         "org_code",
-        "project",
-        "raw_table",
+        "created_by",
+        "created_date",
         "updated_by",
         "updated_date"
     };
@@ -55,16 +55,16 @@ public class RawTableFileDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "createdBy",
-        "createdDate",
+        "guid",
+        "project",
+        "rawTable",
         "fileLocation",
         "fileName",
         "fileSize",
         "fileSizeUnits",
-        "guid",
         "orgCode",
-        "project",
-        "rawTable",
+        "createdBy",
+        "createdDate",
         "updatedBy",
         "updatedDate"
     };
@@ -74,16 +74,16 @@ public class RawTableFileDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "CreatedBy",
-        "CreatedDate",
+        "Guid",
+        "Project",
+        "RawTable",
         "FileLocation",
         "FileName",
         "FileSize",
         "FileSizeUnits",
-        "Guid",
         "OrgCode",
-        "Project",
-        "RawTable",
+        "CreatedBy",
+        "CreatedDate",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -95,9 +95,11 @@ public class RawTableFileDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String createdBy;
+    private String guid;
     
-    private Date createdDate;
+    private String project;
+    
+    private String rawTable;
     
     private String fileLocation;
     
@@ -107,13 +109,11 @@ public class RawTableFileDvo implements Dvo {
     
     private String fileSizeUnits;
     
-    private String guid;
-    
     private String orgCode;
     
-    private String project;
+    private String createdBy;
     
-    private String rawTable;
+    private Date createdDate;
     
     private String updatedBy;
     
@@ -131,24 +131,34 @@ public class RawTableFileDvo implements Dvo {
     // trivial getters and setters
     //
     
-    // createdBy
+    // guid
     
-    public void setCreatedBy(String val) {
-        this.createdBy = val;
+    public void setGuid(String val) {
+        this.guid = val;
     }
     
-    public String getCreatedBy() {
-        return this.createdBy;
+    public String getGuid() {
+        return this.guid;
     }
     
-    // createdDate
+    // project
     
-    public void setCreatedDate(Date val) {
-        this.createdDate = val;
+    public void setProject(String val) {
+        this.project = val;
     }
     
-    public Date getCreatedDate() {
-        return this.createdDate;
+    public String getProject() {
+        return this.project;
+    }
+    
+    // rawTable
+    
+    public void setRawTable(String val) {
+        this.rawTable = val;
+    }
+    
+    public String getRawTable() {
+        return this.rawTable;
     }
     
     // fileLocation
@@ -191,16 +201,6 @@ public class RawTableFileDvo implements Dvo {
         return this.fileSizeUnits;
     }
     
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
     // orgCode
     
     public void setOrgCode(String val) {
@@ -211,24 +211,24 @@ public class RawTableFileDvo implements Dvo {
         return this.orgCode;
     }
     
-    // project
+    // createdBy
     
-    public void setProject(String val) {
-        this.project = val;
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
     }
     
-    public String getProject() {
-        return this.project;
+    public String getCreatedBy() {
+        return this.createdBy;
     }
     
-    // rawTable
+    // createdDate
     
-    public void setRawTable(String val) {
-        this.rawTable = val;
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
     }
     
-    public String getRawTable() {
-        return this.rawTable;
+    public Date getCreatedDate() {
+        return this.createdDate;
     }
     
     // updatedBy

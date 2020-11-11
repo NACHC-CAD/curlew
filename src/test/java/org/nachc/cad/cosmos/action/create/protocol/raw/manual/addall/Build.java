@@ -9,6 +9,11 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAl
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAllOtherThumb;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAllProcThumb;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAllRxThumb;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.CreateProject;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.grouptable.UpdateDemoGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.grouptable.UpdateDiagGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.grouptable.UpdateEncGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.grouptable.UpdateRxGroupTable;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +23,8 @@ public class Build {
 	public static void main(String[] args) {
 		log("Burning everything to the ground.");
 		BurnEverythingToTheGround.main(null);
+		log.info("Adding Project");
+		CreateProject.createProject();
 		log("Demo");
 		new AddAllDemoThumb().exec();
 		log("Diagnosis");
@@ -34,6 +41,12 @@ public class Build {
 		new AddAllProcThumb().exec();
 		log("Rx");
 		new AddAllRxThumb().exec();
+		log("Updates");
+		new UpdateDemoGroupTable().doUpdate();
+		new UpdateDiagGroupTable().doUpdate();
+		new UpdateEncGroupTable().doUpdate();
+		new UpdateRxGroupTable().doUpdate();
+		log.info("Done.");
 	}
 	
 	private static void log(String msg) {

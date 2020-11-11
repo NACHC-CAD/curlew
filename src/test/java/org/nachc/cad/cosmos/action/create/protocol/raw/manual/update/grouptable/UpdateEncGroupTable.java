@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UpdateEncGroupTable {
 
 	@Test
-	public void shouldDoUpdate() {
+	public void doUpdate() {
 		log.info("Updating group table...");
 		RawDataFileUploadParams params = AddAllEncThumb.getParams();
 		log.info("Getting mySql connection");
