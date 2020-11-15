@@ -54,3 +54,28 @@ from
     join raw_table_file fil on fil.raw_table = tbl.guid
     join raw_table_group grp on tbl.raw_table_group = grp.guid
 );
+
+create view raw_table_detail as (
+select 
+	grp.guid raw_table_group_guid,
+    grp.project,
+    grp.code group_code,
+    grp.name group_name,
+    grp.description group_description,
+    grp.file_location group_file_location,
+    grp.group_table_name,
+    grp.group_table_schema,
+	tbl.guid raw_table_guid,
+    tbl.raw_table_name,
+    tbl.raw_table_schema,
+    fil.file_location,
+    fil.file_name,
+    fil.file_size,
+    fil.file_size_units,
+    fil.org_code
+from 
+	raw_table_group grp
+	join raw_table tbl on tbl.raw_table_group = grp.guid
+	join raw_table_file fil on fil.raw_table = tbl.guid
+)
+;
