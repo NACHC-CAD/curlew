@@ -28,7 +28,7 @@ public class E_ParseValueSetFiles {
 		// get the excel files
 		List<File> files = FileUtil.listFiles(excelDir, "*.xlsx");
 		// create the metadata excel objects
-		Workbook book = ExcelUtil.createNewWorkbook();
+		Workbook book = ExcelUtil.createNewWorkbook(false);
 		Sheet metaData = book.createSheet();
 		// iterate through each file
 		log.info("Parsing " + files.size() + " files...");

@@ -34,6 +34,8 @@ public class UpdateRxGroupTable {
 
 	private void updateColumnAliaises(Connection conn) {
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_start_date", "start_date", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_stop_date", "end_date", conn);
 	}
 
 }

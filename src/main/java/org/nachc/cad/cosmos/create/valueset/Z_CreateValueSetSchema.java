@@ -10,12 +10,12 @@ public class Z_CreateValueSetSchema {
 		log.info("* * * CREATING SCHEMA FOR VALUE_SET * * *");
 		A_ParametersForValueSetSchema.logParameters();
 		B_DeleteValueSetParsedFiles.deleteFiles();
-//		C_DeleteValueSetDatabricksFiles.deleteFiles();
-//		D_DeleteValueSetDatabaseObjects.delete();
+		C_DeleteValueSetDatabricksFiles.deleteFiles();
+		D_DeleteValueSetDatabaseObjects.delete();
 		E_ParseValueSetFiles.parse();
-//		F_PostValueSetFilesToDatabricks.post();
-//		G_CreateValueSetSchema.create();
-//		H_CreateValueSetDatabaseObjects.create();
+		F_PostValueSetFilesToDatabricks.post();
+		G_CreateValueSetSchema.create();
+		H_CreateValueSetDatabaseObjects.create();
 		log.info("* * * DONE CREATING SCHEMA FOR VALUE_SET * * *");
 		log.info("=============================================================");
 		log.info("Done.");

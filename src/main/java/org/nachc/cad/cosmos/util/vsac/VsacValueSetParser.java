@@ -16,7 +16,7 @@ public class VsacValueSetParser {
 
 	public static Sheet parseFile(File excelFile, File csvDir, Sheet meta) {
 		if (meta == null) {
-			Workbook metaBook = ExcelUtil.createNewWorkbook();
+			Workbook metaBook = ExcelUtil.createNewWorkbook(false);
 			meta = metaBook.createSheet("meta");
 		}
 		if (meta.getLastRowNum() <= 0) {
@@ -34,7 +34,7 @@ public class VsacValueSetParser {
 			ExcelUtil.addCol(row, "note", 10);
 		}
 		Workbook srcBook = ExcelUtil.getWorkbook(excelFile);
-		Workbook dstBook = ExcelUtil.createNewWorkbook();
+		Workbook dstBook = ExcelUtil.createNewWorkbook(false);
 		// get the Value Set Info sheet
 		Sheet infoSheet = ExcelUtil.getSheet(srcBook, "Value Set Info");
 		// get the info values
