@@ -20,6 +20,8 @@ public class RawDataFileUploadParams {
 	// initial parameters
 	//
 
+	private String localHostFileAbsLocation;
+	
 	private String projCode;
 
 	private String orgCode;

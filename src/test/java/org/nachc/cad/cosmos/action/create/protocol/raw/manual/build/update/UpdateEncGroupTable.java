@@ -1,10 +1,10 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.grouptable;
+package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update;
 
 import java.sql.Connection;
 
 import org.junit.Test;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAllEncThumb;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParams;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
@@ -22,7 +22,7 @@ public class UpdateEncGroupTable {
 	@Test
 	public void doUpdate() {
 		log.info("Updating group table...");
-		RawDataFileUploadParams params = AddAllEncThumb.getParams();
+		RawDataFileUploadParams params = BuildParams.getParams("Encounter", "enc");
 		log.info("Getting mySql connection");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		log.info("Getting databricks connection");

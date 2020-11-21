@@ -1,10 +1,10 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.grouptable;
+package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update;
 
 import java.sql.Connection;
 
 import org.junit.Test;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb.AddAllDxThumb;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParams;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
@@ -21,8 +21,8 @@ public class UpdateDiagGroupTable {
 
 	private static final String DB_DIR = "/user/hive/warehouse/womens_health.db/diag";
 
-	private static final RawDataFileUploadParams PARAMS = AddAllDxThumb.getParams();
-	
+	private static final RawDataFileUploadParams PARAMS = BuildParams.getParams("Diagnosis", "diag");
+
 	@Test
 	public void doUpdate() {
 		log.info("Updating group table...");

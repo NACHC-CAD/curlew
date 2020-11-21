@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw.manual.addall.thumb;
+package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project;
 
 import java.sql.Connection;
 
