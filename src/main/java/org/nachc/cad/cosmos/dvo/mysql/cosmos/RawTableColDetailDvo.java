@@ -47,6 +47,7 @@ public class RawTableColDetailDvo implements Dvo {
         "file_name",
         "file_size",
         "file_size_units",
+        "org_code",
         "col_index",
         "dirty_name",
         "col_name",
@@ -84,6 +85,7 @@ public class RawTableColDetailDvo implements Dvo {
         "fileName",
         "fileSize",
         "fileSizeUnits",
+        "orgCode",
         "colIndex",
         "dirtyName",
         "colName",
@@ -114,6 +116,7 @@ public class RawTableColDetailDvo implements Dvo {
         "FileName",
         "FileSize",
         "FileSizeUnits",
+        "OrgCode",
         "ColIndex",
         "DirtyName",
         "ColName",
@@ -163,6 +166,8 @@ public class RawTableColDetailDvo implements Dvo {
     private Long fileSize;
     
     private String fileSizeUnits;
+    
+    private String orgCode;
     
     private Integer colIndex;
     
@@ -356,6 +361,16 @@ public class RawTableColDetailDvo implements Dvo {
     
     public String getFileSizeUnits() {
         return this.fileSizeUnits;
+    }
+    
+    // orgCode
+    
+    public void setOrgCode(String val) {
+        this.orgCode = val;
+    }
+    
+    public String getOrgCode() {
+        return this.orgCode;
     }
     
     // colIndex

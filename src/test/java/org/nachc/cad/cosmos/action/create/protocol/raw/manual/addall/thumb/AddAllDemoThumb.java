@@ -26,6 +26,7 @@ public class AddAllDemoThumb {
 		params.setDataGroupAbr("demo");
 		params.setProjCode("womens_health");
 		params.setDatabricksFileLocation("/FileStore/tables/integration-test/womens-health/demo");
+		params.setDataLot("LOT 1");
 		return params;
 	}
 }

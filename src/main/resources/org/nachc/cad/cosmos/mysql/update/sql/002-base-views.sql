@@ -24,6 +24,7 @@ select
     fil.file_name,
     fil.file_size,
     fil.file_size_units,
+    fil.org_code,
     col.col_index,
     col.dirty_name,
     col.col_name,

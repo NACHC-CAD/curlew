@@ -23,6 +23,8 @@ public class RawDataFileUploadParams {
 	private String projCode;
 
 	private String orgCode;
+	
+	private String dataLot;
 
 	private String protocolNamePretty;
 

@@ -70,6 +70,7 @@ create table cosmos.raw_table (
 create table cosmos.raw_table_file (
 	guid varchar(40),
     project varchar(64) not null,
+    data_lot varchar(64) not null,
 	raw_table varchar(40),
 	file_location varchar(256),
 	file_name varchar(256),

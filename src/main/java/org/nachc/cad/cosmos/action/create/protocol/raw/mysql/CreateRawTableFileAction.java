@@ -25,6 +25,7 @@ public class CreateRawTableFileAction {
 		dvo.setRawTable(params.getRawTableDvo().getGuid());
 		dvo.setOrgCode(params.getOrgCode());
 		dvo.setProject(params.getProjCode());
+		dvo.setDataLot(params.getDataLot());
 		Dao.insert(dvo, conn);
 		params.setRawTableFileDvo(dvo);
 		log.info("Done creating raw_table_file record");

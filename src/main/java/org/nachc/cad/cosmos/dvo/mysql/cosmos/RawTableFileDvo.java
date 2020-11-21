@@ -31,6 +31,7 @@ public class RawTableFileDvo implements Dvo {
     public static final String[] COLUMN_NAMES = {
         "guid",
         "project",
+        "data_lot",
         "raw_table",
         "file_location",
         "file_name",
@@ -57,6 +58,7 @@ public class RawTableFileDvo implements Dvo {
     public static final String[] JAVA_NAMES = {
         "guid",
         "project",
+        "dataLot",
         "rawTable",
         "fileLocation",
         "fileName",
@@ -76,6 +78,7 @@ public class RawTableFileDvo implements Dvo {
     public static final String[] JAVA_NAMES_PROPER = {
         "Guid",
         "Project",
+        "DataLot",
         "RawTable",
         "FileLocation",
         "FileName",
@@ -98,6 +101,8 @@ public class RawTableFileDvo implements Dvo {
     private String guid;
     
     private String project;
+    
+    private String dataLot;
     
     private String rawTable;
     
@@ -149,6 +154,16 @@ public class RawTableFileDvo implements Dvo {
     
     public String getProject() {
         return this.project;
+    }
+    
+    // dataLot
+    
+    public void setDataLot(String val) {
+        this.dataLot = val;
+    }
+    
+    public String getDataLot() {
+        return this.dataLot;
     }
     
     // rawTable

@@ -25,6 +25,7 @@ public class AddAllObsThumb {
 		params.setCreatedBy("greshje");
 		params.setProjCode("womens_health");
 		params.setProtocolNamePretty("Women's Health");
+		params.setDataLot("LOT 1");
 		return params;
 	}
 }
