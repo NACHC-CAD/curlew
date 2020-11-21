@@ -19,9 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UpdateDiagGroupTable {
 
-	private static final String DB_DIR = "/user/hive/warehouse/womens_health.db/diag";
+	// TODO: JEG THESE ARE NOT TESTS (CALLED BY BUILD)
+	
+	private static final String DB_DIR = "/user/hive/warehouse/womens_health.db/dx";
 
-	private static final RawDataFileUploadParams PARAMS = BuildParams.getParams("Diagnosis", "diag");
+	private static final RawDataFileUploadParams PARAMS = BuildParams.getParams("Diagnosis", "dx");
 
 	@Test
 	public void doUpdate() {

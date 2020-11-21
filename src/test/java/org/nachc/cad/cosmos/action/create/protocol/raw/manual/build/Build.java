@@ -18,7 +18,7 @@ public class Build {
 		BurnEverythingToTheGround.main(null);
 		log("Adding Project");
 		CreateProject.createProject();
-		addFiles("Demo", "demo");
+		addFiles("Demographics", "demo");
 		addFiles("Diagnosis", "dx");
 		addFiles("Encounter", "enc");
 		addFiles("Fertility", "fert");

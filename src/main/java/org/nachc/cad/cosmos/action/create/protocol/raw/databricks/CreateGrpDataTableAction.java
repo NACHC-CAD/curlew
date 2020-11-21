@@ -25,7 +25,7 @@ public class CreateGrpDataTableAction {
 
 	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn, boolean refresh) {
 		// get the group
-		log.info("Getting group");
+		log.info("Getting group for " + params.getRawTableGroupCode());
 		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", params.getRawTableGroupCode(), mySqlConn);
 		log.info("Got group with guid: " + tableGroup.getGuid());
 		// get the distinct columns
