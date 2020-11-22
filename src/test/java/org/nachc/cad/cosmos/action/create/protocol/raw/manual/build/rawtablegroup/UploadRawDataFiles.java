@@ -20,14 +20,19 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateNewRawTableGroupFromLocalFiles {
+public class UploadRawDataFiles {
 
-	public static void exec(RawDataFileUploadParams params) {
-		exec(params, true);
+	public static void createNewEntity(RawDataFileUploadParams params, boolean isOverwrite) {
+		exec(params, true, isOverwrite);
 	}
 	
-	public static void exec(RawDataFileUploadParams params, boolean isNewProject) {
+	public static void updateExistingEntity(RawDataFileUploadParams params, boolean isOverwrite) {
+		exec(params, false, isOverwrite);
+	}
+	
+	private static void exec(RawDataFileUploadParams params, boolean isNewProject, boolean isOverwrite) {
 		log.info("Starting test...");
+		log.info("Getting localhost dir");
 		String rootDir = params.getLocalHostFileAbsLocation();
 		log.info("Getting connections");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
@@ -41,7 +46,7 @@ public class CreateNewRawTableGroupFromLocalFiles {
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
 			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, dbConn, mySqlConn);
+			AddRawDataFileAction.execute(params, dbConn, mySqlConn, isOverwrite);
 		}
 		log.info("Creating group table");
 		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn);

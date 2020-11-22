@@ -97,12 +97,8 @@ public class RawDataFileUploadParams {
 	// databricks stuff
 	//
 
-	public String getDatabricksFilePathxx() {
-		return databricksFileLocation + "/" + this.getDatabricksFileName();
-	}
-
-	public String getDatabricksFileName() {
-		return getRawTableName();
+	public String getDatabricksFilePath() {
+		return databricksFileLocation + "/" + this.fileName;
 	}
 
 }

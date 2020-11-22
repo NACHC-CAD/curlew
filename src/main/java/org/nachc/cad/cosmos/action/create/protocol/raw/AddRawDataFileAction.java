@@ -13,13 +13,13 @@ import org.yaorma.database.Database;
 
 public class AddRawDataFileAction {
 
-	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn) {
+	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn, boolean isOverwrite) {
 		// mysql stuff
 		CreateRawTableAction.execute(params, mySqlConn);
 		CreateRawTableFileAction.execute(params, mySqlConn);
 		CreateRawTableColAction.execute(params, mySqlConn);
 		// databricks stuff
-		UploadRawDataFileToDatabricksAction.execute(params, dbConn);
+		UploadRawDataFileToDatabricksAction.execute(params, dbConn, isOverwrite);
 		CreateRawDataTableAction.execute(params, dbConn);
 		Database.commit(mySqlConn);
 	}

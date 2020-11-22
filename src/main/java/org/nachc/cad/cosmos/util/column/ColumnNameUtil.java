@@ -19,6 +19,10 @@ public class ColumnNameUtil {
 	public static List<ColumnName> getColumnNames(File file, char delim) {
 		ArrayList<ColumnName> rtn = new ArrayList<ColumnName>();
 		String headerLine = FileUtil.head(file, 1);
+		headerLine = headerLine.trim();
+		while (headerLine.endsWith(",")) {
+			headerLine = headerLine.substring(0, headerLine.length() - 1);
+		}
 		List<String> columnNames = CsvUtil.parseLine(headerLine, delim);
 		int cnt = 0;
 		for (String str : columnNames) {

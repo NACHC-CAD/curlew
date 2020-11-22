@@ -14,16 +14,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadRawDataFileToDatabricksAction {
 
-	public static void execute(RawDataFileUploadParams params, Connection conn) {
+	public static void execute(RawDataFileUploadParams params, Connection conn, boolean isOverwrite) {
 		log.info("Writing file to databricks...");
 		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
+		if(isOverwrite == true) {
+			log.info("Deleting existing file: " + params.getDatabricksFilePath());
+			DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().delete(params.getDatabricksFilePath());
+			log.info("Done with delete (" + resp.isSuccess() + "): \n" + resp.getResponse());
+		}
 		log.info("Writing file...");
 		DatabricksFileUtilResponse resp = util.put(params.getDatabricksFileLocation(), params.getFile());
 		log.info("Success: " + resp.isSuccess());
 		log.info("Got response (" + resp.isSuccess() + ") " + resp.getElapsedSeconds() + " sec: " + resp.getFileName() + "\n" + resp.getResponse());
 		if (resp.isSuccess() == false) {
-			log.error("Error writing file to Databricks: " + params.getDatabricksFileLocation() + "/" + params.getDatabricksFileName());
-			throw new DatabricksFileException(resp, "Did not get success response from server writing file: " + params.getDatabricksFileLocation() + "/" + params.getDatabricksFileName());
+			log.error("Error writing file to Databricks: " + params.getDatabricksFileLocation() + "/" + params.getFileName());
+			throw new DatabricksFileException(resp, "Did not get success response from server writing file: " + params.getDatabricksFileLocation() + "/" + params.getFileName());
 		}
 	}
 	

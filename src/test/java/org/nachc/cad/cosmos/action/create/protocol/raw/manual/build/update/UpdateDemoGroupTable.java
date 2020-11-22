@@ -18,8 +18,8 @@ public class UpdateDemoGroupTable {
 
 	@Test
 	public void doUpdate() {
-//		log.info("Doing delete");
-//		DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/demo_src");
+		// log.info("Doing delete");
+		// DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/demo_src");
 		log.info("Updating group table...");
 		RawDataFileUploadParams params = BuildParams.getParams("Demographics", "demo");
 		log.info("Getting mySql connection");

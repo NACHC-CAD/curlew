@@ -2,11 +2,12 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.BurnEverythingToTheGround;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProject;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.CreateNewRawTableGroupFromLocalFiles;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDemoGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateEncGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +37,8 @@ public class Build {
 
 	private static void addFiles(String name, String abr) {
 		log(name);
-		CreateNewRawTableGroupFromLocalFiles.exec(BuildParams.getParams(name, abr));
+		RawDataFileUploadParams params = BuildParams.getParams(name, abr);
+		UploadRawDataFiles.createNewEntity(params, false);
 	}
 
 	private static void log(String msg) {
