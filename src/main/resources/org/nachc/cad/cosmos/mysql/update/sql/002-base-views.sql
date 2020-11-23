@@ -4,7 +4,7 @@
 
 use cosmos;
 
-create view cosmos.raw_table_col_detail as (
+create or replace view cosmos.raw_table_col_detail as (
 select
 	tbl.guid raw_table,
 	grp.guid raw_table_group,
@@ -25,6 +25,7 @@ select
     fil.file_size,
     fil.file_size_units,
     fil.org_code,
+    fil.data_lot,
     col.col_index,
     col.dirty_name,
     col.col_name,

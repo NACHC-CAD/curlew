@@ -36,14 +36,22 @@ public class UpdateRxGroupTable {
 	}
 
 	private void updateColumnAliaises(Connection conn) {
+		// ac
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "dummy_id", "patient_id", conn);
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_start_date", "start_date", conn);
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_stop_date", "end_date", conn);
-		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver_medications_csv", "contraceptive_med", "med_description", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_refills", "refills", conn);
+		// ochin
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ochin_rx_medications_csv", "generic_name", "med_description", conn);
+		// denver v1
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver_medications_csv", "contraceptive_med", "med_description", conn);
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver_medications_csv", "contraceptive_med_dose", "med_dose", conn);
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver_medications_csv", "contraceptive_med_refills", "refills", conn);
-		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_refills", "refills", conn);
+		// denver v2
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver__womens_health__v2_med_2020_11_21_csv", "contraceptive_med", "med_description", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver__womens_health__v2_med_2020_11_21_csv", "contraceptive_med_dose", "med_dose", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_denver_rx_denver__womens_health__v2_med_2020_11_21_csv", "contraceptive_med_refills", "refills", conn);
+		
 	}
 
 }

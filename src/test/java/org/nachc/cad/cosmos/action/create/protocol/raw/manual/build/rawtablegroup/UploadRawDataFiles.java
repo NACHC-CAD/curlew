@@ -7,7 +7,7 @@ import java.util.List;
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.group.DeleteRawDataGroupAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawDataDatabricksSchema;
+import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawDataDatabricksSchemaAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
@@ -72,7 +72,7 @@ public class UploadRawDataFiles {
 		DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), dbConn);
 		DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), dbConn);
 		// create the raw and grp databases in data bricks
-		CreateRawDataDatabricksSchema.execute(params, dbConn);
+		CreateRawDataDatabricksSchemaAction.execute(params, dbConn);
 	}
 
 	private static void createMySqlSchemaForProject(Connection mySqlConn, Connection dbConn, RawDataFileUploadParams params) {

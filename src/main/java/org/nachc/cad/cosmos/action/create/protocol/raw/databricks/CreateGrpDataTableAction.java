@@ -105,7 +105,7 @@ public class CreateGrpDataTableAction {
 			sqlString += "  null as " + colName + ", \n";
 		}
 		sqlString += "'" + fileDvo.getOrgCode() + "' as org, \n";
-		sqlString += "'" + params.getDatabricksFileLocation() + "' as data_lot, \n";
+		sqlString += "'" + fileDvo.getDataLot() + "' as data_lot, \n";
 		sqlString += "'" + tableDvo.getRawTableName() + "' as raw_table \n";
 		sqlString += "from \n";
 		sqlString += "  " + tableDvo.getRawTableSchema() + "." + tableDvo.getRawTableName();

@@ -36,15 +36,22 @@ public class UpdateDemoGroupTable {
 
 	private void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
+		// ac
 		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "age_at_the_endof_measurement_year", "age", conn);
 		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "dummy_id", "patient_id", conn);
-		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver_health_demographics_csv", "education_level", "education", conn);
 		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "ethnicity_standard_descr", "ethnicity", conn);
-		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver_health_demographics_csv", "health_insurance_type", "insurance", conn);
 		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "race_standard_descr", "race", conn);
 		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "transporation", "transportation", conn);
-		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver_health_demographics_csv", "accessto_care", "access_to_care", conn);
+		// ochin
 		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ochin_demo_demographics_csv", "age_at_the_endof_measurement_year", "age", conn);
+		// denver v1
+		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver_health_demographics_csv", "health_insurance_type", "insurance", conn);
+		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver_health_demographics_csv", "education_level", "education", conn);
+		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver_health_demographics_csv", "accessto_care", "access_to_care", conn);
+		// denver v2
+		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver__womens_health__v2_demo_2020_11_21_csv", "health_insurance_type", "insurance", conn);
+		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver__womens_health__v2_demo_2020_11_21_csv", "education_level", "education", conn);
+		CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_denver_demo_denver__womens_health__v2_demo_2020_11_21_csv", "accessto_care", "access_to_care", conn);
 	}
 
 }

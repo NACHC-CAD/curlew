@@ -9,7 +9,7 @@ import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateRawDataDatabricksSchema {
+public class CreateRawDataDatabricksSchemaAction {
 
 	public static void execute(RawDataFileUploadParams params, Connection conn) {
 		String databaseName;
