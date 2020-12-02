@@ -49,7 +49,7 @@ public class Update20201121 {
 	private static void updateFiles(String name, String abr, Connection mySqlConn, Connection dbConn) {
 		log(name);
 		RawDataFileUploadParams params = getParams(name, abr, mySqlConn);
-		// UploadRawDataFiles.updateExistingEntity(params, true);
+		UploadRawDataFiles.updateExistingEntity(params, true);
 		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn, true);
 	}
 

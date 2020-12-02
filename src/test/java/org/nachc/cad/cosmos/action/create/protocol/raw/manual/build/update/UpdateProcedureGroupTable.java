@@ -34,7 +34,8 @@ public class UpdateProcedureGroupTable {
 
 	private void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		// CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "age_at_the_endof_measurement_year", "age", conn);
+		CreateColumnAlias.execute("womens_health_proc", "prj_raw_womens_health_proc", "womens_health_ac_proc_nachc__ucsf__patient__procedures_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_proc", "prj_raw_womens_health_proc", "womens_health_ac_proc_nachc__ucsf__patient__procedures_txt", "procedure_description", "procedure_code_description", conn);
 	}
 
 }

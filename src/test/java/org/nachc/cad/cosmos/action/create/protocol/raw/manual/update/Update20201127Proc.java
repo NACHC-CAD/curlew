@@ -17,15 +17,15 @@ import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Update20201122 {
+public class Update20201127Proc {
 
-	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2020-11-22\\";
+	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2020-11-27-proc\\";
 
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/integration-test/womens-health/";
 
 	public static void main(String[] args) {
 		log.info("Adding update files...");
-		updateFiles("FlatFile", "flat");
+		updateFiles("ProcCat", "proc_cat");
 		log("Doing updates");
 		log.info("Done.");
 	}
@@ -56,7 +56,7 @@ public class Update20201122 {
 		params.setProjCode("womens_health");
 		params.setProtocolNamePretty("Women's Health");
 		params.setProjCode("womens_health");
-		params.setDataLot("LOT 2");
+		params.setDataLot("LOT 1");
 		params.setDatabricksFileLocation(DATABRICKS_FILE_ROOT + abr);
 		params.setDataGroupName(name);
 		params.setDataGroupAbr(abr);
@@ -89,6 +89,7 @@ public class Update20201122 {
 	}
 
 	private static void createDatabricksSchemasIfTheyDoNotExist(RawDataFileUploadParams params) {
+		log.info("Getting connection...");
 		Connection conn = DatabricksDbConnectionFactory.getConnection();
 		String schemaName;
 		// raw data schema

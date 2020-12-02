@@ -30,10 +30,10 @@ public class DocumentRoleDvo implements Dvo {
     
     public static final String[] COLUMN_NAMES = {
         "code",
-        "name",
-        "description",
         "created_by",
         "created_date",
+        "description",
+        "name",
         "updated_by",
         "updated_date"
     };
@@ -52,10 +52,10 @@ public class DocumentRoleDvo implements Dvo {
     
     public static final String[] JAVA_NAMES = {
         "code",
-        "name",
-        "description",
         "createdBy",
         "createdDate",
+        "description",
+        "name",
         "updatedBy",
         "updatedDate"
     };
@@ -66,10 +66,10 @@ public class DocumentRoleDvo implements Dvo {
     
     public static final String[] JAVA_NAMES_PROPER = {
         "Code",
-        "Name",
-        "Description",
         "CreatedBy",
         "CreatedDate",
+        "Description",
+        "Name",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -83,13 +83,13 @@ public class DocumentRoleDvo implements Dvo {
     
     private String code;
     
-    private String name;
-    
-    private String description;
-    
     private String createdBy;
     
     private Date createdDate;
+    
+    private String description;
+    
+    private String name;
     
     private String updatedBy;
     
@@ -115,26 +115,6 @@ public class DocumentRoleDvo implements Dvo {
         return this.code;
     }
     
-    // name
-    
-    public void setName(String val) {
-        this.name = val;
-    }
-    
-    public String getName() {
-        return this.name;
-    }
-    
-    // description
-    
-    public void setDescription(String val) {
-        this.description = val;
-    }
-    
-    public String getDescription() {
-        return this.description;
-    }
-    
     // createdBy
     
     public void setCreatedBy(String val) {
@@ -153,6 +133,26 @@ public class DocumentRoleDvo implements Dvo {
     
     public Date getCreatedDate() {
         return this.createdDate;
+    }
+    
+    // description
+    
+    public void setDescription(String val) {
+        this.description = val;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
+    // name
+    
+    public void setName(String val) {
+        this.name = val;
+    }
+    
+    public String getName() {
+        return this.name;
     }
     
     // updatedBy

@@ -15,12 +15,12 @@ public class AddRawDataFileAction {
 
 	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn, boolean isOverwrite) {
 		// mysql stuff
-		CreateRawTableAction.execute(params, mySqlConn);
-		CreateRawTableFileAction.execute(params, mySqlConn);
+		CreateRawTableAction.execute(params, mySqlConn, isOverwrite);
+		CreateRawTableFileAction.execute(params, mySqlConn, isOverwrite);
 		CreateRawTableColAction.execute(params, mySqlConn);
 		// databricks stuff
 		UploadRawDataFileToDatabricksAction.execute(params, dbConn, isOverwrite);
-		CreateRawDataTableAction.execute(params, dbConn);
+		CreateRawDataTableAction.execute(params, dbConn, true);
 		Database.commit(mySqlConn);
 	}
 

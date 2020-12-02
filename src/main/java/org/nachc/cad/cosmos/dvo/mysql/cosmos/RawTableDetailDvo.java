@@ -29,22 +29,22 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "raw_table_group_guid",
-        "project",
-        "group_code",
-        "group_name",
-        "group_description",
-        "group_file_location",
-        "group_table_name",
-        "group_table_schema",
-        "raw_table_guid",
-        "raw_table_name",
-        "raw_table_schema",
         "file_location",
         "file_name",
         "file_size",
         "file_size_units",
-        "org_code"
+        "group_code",
+        "group_description",
+        "group_file_location",
+        "group_name",
+        "group_table_name",
+        "group_table_schema",
+        "org_code",
+        "project",
+        "raw_table_group_guid",
+        "raw_table_guid",
+        "raw_table_name",
+        "raw_table_schema"
     };
     
     //
@@ -59,22 +59,22 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "rawTableGroupGuid",
-        "project",
-        "groupCode",
-        "groupName",
-        "groupDescription",
-        "groupFileLocation",
-        "groupTableName",
-        "groupTableSchema",
-        "rawTableGuid",
-        "rawTableName",
-        "rawTableSchema",
         "fileLocation",
         "fileName",
         "fileSize",
         "fileSizeUnits",
-        "orgCode"
+        "groupCode",
+        "groupDescription",
+        "groupFileLocation",
+        "groupName",
+        "groupTableName",
+        "groupTableSchema",
+        "orgCode",
+        "project",
+        "rawTableGroupGuid",
+        "rawTableGuid",
+        "rawTableName",
+        "rawTableSchema"
     };
     
     //
@@ -82,22 +82,22 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "RawTableGroupGuid",
-        "Project",
-        "GroupCode",
-        "GroupName",
-        "GroupDescription",
-        "GroupFileLocation",
-        "GroupTableName",
-        "GroupTableSchema",
-        "RawTableGuid",
-        "RawTableName",
-        "RawTableSchema",
         "FileLocation",
         "FileName",
         "FileSize",
         "FileSizeUnits",
-        "OrgCode"
+        "GroupCode",
+        "GroupDescription",
+        "GroupFileLocation",
+        "GroupName",
+        "GroupTableName",
+        "GroupTableSchema",
+        "OrgCode",
+        "Project",
+        "RawTableGroupGuid",
+        "RawTableGuid",
+        "RawTableName",
+        "RawTableSchema"
     };
     
     
@@ -107,28 +107,6 @@ public class RawTableDetailDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String rawTableGroupGuid;
-    
-    private String project;
-    
-    private String groupCode;
-    
-    private String groupName;
-    
-    private String groupDescription;
-    
-    private String groupFileLocation;
-    
-    private String groupTableName;
-    
-    private String groupTableSchema;
-    
-    private String rawTableGuid;
-    
-    private String rawTableName;
-    
-    private String rawTableSchema;
-    
     private String fileLocation;
     
     private String fileName;
@@ -137,121 +115,33 @@ public class RawTableDetailDvo implements Dvo {
     
     private String fileSizeUnits;
     
+    private String groupCode;
+    
+    private String groupDescription;
+    
+    private String groupFileLocation;
+    
+    private String groupName;
+    
+    private String groupTableName;
+    
+    private String groupTableSchema;
+    
     private String orgCode;
+    
+    private String project;
+    
+    private String rawTableGroupGuid;
+    
+    private String rawTableGuid;
+    
+    private String rawTableName;
+    
+    private String rawTableSchema;
     
     //
     // trivial getters and setters
     //
-    
-    // rawTableGroupGuid
-    
-    public void setRawTableGroupGuid(String val) {
-        this.rawTableGroupGuid = val;
-    }
-    
-    public String getRawTableGroupGuid() {
-        return this.rawTableGroupGuid;
-    }
-    
-    // project
-    
-    public void setProject(String val) {
-        this.project = val;
-    }
-    
-    public String getProject() {
-        return this.project;
-    }
-    
-    // groupCode
-    
-    public void setGroupCode(String val) {
-        this.groupCode = val;
-    }
-    
-    public String getGroupCode() {
-        return this.groupCode;
-    }
-    
-    // groupName
-    
-    public void setGroupName(String val) {
-        this.groupName = val;
-    }
-    
-    public String getGroupName() {
-        return this.groupName;
-    }
-    
-    // groupDescription
-    
-    public void setGroupDescription(String val) {
-        this.groupDescription = val;
-    }
-    
-    public String getGroupDescription() {
-        return this.groupDescription;
-    }
-    
-    // groupFileLocation
-    
-    public void setGroupFileLocation(String val) {
-        this.groupFileLocation = val;
-    }
-    
-    public String getGroupFileLocation() {
-        return this.groupFileLocation;
-    }
-    
-    // groupTableName
-    
-    public void setGroupTableName(String val) {
-        this.groupTableName = val;
-    }
-    
-    public String getGroupTableName() {
-        return this.groupTableName;
-    }
-    
-    // groupTableSchema
-    
-    public void setGroupTableSchema(String val) {
-        this.groupTableSchema = val;
-    }
-    
-    public String getGroupTableSchema() {
-        return this.groupTableSchema;
-    }
-    
-    // rawTableGuid
-    
-    public void setRawTableGuid(String val) {
-        this.rawTableGuid = val;
-    }
-    
-    public String getRawTableGuid() {
-        return this.rawTableGuid;
-    }
-    
-    // rawTableName
-    
-    public void setRawTableName(String val) {
-        this.rawTableName = val;
-    }
-    
-    public String getRawTableName() {
-        return this.rawTableName;
-    }
-    
-    // rawTableSchema
-    
-    public void setRawTableSchema(String val) {
-        this.rawTableSchema = val;
-    }
-    
-    public String getRawTableSchema() {
-        return this.rawTableSchema;
-    }
     
     // fileLocation
     
@@ -293,6 +183,66 @@ public class RawTableDetailDvo implements Dvo {
         return this.fileSizeUnits;
     }
     
+    // groupCode
+    
+    public void setGroupCode(String val) {
+        this.groupCode = val;
+    }
+    
+    public String getGroupCode() {
+        return this.groupCode;
+    }
+    
+    // groupDescription
+    
+    public void setGroupDescription(String val) {
+        this.groupDescription = val;
+    }
+    
+    public String getGroupDescription() {
+        return this.groupDescription;
+    }
+    
+    // groupFileLocation
+    
+    public void setGroupFileLocation(String val) {
+        this.groupFileLocation = val;
+    }
+    
+    public String getGroupFileLocation() {
+        return this.groupFileLocation;
+    }
+    
+    // groupName
+    
+    public void setGroupName(String val) {
+        this.groupName = val;
+    }
+    
+    public String getGroupName() {
+        return this.groupName;
+    }
+    
+    // groupTableName
+    
+    public void setGroupTableName(String val) {
+        this.groupTableName = val;
+    }
+    
+    public String getGroupTableName() {
+        return this.groupTableName;
+    }
+    
+    // groupTableSchema
+    
+    public void setGroupTableSchema(String val) {
+        this.groupTableSchema = val;
+    }
+    
+    public String getGroupTableSchema() {
+        return this.groupTableSchema;
+    }
+    
     // orgCode
     
     public void setOrgCode(String val) {
@@ -301,6 +251,56 @@ public class RawTableDetailDvo implements Dvo {
     
     public String getOrgCode() {
         return this.orgCode;
+    }
+    
+    // project
+    
+    public void setProject(String val) {
+        this.project = val;
+    }
+    
+    public String getProject() {
+        return this.project;
+    }
+    
+    // rawTableGroupGuid
+    
+    public void setRawTableGroupGuid(String val) {
+        this.rawTableGroupGuid = val;
+    }
+    
+    public String getRawTableGroupGuid() {
+        return this.rawTableGroupGuid;
+    }
+    
+    // rawTableGuid
+    
+    public void setRawTableGuid(String val) {
+        this.rawTableGuid = val;
+    }
+    
+    public String getRawTableGuid() {
+        return this.rawTableGuid;
+    }
+    
+    // rawTableName
+    
+    public void setRawTableName(String val) {
+        this.rawTableName = val;
+    }
+    
+    public String getRawTableName() {
+        return this.rawTableName;
+    }
+    
+    // rawTableSchema
+    
+    public void setRawTableSchema(String val) {
+        this.rawTableSchema = val;
+    }
+    
+    public String getRawTableSchema() {
+        return this.rawTableSchema;
     }
     
     //

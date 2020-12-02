@@ -29,14 +29,14 @@ public class DocumentDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "guid",
         "block",
-        "file_name",
-        "file_description",
-        "document_def",
-        "databricks_file_name",
         "created_by",
         "created_date",
+        "databricks_file_name",
+        "document_def",
+        "file_description",
+        "file_name",
+        "guid",
         "updated_by",
         "updated_date"
     };
@@ -54,14 +54,14 @@ public class DocumentDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "guid",
         "block",
-        "fileName",
-        "fileDescription",
-        "documentDef",
-        "databricksFileName",
         "createdBy",
         "createdDate",
+        "databricksFileName",
+        "documentDef",
+        "fileDescription",
+        "fileName",
+        "guid",
         "updatedBy",
         "updatedDate"
     };
@@ -71,14 +71,14 @@ public class DocumentDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "Guid",
         "Block",
-        "FileName",
-        "FileDescription",
-        "DocumentDef",
-        "DatabricksFileName",
         "CreatedBy",
         "CreatedDate",
+        "DatabricksFileName",
+        "DocumentDef",
+        "FileDescription",
+        "FileName",
+        "Guid",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -90,21 +90,21 @@ public class DocumentDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String guid;
-    
     private String block;
-    
-    private String fileName;
-    
-    private String fileDescription;
-    
-    private String documentDef;
-    
-    private String databricksFileName;
     
     private String createdBy;
     
     private Date createdDate;
+    
+    private String databricksFileName;
+    
+    private String documentDef;
+    
+    private String fileDescription;
+    
+    private String fileName;
+    
+    private String guid;
     
     private String updatedBy;
     
@@ -122,16 +122,6 @@ public class DocumentDvo implements Dvo {
     // trivial getters and setters
     //
     
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
     // block
     
     public void setBlock(String val) {
@@ -140,46 +130,6 @@ public class DocumentDvo implements Dvo {
     
     public String getBlock() {
         return this.block;
-    }
-    
-    // fileName
-    
-    public void setFileName(String val) {
-        this.fileName = val;
-    }
-    
-    public String getFileName() {
-        return this.fileName;
-    }
-    
-    // fileDescription
-    
-    public void setFileDescription(String val) {
-        this.fileDescription = val;
-    }
-    
-    public String getFileDescription() {
-        return this.fileDescription;
-    }
-    
-    // documentDef
-    
-    public void setDocumentDef(String val) {
-        this.documentDef = val;
-    }
-    
-    public String getDocumentDef() {
-        return this.documentDef;
-    }
-    
-    // databricksFileName
-    
-    public void setDatabricksFileName(String val) {
-        this.databricksFileName = val;
-    }
-    
-    public String getDatabricksFileName() {
-        return this.databricksFileName;
     }
     
     // createdBy
@@ -200,6 +150,56 @@ public class DocumentDvo implements Dvo {
     
     public Date getCreatedDate() {
         return this.createdDate;
+    }
+    
+    // databricksFileName
+    
+    public void setDatabricksFileName(String val) {
+        this.databricksFileName = val;
+    }
+    
+    public String getDatabricksFileName() {
+        return this.databricksFileName;
+    }
+    
+    // documentDef
+    
+    public void setDocumentDef(String val) {
+        this.documentDef = val;
+    }
+    
+    public String getDocumentDef() {
+        return this.documentDef;
+    }
+    
+    // fileDescription
+    
+    public void setFileDescription(String val) {
+        this.fileDescription = val;
+    }
+    
+    public String getFileDescription() {
+        return this.fileDescription;
+    }
+    
+    // fileName
+    
+    public void setFileName(String val) {
+        this.fileName = val;
+    }
+    
+    public String getFileName() {
+        return this.fileName;
+    }
+    
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
     }
     
     // updatedBy

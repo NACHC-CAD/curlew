@@ -13,15 +13,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateRawDataTableAction {
 
-	public static void execute(RawDataFileUploadParams params, Connection conn) {
+	public static void execute(RawDataFileUploadParams params, Connection dbConn, boolean isOverwrite) {
 		String schemaName = params.getRawTableDvo().getSchemaName();
 		String tableName = params.getRawTableName();
-		DatabricksDbUtil.dropTable(schemaName, tableName, conn);
+		DatabricksDbUtil.dropTable(schemaName, tableName, dbConn);
 		// String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(dvo, fileDvo, cols);
 		String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(params.getRawTableDvo(), params.getRawTableFileDvo(), params.getRawTableColList(), params.getDelimiter());
 		log.info("Got sqlString: \n\n" + sqlString + "\n\n");
+		if(isOverwrite == true) {
+			log.info("Dropping existing table...");
+			DatabricksDbUtil.dropTable(params.getRawTableSchemaName(), params.getRawTableName(), dbConn);
+			log.info("Done with drop.");
+		}
 		log.info("Doing update...");
-		Database.update(sqlString, conn);
+		Database.update(sqlString, dbConn);
 		log.info("Table created");
 	}
 	
