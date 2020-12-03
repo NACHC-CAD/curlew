@@ -6,7 +6,7 @@ public class BuildParams {
 
 	public static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\build\\";
 
-	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/integration-test/womens-health/";
+	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static RawDataFileUploadParams getParams(String name, String abr) {
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
