@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfirmConfiguration {
 
 	public static void main(String[] args) {
+		log.info("Starting configuration test...");
 		String databricksFiles = ConfigurationUtil.getDatabricksFileStoreInstance();
 		String databricksDb = ConfigurationUtil.getDatabricksSqlInstance();
 		String mySql = ConfigurationUtil.getMySqlInstance();

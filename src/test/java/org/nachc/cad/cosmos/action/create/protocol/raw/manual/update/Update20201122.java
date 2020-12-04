@@ -21,7 +21,7 @@ public class Update20201122 {
 
 	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2020-11-22\\";
 
-	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/integration-test/womens-health/";
+	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
 		log.info("Adding update files...");

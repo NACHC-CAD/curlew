@@ -7,7 +7,13 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.Updat
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateEncGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201121;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201122;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201123Terminology;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201124Terminology;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201127Proc;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
+import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +38,14 @@ public class Build {
 		new UpdateDiagGroupTable().doUpdate();
 		new UpdateEncGroupTable().doUpdate();
 		new UpdateRxGroupTable().doUpdate();
+		log("Addtional updates");
+		Update20201121.main(null);
+		Update20201122.main(null);
+		Update20201123Terminology.main(null);
+		Update20201124Terminology.main(null);
+		Update20201127Proc.main(null);
+		log("Adding Value Sets");
+		Z_CreateValueSetSchema.main(null);
 		log.info("Done.");
 	}
 

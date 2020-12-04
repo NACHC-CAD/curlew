@@ -1,5 +1,6 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
+import com.nach.core.util.file.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,11 +32,25 @@ public class BurnEverythingToTheGround {
 		DatabricksFileUtilFactory.get().rmdir("/FileStore/tables");
 		List<String> schema = DatabricksDbUtil.listRawSchema(dbConn);
 		for (String str : schema) {
-			log.info("Dropping schema: " + str);
-			DatabricksDbUtil.dropDatabase(str, dbConn);
+			if(str.startsWith("this_is_") == false) {
+				log.info("Dropping schema: " + str);
+				DatabricksDbUtil.dropDatabase(str, dbConn);
+			}
 		}
+//		rmHiveDirs();
 	}
 
+	private static void rmHiveDirs() {
+		log.info("Removing hive dirs...");
+		List<String> dirs = DatabricksFileUtilFactory.get().listFileNames("/users/hive/warehouse");
+		for(String dir : dirs) {
+			if(dir.startsWith("this_is_") == false) {
+				DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/" + dir);
+			}
+		}
+		log.info("Done removing hive dirs.");
+	}
+	
 	private static void doMySql() {
 		log.info("Getting MySql connection");
 		Connection mySqlConn = MySqlConnectionFactory.getMysqlConnection("");

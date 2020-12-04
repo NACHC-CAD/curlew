@@ -20,7 +20,7 @@ public class MySqlConnectionFactory {
 			String uid = MySqlParams.getUid();
 			String pwd = MySqlParams.getPwd();
 			url = url + "/" + schema;
-			url = url + "?rewriteBatchedStatements=true";
+			url = url + "?rewriteBatchedStatements=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 			log.info("URL: " + url);
 			Connection conn = DriverManager.getConnection(url, uid, pwd);
 			conn.setAutoCommit(false);
