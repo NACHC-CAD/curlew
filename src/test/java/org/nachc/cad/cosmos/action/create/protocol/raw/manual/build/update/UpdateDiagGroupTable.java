@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 import org.junit.Test;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParamsWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
@@ -23,7 +23,7 @@ public class UpdateDiagGroupTable {
 	
 	private static final String DB_DIR = "/user/hive/warehouse/womens_health.db/dx";
 
-	private static final RawDataFileUploadParams PARAMS = BuildParams.getParams("Diagnosis", "dx");
+	private static final RawDataFileUploadParams PARAMS = BuildParamsWomensHealth.getParams("Diagnosis", "dx");
 
 	@Test
 	public void doUpdate() {
@@ -41,13 +41,14 @@ public class UpdateDiagGroupTable {
 		DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(DB_DIR);
 		log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
 		log.info("UPDATING GROUP TABLE");
-		CreateGrpDataTableAction.execute(PARAMS, dbConn, mySqlConn, true);
+		CreateGrpDataTableAction.execute(PARAMS.getRawTableGroupCode(), dbConn, mySqlConn, true);
 		log.info("Done.");
 	}
 
 	private void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
 		CreateColumnAlias.execute("womens_health_dx", "prj_raw_womens_health_dx", "womens_health_ac_dx_nachc__ucsf__patient__diagnosis_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_dx", "prj_raw_womens_health_dx", "womens_health_ac_dx_nachc__ucsf__patient__diagnosis_csv", "dummy_id", "patient_id", conn);
 	}
 
 }

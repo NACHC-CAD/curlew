@@ -10,36 +10,24 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class GenerateThumbnailFilesManualTest {
+public class ShowThumbsManualTests {
 
 	@Test
 	public void generateThumbnails() {
 		log.info("Starting test...");
 		String dirName = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Womens Health";
 		File root = new File(dirName);
-		List<File> dirs = FileUtil.listFiles(root);
-		for (File file : dirs) {
-			if ("_txt".contentEquals(file.getName())) {
-				continue;
-			}
-			log.info("Processing dir: " + file.getName() + getSectionBreak(file.getName()));
-			generateThumbnailsForDir(file);
-		}
+		File dir = new File(root, "demo");
+		log.info(getSectionBreak("DEMO FILES"));
+		showThumbnails(dir);
 		log.info("Done.");
 	}
 
-	private void generateThumbnailsForDir(File dir) {
+	private void showThumbnails(File dir) {
 		List<File> files = FileUtil.listFiles(dir, "*.csv");
-		File thumbDir = FileUtil.clearContents(dir, "thumb");
 		for (File file : files) {
 			String thumb = FileUtil.head(file, 10);
 			log.info("FILE: " + file.getName() + "\n\n" + thumb + "\n");
-			String newFileName = FileUtil.getPrefix(file);
-			newFileName += "-thumbnail-10.csv";
-			File newFile = new File(thumbDir, newFileName);
-			log.info("Writing file: " + FileUtil.getCanonicalPath(newFile));
-			FileUtil.write(thumb, newFile);
-			log.info("Done writing file.");
 		}
 	}
 

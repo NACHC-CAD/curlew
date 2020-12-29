@@ -29,13 +29,13 @@ public class BlockDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
+        "guid",
+        "title",
+        "description",
         "block_def",
+        "status",
         "created_by",
         "created_date",
-        "description",
-        "guid",
-        "status",
-        "title",
         "updated_by",
         "updated_date"
     };
@@ -53,13 +53,13 @@ public class BlockDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
+        "guid",
+        "title",
+        "description",
         "blockDef",
+        "status",
         "createdBy",
         "createdDate",
-        "description",
-        "guid",
-        "status",
-        "title",
         "updatedBy",
         "updatedDate"
     };
@@ -69,13 +69,13 @@ public class BlockDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
+        "Guid",
+        "Title",
+        "Description",
         "BlockDef",
+        "Status",
         "CreatedBy",
         "CreatedDate",
-        "Description",
-        "Guid",
-        "Status",
-        "Title",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -87,19 +87,19 @@ public class BlockDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
+    private String guid;
+    
+    private String title;
+    
+    private String description;
+    
     private String blockDef;
+    
+    private String status;
     
     private String createdBy;
     
     private Date createdDate;
-    
-    private String description;
-    
-    private String guid;
-    
-    private String status;
-    
-    private String title;
     
     private String updatedBy;
     
@@ -119,6 +119,36 @@ public class BlockDvo implements Dvo {
     // trivial getters and setters
     //
     
+    // guid
+    
+    public void setGuid(String val) {
+        this.guid = val;
+    }
+    
+    public String getGuid() {
+        return this.guid;
+    }
+    
+    // title
+    
+    public void setTitle(String val) {
+        this.title = val;
+    }
+    
+    public String getTitle() {
+        return this.title;
+    }
+    
+    // description
+    
+    public void setDescription(String val) {
+        this.description = val;
+    }
+    
+    public String getDescription() {
+        return this.description;
+    }
+    
     // blockDef
     
     public void setBlockDef(String val) {
@@ -127,6 +157,16 @@ public class BlockDvo implements Dvo {
     
     public String getBlockDef() {
         return this.blockDef;
+    }
+    
+    // status
+    
+    public void setStatus(String val) {
+        this.status = val;
+    }
+    
+    public String getStatus() {
+        return this.status;
     }
     
     // createdBy
@@ -147,46 +187,6 @@ public class BlockDvo implements Dvo {
     
     public Date getCreatedDate() {
         return this.createdDate;
-    }
-    
-    // description
-    
-    public void setDescription(String val) {
-        this.description = val;
-    }
-    
-    public String getDescription() {
-        return this.description;
-    }
-    
-    // guid
-    
-    public void setGuid(String val) {
-        this.guid = val;
-    }
-    
-    public String getGuid() {
-        return this.guid;
-    }
-    
-    // status
-    
-    public void setStatus(String val) {
-        this.status = val;
-    }
-    
-    public String getStatus() {
-        return this.status;
-    }
-    
-    // title
-    
-    public void setTitle(String val) {
-        this.title = val;
-    }
-    
-    public String getTitle() {
-        return this.title;
     }
     
     // updatedBy

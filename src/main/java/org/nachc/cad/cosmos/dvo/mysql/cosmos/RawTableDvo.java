@@ -29,13 +29,13 @@ public class RawTableDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "created_by",
-        "created_date",
         "guid",
         "project",
-        "raw_table_group",
-        "raw_table_name",
         "raw_table_schema",
+        "raw_table_name",
+        "raw_table_group",
+        "created_by",
+        "created_date",
         "updated_by",
         "updated_date"
     };
@@ -53,13 +53,13 @@ public class RawTableDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "createdBy",
-        "createdDate",
         "guid",
         "project",
-        "rawTableGroup",
-        "rawTableName",
         "rawTableSchema",
+        "rawTableName",
+        "rawTableGroup",
+        "createdBy",
+        "createdDate",
         "updatedBy",
         "updatedDate"
     };
@@ -69,13 +69,13 @@ public class RawTableDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "CreatedBy",
-        "CreatedDate",
         "Guid",
         "Project",
-        "RawTableGroup",
-        "RawTableName",
         "RawTableSchema",
+        "RawTableName",
+        "RawTableGroup",
+        "CreatedBy",
+        "CreatedDate",
         "UpdatedBy",
         "UpdatedDate"
     };
@@ -87,19 +87,19 @@ public class RawTableDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String createdBy;
-    
-    private Date createdDate;
-    
     private String guid;
     
     private String project;
     
-    private String rawTableGroup;
+    private String rawTableSchema;
     
     private String rawTableName;
     
-    private String rawTableSchema;
+    private String rawTableGroup;
+    
+    private String createdBy;
+    
+    private Date createdDate;
     
     private String updatedBy;
     
@@ -115,29 +115,11 @@ public class RawTableDvo implements Dvo {
     
     private ArrayList<RawTableColDvo> rawTableColRawTableList = new ArrayList<RawTableColDvo>();
     
+    private ArrayList<RawTableFileDvo> rawTableFileRawTableList = new ArrayList<RawTableFileDvo>();
+    
     //
     // trivial getters and setters
     //
-    
-    // createdBy
-    
-    public void setCreatedBy(String val) {
-        this.createdBy = val;
-    }
-    
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-    
-    // createdDate
-    
-    public void setCreatedDate(Date val) {
-        this.createdDate = val;
-    }
-    
-    public Date getCreatedDate() {
-        return this.createdDate;
-    }
     
     // guid
     
@@ -159,14 +141,14 @@ public class RawTableDvo implements Dvo {
         return this.project;
     }
     
-    // rawTableGroup
+    // rawTableSchema
     
-    public void setRawTableGroup(String val) {
-        this.rawTableGroup = val;
+    public void setRawTableSchema(String val) {
+        this.rawTableSchema = val;
     }
     
-    public String getRawTableGroup() {
-        return this.rawTableGroup;
+    public String getRawTableSchema() {
+        return this.rawTableSchema;
     }
     
     // rawTableName
@@ -179,14 +161,34 @@ public class RawTableDvo implements Dvo {
         return this.rawTableName;
     }
     
-    // rawTableSchema
+    // rawTableGroup
     
-    public void setRawTableSchema(String val) {
-        this.rawTableSchema = val;
+    public void setRawTableGroup(String val) {
+        this.rawTableGroup = val;
     }
     
-    public String getRawTableSchema() {
-        return this.rawTableSchema;
+    public String getRawTableGroup() {
+        return this.rawTableGroup;
+    }
+    
+    // createdBy
+    
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
+    }
+    
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+    
+    // createdDate
+    
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
+    }
+    
+    public Date getCreatedDate() {
+        return this.createdDate;
     }
     
     // updatedBy
@@ -255,6 +257,14 @@ public class RawTableDvo implements Dvo {
     
     public void setRawTableColRawTableList(ArrayList<RawTableColDvo> list) {
         this.rawTableColRawTableList = list;
+    }
+    
+    public ArrayList<RawTableFileDvo> getRawTableFileRawTableList() {
+        return rawTableFileRawTableList;
+    }
+    
+    public void setRawTableFileRawTableList(ArrayList<RawTableFileDvo> list) {
+        this.rawTableFileRawTableList = list;
     }
     
     //

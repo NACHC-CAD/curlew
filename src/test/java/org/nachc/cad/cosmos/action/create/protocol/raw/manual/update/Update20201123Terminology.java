@@ -25,7 +25,7 @@ public class Update20201123Terminology {
 
 	public static void main(String[] args) {
 		log.info("Adding update files...");
-		updateFiles("MedValueSetCat", "med_value_set_cat");
+		updateFiles("MedDescriptionCat", "med_description_cat");
 		log("Doing updates");
 		log.info("Done.");
 	}
@@ -36,7 +36,7 @@ public class Update20201123Terminology {
 		UploadRawDataFiles.updateExistingEntity(params, true);
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn, true);
 	}
 
 	private static void log(String msg) {

@@ -24,7 +24,7 @@ import com.nach.core.util.string.LoremIpsum;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class CreateMillionHeartsProjectManualTest {
+public class CreateMillionHeartsProjectManualTests {
 
 	@Test
 	public void shouldCreateProject() {

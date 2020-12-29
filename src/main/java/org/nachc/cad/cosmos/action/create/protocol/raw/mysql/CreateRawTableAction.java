@@ -6,7 +6,9 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadP
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
 import org.yaorma.dao.Dao;
+import org.yaorma.database.Data;
 import org.yaorma.database.Database;
+import org.yaorma.database.Row;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +23,7 @@ public class CreateRawTableAction {
 		dvo.setRawTableName(params.getRawTableName());
 		dvo.setRawTableGroup(params.getRawTableGroupDvo().getGuid());
 		dvo.setProject(params.getProjCode());
+		checkOrgCode(conn);
 		if(overwrite == true) {
 			remove(dvo, conn);
 		}
@@ -43,6 +46,14 @@ public class CreateRawTableAction {
 		String sqlString = "delete from raw_table_col where raw_table = ?";
 		String rawTable = dvo.getGuid();
 		Database.update(sqlString, rawTable, conn);
+	}
+	
+	private static void checkOrgCode(Connection conn) {
+		Data data = Database.query("select * from org_code order by code", conn);
+		log.info("Got " + data.size() + " orgs");
+		for(Row row : data) {
+			log.info("\t" + row.get("code"));
+		}
 	}
 	
 }

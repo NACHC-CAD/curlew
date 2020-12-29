@@ -1,7 +1,7 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.BurnEverythingToTheGround;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProject;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProjectWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDemoGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
@@ -12,6 +12,10 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201123Terminology;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201124Terminology;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201127Proc;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201207MedValueSetCat;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201211Ac;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221He;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221RemoveHe;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 
@@ -24,7 +28,7 @@ public class Build {
 		log("Burning everything to the ground.");
 		BurnEverythingToTheGround.main(null);
 		log("Adding Project");
-		CreateProject.createProject();
+		CreateProjectWomensHealth.createProject();
 		addFiles("Demographics", "demo");
 		addFiles("Diagnosis", "dx");
 		addFiles("Encounter", "enc");
@@ -44,6 +48,10 @@ public class Build {
 		Update20201123Terminology.main(null);
 		Update20201124Terminology.main(null);
 		Update20201127Proc.main(null);
+		Update20201207MedValueSetCat.main(null);
+		Update20201211Ac.main(null);
+		Update20201221He.main(null);
+		Update20201221RemoveHe.main(null);
 		log("Adding Value Sets");
 		Z_CreateValueSetSchema.main(null);
 		log.info("Done.");
@@ -51,7 +59,7 @@ public class Build {
 
 	private static void addFiles(String name, String abr) {
 		log(name);
-		RawDataFileUploadParams params = BuildParams.getParams(name, abr);
+		RawDataFileUploadParams params = BuildParamsWomensHealth.getParams(name, abr);
 		UploadRawDataFiles.createNewEntity(params, false);
 	}
 

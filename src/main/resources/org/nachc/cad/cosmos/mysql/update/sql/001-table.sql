@@ -36,7 +36,6 @@ create table cosmos.raw_table_group (
 	primary key(guid),
 	unique(code),
 	unique(name),
-	unique(description),
 	unique(raw_table_schema),
 	unique(group_table_schema),
     unique(file_location),

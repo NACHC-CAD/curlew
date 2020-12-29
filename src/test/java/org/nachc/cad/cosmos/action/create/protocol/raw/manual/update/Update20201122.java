@@ -36,7 +36,7 @@ public class Update20201122 {
 		UploadRawDataFiles.updateExistingEntity(params, true);
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn, true);
 	}
 
 	private static void log(String msg) {

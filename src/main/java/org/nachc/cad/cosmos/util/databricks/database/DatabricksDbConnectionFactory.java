@@ -15,5 +15,5 @@ public class DatabricksDbConnectionFactory {
 		Connection conn = DatabricksDbUtil.getConnection(url, token);
 		return conn;
 	}
-	
+
 }

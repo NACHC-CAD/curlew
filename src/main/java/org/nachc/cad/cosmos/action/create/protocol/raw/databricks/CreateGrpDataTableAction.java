@@ -19,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateGrpDataTableAction {
 
-	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn) {
-		execute(params, dbConn, mySqlConn, false);
+	public static void execute(String rawTableGroupCode, Connection dbConn, Connection mySqlConn) {
+		execute(rawTableGroupCode, dbConn, mySqlConn, false);
 	}
 
-	public static void execute(RawDataFileUploadParams params, Connection dbConn, Connection mySqlConn, boolean refresh) {
+	public static void execute(String rawTableGroupCode, Connection dbConn, Connection mySqlConn, boolean refresh) {
 		// get the group
-		log.info("Getting group for " + params.getRawTableGroupCode());
-		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", params.getRawTableGroupCode(), mySqlConn);
+		log.info("Getting group for " + rawTableGroupCode);
+		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", rawTableGroupCode, mySqlConn);
 		log.info("Got group with guid: " + tableGroup.getGuid());
 		// get the distinct columns
 		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), mySqlConn);
@@ -39,14 +39,15 @@ public class CreateGrpDataTableAction {
 			if (sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
 			}
-			String tableSql = getQueryStringForTable(params, table.getGuid(), groupCols, mySqlConn);
+			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, mySqlConn);
 			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
 			sqlString += tableSql;
 		}
 		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
 		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
-		// create the table in databricks
+		// DROP THE TABLE IF IT EXISTS
 		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		// create the table in databricks
 		log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		Database.update(sqlString, dbConn);
 		if (refresh == true) {
@@ -82,7 +83,7 @@ public class CreateGrpDataTableAction {
 	// method to get the query string for a member table
 	//
 
-	private static String getQueryStringForTable(RawDataFileUploadParams params, String rawTableGuid, List<String> groupCols, Connection conn) {
+	private static String getQueryStringForTable(String rawTableGuid, List<String> groupCols, Connection conn) {
 		log.info("Creating query for table with guid: " + rawTableGuid);
 		RawTableDvo tableDvo = Dao.find(new RawTableDvo(), "guid", rawTableGuid, conn);
 		RawTableFileDvo fileDvo = Dao.find(new RawTableFileDvo(), "raw_table", rawTableGuid, conn);
@@ -94,19 +95,19 @@ public class CreateGrpDataTableAction {
 			RawTableColDvo dvo;
 			dvo = getAsAlias(colName, tableCols);
 			if (dvo != null) {
-				sqlString += "  " + dvo.getColName() + " as " + dvo.getColAlias() + ", \n";
+				sqlString += "  trim(" + dvo.getColName() + ") as " + dvo.getColAlias() + ", \n";
 				continue;
 			}
 			dvo = getAsName(colName, tableCols);
 			if (dvo != null) {
-				sqlString += "  " + dvo.getColName() + ", \n";
+				sqlString += "  trim(" + dvo.getColName() + ") as " + dvo.getColName() + ", \n";
 				continue;
 			}
 			sqlString += "  null as " + colName + ", \n";
 		}
-		sqlString += "'" + fileDvo.getOrgCode() + "' as org, \n";
-		sqlString += "'" + fileDvo.getDataLot() + "' as data_lot, \n";
-		sqlString += "'" + tableDvo.getRawTableName() + "' as raw_table \n";
+		sqlString += "  trim('" + fileDvo.getOrgCode() + "') as org, \n";
+		sqlString += "  trim('" + fileDvo.getDataLot() + "') as data_lot, \n";
+		sqlString += "  trim('" + tableDvo.getRawTableName() + "') as raw_table \n";
 		sqlString += "from \n";
 		sqlString += "  " + tableDvo.getRawTableSchema() + "." + tableDvo.getRawTableName();
 		return sqlString;

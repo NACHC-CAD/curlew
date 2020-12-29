@@ -75,8 +75,7 @@ public class UploadFileToDataBricksAction {
 		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
 		String databricksDirPath = docDefDvo.getDatabricksDir();
 		log.info("Writing to DATABRICKS: " + databricksDirPath + "/" + FileUtil.getCanonicalPath(file));
-		// TODO:THIS SHOULD BE A PUT, SHOULDN'T BE OVERWRITING EXISTING FILES
-		util.replace(databricksDirPath, file);
+		util.put(databricksDirPath, file);
 	}
 	
 }

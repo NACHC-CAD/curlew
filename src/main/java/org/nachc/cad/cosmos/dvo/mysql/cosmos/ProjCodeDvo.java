@@ -72,13 +72,13 @@ public class ProjCodeDvo implements Dvo {
     
     private ArrayList<ProjUrlDvo> projUrlProjectList = new ArrayList<ProjUrlDvo>();
     
-    private ArrayList<RawTableGroupDvo> rawTableGroupProjectList = new ArrayList<RawTableGroupDvo>();
-    
     private ArrayList<RawTableDvo> rawTableProjectList = new ArrayList<RawTableDvo>();
+    
+    private ArrayList<RawTableColDvo> rawTableColProjectList = new ArrayList<RawTableColDvo>();
     
     private ArrayList<RawTableFileDvo> rawTableFileProjectList = new ArrayList<RawTableFileDvo>();
     
-    private ArrayList<RawTableColDvo> rawTableColProjectList = new ArrayList<RawTableColDvo>();
+    private ArrayList<RawTableGroupDvo> rawTableGroupProjectList = new ArrayList<RawTableGroupDvo>();
     
     //
     // trivial getters and setters
@@ -112,20 +112,20 @@ public class ProjCodeDvo implements Dvo {
         this.projUrlProjectList = list;
     }
     
-    public ArrayList<RawTableGroupDvo> getRawTableGroupProjectList() {
-        return rawTableGroupProjectList;
-    }
-    
-    public void setRawTableGroupProjectList(ArrayList<RawTableGroupDvo> list) {
-        this.rawTableGroupProjectList = list;
-    }
-    
     public ArrayList<RawTableDvo> getRawTableProjectList() {
         return rawTableProjectList;
     }
     
     public void setRawTableProjectList(ArrayList<RawTableDvo> list) {
         this.rawTableProjectList = list;
+    }
+    
+    public ArrayList<RawTableColDvo> getRawTableColProjectList() {
+        return rawTableColProjectList;
+    }
+    
+    public void setRawTableColProjectList(ArrayList<RawTableColDvo> list) {
+        this.rawTableColProjectList = list;
     }
     
     public ArrayList<RawTableFileDvo> getRawTableFileProjectList() {
@@ -136,12 +136,12 @@ public class ProjCodeDvo implements Dvo {
         this.rawTableFileProjectList = list;
     }
     
-    public ArrayList<RawTableColDvo> getRawTableColProjectList() {
-        return rawTableColProjectList;
+    public ArrayList<RawTableGroupDvo> getRawTableGroupProjectList() {
+        return rawTableGroupProjectList;
     }
     
-    public void setRawTableColProjectList(ArrayList<RawTableColDvo> list) {
-        this.rawTableColProjectList = list;
+    public void setRawTableGroupProjectList(ArrayList<RawTableGroupDvo> list) {
+        this.rawTableGroupProjectList = list;
     }
     
     //

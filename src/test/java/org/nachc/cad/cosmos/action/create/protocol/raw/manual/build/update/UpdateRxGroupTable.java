@@ -4,7 +4,7 @@ import java.sql.Connection;
 
 import org.junit.Test;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParams;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParamsWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
@@ -22,7 +22,7 @@ public class UpdateRxGroupTable {
 		log.info("Doing delete");
 		DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/rx");
 		log.info("Updating group table...");
-		RawDataFileUploadParams params = BuildParams.getParams("Rx", "rx");
+		RawDataFileUploadParams params = BuildParamsWomensHealth.getParams("Rx", "rx");
 		log.info("Getting mySql connection");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		log.info("Getting databricks connection");
@@ -31,7 +31,7 @@ public class UpdateRxGroupTable {
 		updateColumnAliaises(mySqlConn);
 		Database.commit(mySqlConn);
 		log.info("UPDATING GROUP TABLE");
-		CreateGrpDataTableAction.execute(params, dbConn, mySqlConn, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn, true);
 		log.info("Done.");
 	}
 
@@ -41,6 +41,11 @@ public class UpdateRxGroupTable {
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_start_date", "start_date", conn);
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_stop_date", "end_date", conn);
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_txt", "med_refills", "refills", conn);
+		// ac
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_csv", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_csv", "med_start_date", "start_date", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_csv", "med_stop_date", "end_date", conn);
+		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ac_rx_nachc__ucsf__patient__medications_csv", "med_refills", "refills", conn);
 		// ochin
 		CreateColumnAlias.execute("womens_health_rx", "prj_raw_womens_health_rx", "womens_health_ochin_rx_medications_csv", "generic_name", "med_description", conn);
 		// denver v1

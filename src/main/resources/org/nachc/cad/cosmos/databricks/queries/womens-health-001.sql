@@ -63,7 +63,7 @@ create table diag as select * from prj_grp_womens_health_dx.Diagnosis where pati
 
 set spark.sql.legacy.timeParserPolicy = LEGACY;
 
-create table enc_dup_dates as (
+create table enc_dup_dates using delta as (
 select distinct
   patient_id,
   encounter_id,
@@ -113,7 +113,7 @@ group by 1,2,3,4,5,6,7,8
 -- This table gets rid of the dup dates in the enc_dup_dates table.
 -- 
 
-create table enc as (
+create table enc using delta as (
   select * from enc_dup_dates
   where (patient_id, encounter_id) not in (
     select patient_id, encounter_id from (

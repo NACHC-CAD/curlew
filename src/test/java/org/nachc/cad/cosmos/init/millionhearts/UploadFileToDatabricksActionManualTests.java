@@ -16,7 +16,7 @@ import org.yaorma.database.Database;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UploadFileToDatabricksActionManualTest {
+public class UploadFileToDatabricksActionManualTests {
 
 	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\current\\Million Hearts\\statins";
 	

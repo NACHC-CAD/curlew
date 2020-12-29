@@ -1,4 +1,4 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw.group;
+package org.nachc.cad.cosmos.action.delete;
 
 import java.sql.Connection;
 
@@ -7,7 +7,6 @@ import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
-import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +23,16 @@ public class DeleteRawDataGroupAction {
 	 * women's health demographics)
 	 * 
 	 */
-	public static void delete(String rawTableGroupCode, Connection dbConn, Connection mySqlConn) {
+	public static void delete(String rawTableGroupCode, Connection mySqlConn, Connection dbConn) {
 		log.info("* * * DOING DROP * * *");
 		log.info("Doing drop for: " + rawTableGroupCode);
 		RawTableGroupDvo dvo = getRawTableGroup(rawTableGroupCode, mySqlConn);
-		if(dvo != null) {
+		if (dvo != null) {
 			// databricks stuff
 			log.info("Doing databricks drop for " + dvo.getGroupTableSchema());
-			//DatabricksDbUtil.dropDatabase(dvo.getGroupTableSchema(), dbConn);
+			// DatabricksDbUtil.dropDatabase(dvo.getGroupTableSchema(), dbConn);
 			log.info("Doing databricks drop for " + dvo.getRawTableSchema());
-			//DatabricksDbUtil.dropDatabase(dvo.getRawTableSchema(), dbConn);
+			// DatabricksDbUtil.dropDatabase(dvo.getRawTableSchema(), dbConn);
 			log.info("Deleting files from: " + dvo.getFileLocation());
 			DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
 			fileUtil.rmdir(dvo.getFileLocation());
