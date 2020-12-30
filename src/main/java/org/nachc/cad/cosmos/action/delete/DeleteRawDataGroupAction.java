@@ -3,6 +3,7 @@ package org.nachc.cad.cosmos.action.delete;
 import java.sql.Connection;
 
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
@@ -23,10 +24,10 @@ public class DeleteRawDataGroupAction {
 	 * women's health demographics)
 	 * 
 	 */
-	public static void delete(String rawTableGroupCode, Connection mySqlConn, Connection dbConn) {
+	public static void delete(String rawTableGroupCode, CosmosConnections conns) {
 		log.info("* * * DOING DROP * * *");
 		log.info("Doing drop for: " + rawTableGroupCode);
-		RawTableGroupDvo dvo = getRawTableGroup(rawTableGroupCode, mySqlConn);
+		RawTableGroupDvo dvo = getRawTableGroup(rawTableGroupCode, conns.getMySqlConnection());
 		if (dvo != null) {
 			// databricks stuff
 			log.info("Doing databricks drop for " + dvo.getGroupTableSchema());
@@ -37,11 +38,11 @@ public class DeleteRawDataGroupAction {
 			DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
 			fileUtil.rmdir(dvo.getFileLocation());
 			// mysql stuff
-			Database.update("delete from raw_table_col where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
-			Database.update("delete from raw_table_file where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), mySqlConn);
-			Database.update("delete from raw_table where raw_table_group = ?", dvo.getGuid(), mySqlConn);
-			Database.update("delete from raw_table_group where guid = ?", dvo.getGuid(), mySqlConn);
-			Database.commit(mySqlConn);
+			Database.update("delete from raw_table_col where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), conns.getMySqlConnection());
+			Database.update("delete from raw_table_file where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), conns.getMySqlConnection());
+			Database.update("delete from raw_table where raw_table_group = ?", dvo.getGuid(), conns.getMySqlConnection());
+			Database.update("delete from raw_table_group where guid = ?", dvo.getGuid(), conns.getMySqlConnection());
+			Database.commit(conns.getMySqlConnection());
 			log.info("Done with delete");
 		}
 	}

@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Data;
 import org.yaorma.database.Database;
@@ -19,40 +19,43 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateGrpDataTableAction {
 
-	public static void execute(String rawTableGroupCode, Connection dbConn, Connection mySqlConn) {
-		execute(rawTableGroupCode, dbConn, mySqlConn, false);
+	public static void execute(String rawTableGroupCode, CosmosConnections conns) {
+		execute(rawTableGroupCode, conns, false);
 	}
 
-	public static void execute(String rawTableGroupCode, Connection dbConn, Connection mySqlConn, boolean refresh) {
+	public static void execute(String rawTableGroupCode, CosmosConnections conns, boolean refresh) {
 		// get the group
 		log.info("Getting group for " + rawTableGroupCode);
-		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", rawTableGroupCode, mySqlConn);
+		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", rawTableGroupCode, conns.getMySqlConnection());
 		log.info("Got group with guid: " + tableGroup.getGuid());
 		// get the distinct columns
-		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), mySqlConn);
+		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), conns.getMySqlConnection());
 		// get the tables in the group
 		log.info("Getting tables in group");
-		List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), mySqlConn);
+		List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), conns.getMySqlConnection());
 		log.info("Got " + tables.size() + " tables");
 		String sqlString = "create table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName() + " as \n";
 		for (RawTableDvo table : tables) {
 			if (sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
 			}
-			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, mySqlConn);
+			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, conns.getMySqlConnection());
 			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
 			sqlString += tableSql;
 		}
 		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
 		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		// DROP THE TABLE IF IT EXISTS
-		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
 		// create the table in databricks
-		log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
-		Database.update(sqlString, dbConn);
-		if (refresh == true) {
-			log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
-			Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), dbConn);
+		// create the table if there are any files remaining
+		if(tables.size() > 0) {
+			log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
+			Database.update(sqlString, conns.getDbConnection());
+			if (refresh == true) {
+				log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
+				Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
+			}
 		}
 		log.info("Done.");
 	}

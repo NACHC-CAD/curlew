@@ -10,14 +10,9 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.Updat
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateProcedureGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
-import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
-
-import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,28 +24,31 @@ public class Update20201121 {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		log.info("Adding update files...");
-		updateFiles("Demographics", "demo", mySqlConn, dbConn);
-		updateFiles("Encounter", "enc", mySqlConn, dbConn);
-		updateFiles("Other", "other", mySqlConn, dbConn);
-		updateFiles("Procedure", "proc", mySqlConn, dbConn);
-		updateFiles("Rx", "rx", mySqlConn, dbConn);
-		log("Doing updates");
-		new UpdateDemoGroupTable().doUpdate();
-		new UpdateEncGroupTable().doUpdate();
-		new UpdateOtherGroupTable().doUpdate();
-		new UpdateProcedureGroupTable().doUpdate();
-		new UpdateRxGroupTable().doUpdate();
-		log.info("Done.");
+		CosmosConnections conns = new CosmosConnections();
+		try {
+			log.info("Adding update files...");
+			updateFiles("Demographics", "demo", conns);
+			updateFiles("Encounter", "enc", conns);
+			updateFiles("Other", "other", conns);
+			updateFiles("Procedure", "proc", conns);
+			updateFiles("Rx", "rx", conns);
+			log("Doing updates");
+			new UpdateDemoGroupTable().doUpdate();
+			new UpdateEncGroupTable().doUpdate();
+			new UpdateOtherGroupTable().doUpdate();
+			new UpdateProcedureGroupTable().doUpdate();
+			new UpdateRxGroupTable().doUpdate();
+			log.info("Done.");
+		} finally {
+			conns.close();
+		}
 	}
 
-	private static void updateFiles(String name, String abr, Connection mySqlConn, Connection dbConn) {
+	private static void updateFiles(String name, String abr, CosmosConnections conns) {
 		log(name);
-		RawDataFileUploadParams params = getParams(name, abr, mySqlConn);
-		UploadRawDataFiles.updateExistingEntity(params, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn, true);
+		RawDataFileUploadParams params = getParams(name, abr, conns.getMySqlConnection());
+		UploadRawDataFiles.updateExistingEntity(params, conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
 	}
 
 	private static void log(String msg) {

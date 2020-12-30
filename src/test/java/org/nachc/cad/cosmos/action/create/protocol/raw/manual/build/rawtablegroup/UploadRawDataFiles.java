@@ -10,6 +10,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawDataDatabr
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.action.delete.DeleteRawDataGroupAction;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
@@ -22,34 +23,32 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadRawDataFiles {
 
-	public static void createNewEntity(RawDataFileUploadParams params, boolean isOverwrite) {
-		exec(params, true, isOverwrite);
+	public static void createNewEntity(RawDataFileUploadParams params, CosmosConnections conns, boolean isOverwrite) {
+		exec(params, conns, true, isOverwrite);
 	}
 
-	public static void updateExistingEntity(RawDataFileUploadParams params, boolean isOverwrite) {
-		exec(params, false, isOverwrite);
+	public static void updateExistingEntity(RawDataFileUploadParams params, CosmosConnections conns, boolean isOverwrite) {
+		exec(params, conns, false, isOverwrite);
 	}
 
-	private static void exec(RawDataFileUploadParams params, boolean isNewProject, boolean isOverwrite) {
+	private static void exec(RawDataFileUploadParams params, CosmosConnections conns, boolean isNewProject, boolean isOverwrite) {
 		log.info("Starting test...");
 		log.info("Getting localhost dir");
 		String rootDir = params.getLocalHostFileAbsLocation();
 		log.info("Getting connections");
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
 		// create the project if this is a new project
 		if (isNewProject == true) {
-			createProject(params, mySqlConn, dbConn);
+			createProject(params, conns);
 		}
 		// upload the files
 		List<File> files = getFiles(rootDir);
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
 			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, dbConn, mySqlConn, isOverwrite);
+			AddRawDataFileAction.execute(params, conns.getDbConnection(), conns.getMySqlConnection(), isOverwrite);
 		}
 		log.info("Creating group table");
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns);
 		log.info("Done.");
 
 	}
@@ -60,26 +59,26 @@ public class UploadRawDataFiles {
 		return rtn;
 	}
 
-	private static void createProject(RawDataFileUploadParams params, Connection mySqlConn, Connection dbConn) {
-		createDatabricksSchemaForProject(mySqlConn, dbConn, params);
-		createMySqlSchemaForProject(mySqlConn, dbConn, params);
+	private static void createProject(RawDataFileUploadParams params, CosmosConnections conns) {
+		createDatabricksSchemaForProject(conns, params);
+		createMySqlSchemaForProject(conns, params);
 	}
 
-	private static void createDatabricksSchemaForProject(Connection mySqlConn, Connection dbConn, RawDataFileUploadParams params) {
+	private static void createDatabricksSchemaForProject(CosmosConnections conns, RawDataFileUploadParams params) {
 		// clear the files off of data bricks
 		DatabricksFileUtilFactory.get().rmdir(params.getDatabricksFileLocation());
 		// drop the raw and grp databases in data bricks
-		DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), dbConn);
-		DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), dbConn);
+		DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), conns.getDbConnection());
+		DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), conns.getDbConnection());
 		// create the raw and grp databases in data bricks
-		CreateRawDataDatabricksSchemaAction.execute(params, dbConn);
+		CreateRawDataDatabricksSchemaAction.execute(params, conns.getDbConnection());
 	}
 
-	private static void createMySqlSchemaForProject(Connection mySqlConn, Connection dbConn, RawDataFileUploadParams params) {
+	private static void createMySqlSchemaForProject(CosmosConnections conns, RawDataFileUploadParams params) {
 		// delete the old
-		DeleteRawDataGroupAction.delete(params.getRawTableGroupCode(), mySqlConn, dbConn);
+		DeleteRawDataGroupAction.delete(params.getRawTableGroupCode(), conns);
 		// create a new empty raw data group
-		CreateRawTableGroupRecordAction.execute(params, mySqlConn);
+		CreateRawTableGroupRecordAction.execute(params, conns.getMySqlConnection());
 	}
 
 	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file) {

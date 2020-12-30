@@ -7,8 +7,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegrou
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
-import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
@@ -24,19 +23,22 @@ public class Update20201124Terminology {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
-		log.info("Adding update files...");
-		updateFiles("MedDescriptionCat", "med_description_cat");
-		log("Doing updates");
-		log.info("Done.");
+		CosmosConnections conns = new CosmosConnections();
+		try {
+			log.info("Adding update files...");
+			updateFiles("MedDescriptionCat", "med_description_cat", conns);
+			log("Doing updates");
+			log.info("Done.");
+		} finally {
+			conns.close();
+		}
 	}
 
-	private static void updateFiles(String name, String abr) {
+	private static void updateFiles(String name, String abr, CosmosConnections conns) {
 		log(name);
-		RawDataFileUploadParams params = getParams(name, abr);
-		UploadRawDataFiles.updateExistingEntity(params, true);
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn, true);
+		RawDataFileUploadParams params = getParams(name, abr, conns);
+		UploadRawDataFiles.updateExistingEntity(params, conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
 	}
 
 	private static void log(String msg) {
@@ -49,7 +51,7 @@ public class Update20201124Terminology {
 		log.info(logMsg);
 	}
 
-	public static RawDataFileUploadParams getParams(String name, String abr) {
+	public static RawDataFileUploadParams getParams(String name, String abr, CosmosConnections conns) {
 		// get the parameters and connection
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		params.setCreatedBy("greshje");
@@ -62,15 +64,14 @@ public class Update20201124Terminology {
 		params.setDataGroupAbr(abr);
 		String localHostFileAbsLocation = SRC_ROOT + abr;
 		params.setLocalHostFileAbsLocation(localHostFileAbsLocation);
-		Connection conn = MySqlConnectionFactory.getCosmosConnection();
 		// create the raw table group (if it doesn't exist)
-		createRawTableGroupIfItDoesNotExist(params, conn);
+		createRawTableGroupIfItDoesNotExist(params, conns.getMySqlConnection());
 		// create the databricks schemas if they do not exist
-		createDatabricksSchemasIfTheyDoNotExist(params);
+		createDatabricksSchemasIfTheyDoNotExist(params, conns);
 		// get the group
 		String code = params.getRawTableGroupCode();
 		log.info("Getting raw_table_group for: " + code);
-		RawTableGroupDvo rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conn);
+		RawTableGroupDvo rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());
 		params.setRawTableGroupDvo(rawTableGroupDvo);
 		// done
 		return params;
@@ -88,8 +89,8 @@ public class Update20201124Terminology {
 		log.info("Done with create raw table group");
 	}
 
-	private static void createDatabricksSchemasIfTheyDoNotExist(RawDataFileUploadParams params) {
-		Connection conn = DatabricksDbConnectionFactory.getConnection();
+	private static void createDatabricksSchemasIfTheyDoNotExist(RawDataFileUploadParams params, CosmosConnections conns) {
+		Connection conn = conns.getDbConnection();
 		String schemaName;
 		// raw data schema
 		schemaName = params.getRawTableSchemaName();

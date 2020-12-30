@@ -7,10 +7,8 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.Crea
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
-import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
-import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
-import org.yaorma.database.Database;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,29 +20,32 @@ public class Update20201228AddPostPartumProject {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health-pp/";
 
 	public static void main(String[] args) {
-		log.info("Adding project");
-		// get the mysql connection
-		log.info("Getting mySql Connection");
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		// get the databricks connection
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		// create project in mysql
-		log.info("Creating project in mysql");
-		// CreateProjectWomensHealthPostPartum.createProject(mySqlConn);
-		Database.commit(mySqlConn);
-		// upload files
-		updateFiles("Demographics", "demo", mySqlConn, dbConn);
-		updateFiles("Encounter", "enc", mySqlConn, dbConn);
-		updateFiles("Rx", "rx", mySqlConn, dbConn);
-		// done
-		log.info("Done");
+		CosmosConnections conns = new CosmosConnections();
+		try {
+			exec(conns);
+			conns.commit();
+		} finally {
+			conns.close();
+		}
 	}
 
-	private static void updateFiles(String name, String abr, Connection mySqlConn, Connection dbConn) {
+	public static void exec(CosmosConnections conns) {
+		log.info("Adding project");
+		// create project in mysql
+		log.info("Creating project in mysql");
+		CreateProjectWomensHealthPostPartum.createProject(conns.getMySqlConnection());
+		conns.commit();
+		// upload files
+		updateFiles("Demographics", "demo", conns);
+		updateFiles("Encounter", "enc", conns);
+		updateFiles("Rx", "rx", conns);
+	}
+
+	private static void updateFiles(String name, String abr, CosmosConnections conns) {
 		log(name);
-		RawDataFileUploadParams params = getParams(name, abr, mySqlConn);
-		UploadRawDataFiles.createNewEntity(params, false);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), dbConn, mySqlConn, true);
+		RawDataFileUploadParams params = getParams(name, abr, conns.getMySqlConnection());
+		UploadRawDataFiles.createNewEntity(params, conns, false);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
 	}
 
 	public static RawDataFileUploadParams getParams(String name, String abr, Connection mySqlConn) {

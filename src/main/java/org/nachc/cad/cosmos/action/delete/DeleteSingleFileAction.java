@@ -8,6 +8,7 @@ import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
@@ -29,15 +30,15 @@ public class DeleteSingleFileAction {
 	 * women's health demographics)
 	 * 
 	 */
-	public static void delete(String rawTableSchema, String rawTableName, Connection mySqlConn, Connection dbConn) {
+	public static void delete(String rawTableSchema, String rawTableName, CosmosConnections conns) {
 		log.info("* * * DOING DROP * * *");
 		log.info("---------");
 		log.info("Doing drop for: " + rawTableSchema + "." + rawTableName);
 		log.info("---------");
-		RawTableDvo rawTableDvo = getRawTableDvo(rawTableSchema, rawTableName, mySqlConn);
+		RawTableDvo rawTableDvo = getRawTableDvo(rawTableSchema, rawTableName, conns.getMySqlConnection());
 		if (rawTableDvo != null) {
-			RawTableGroupDvo rawTableGroupDvo = getRawTableGroupDvo(rawTableDvo, mySqlConn);
-			RawTableFileDvo rawTableFileDvo = getRawTableFileDvo(rawTableDvo, mySqlConn);
+			RawTableGroupDvo rawTableGroupDvo = getRawTableGroupDvo(rawTableDvo, conns.getMySqlConnection());
+			RawTableFileDvo rawTableFileDvo = getRawTableFileDvo(rawTableDvo, conns.getMySqlConnection());
 			log.info("Got RawTableDvo:      " + rawTableDvo.getGuid());
 			log.info("Got RawTableGroupDvo: " + rawTableGroupDvo.getGuid());
 			log.info("Got RawTableFileDvo:  " + rawTableFileDvo.getGuid());
@@ -54,27 +55,27 @@ public class DeleteSingleFileAction {
 			// databricks: drop the raw table
 			String qualifiedName = rawTableDvo.getSchemaName() + "." + rawTableDvo.getRawTableName();
 			log.info("Deleting table: " + qualifiedName);
-			DatabricksDbUtil.dropTable(qualifiedName, dbConn);
+			DatabricksDbUtil.dropTable(qualifiedName, conns.getDbConnection());
 			// databricks: delete the file
 			String fileName = rawTableFileDvo.getFileLocation() + "." + rawTableFileDvo.getFileName();
 			log.info("Deleting file: " + fileName);
 			DatabricksFileUtilFactory.get().delete(fileName);
 			// mysql: delete the column records
 			int cnt = 0;
-			cnt = Database.update("delete from raw_table_col where raw_table = ?", rawTableDvo.getGuid(), mySqlConn);
+			cnt = Database.update("delete from raw_table_col where raw_table = ?", rawTableDvo.getGuid(), conns.getMySqlConnection());
 			log.info(cnt + " RAW_TABLE_COL records deleted");
 			// mysql: delete the raw table file record
-			cnt = Database.update("delete from raw_table_file where raw_table = ?", rawTableDvo.getGuid(), mySqlConn);
+			cnt = Database.update("delete from raw_table_file where raw_table = ?", rawTableDvo.getGuid(), conns.getMySqlConnection());
 			log.info(cnt + " RAW_TABLE_FILE records deleted");
 			// mysql: delete the raw table record
-			cnt = Database.update("delete from raw_table where guid = ?", rawTableDvo.getGuid(), mySqlConn);
+			cnt = Database.update("delete from raw_table where guid = ?", rawTableDvo.getGuid(), conns.getMySqlConnection());
 			log.info(cnt + " RAW_TABLE records deleted");
 			// mysql: commit the changes
 			log.info("Doing commit");
-			Database.commit(mySqlConn);
+			Database.commit(conns.getMySqlConnection());
 			// databricks: update the group table
 			log.info("Creating group table...");
-			CreateGrpDataTableAction.execute(rawTableGroupDvo.getCode(), dbConn, mySqlConn, true);
+			CreateGrpDataTableAction.execute(rawTableGroupDvo.getCode(), conns, true);
 			// done
 			log.info("Done with delete");
 		} else {

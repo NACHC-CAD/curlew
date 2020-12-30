@@ -7,6 +7,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataT
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.BuildParamsWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
@@ -27,22 +28,23 @@ public class UpdateDiagGroupTable {
 
 	@Test
 	public void doUpdate() {
-		log.info("Updating group table...");
-		// mysql stuff
-		log.info("Getting mySql connection");
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		log.info("Updating columnAliases");
-		updateColumnAliaises(mySqlConn);
-		Database.commit(mySqlConn);
-		// databricks stuff
-		log.info("Getting databricks connection");
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		log.info("DELETING DB FILE");
-		DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(DB_DIR);
-		log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
-		log.info("UPDATING GROUP TABLE");
-		CreateGrpDataTableAction.execute(PARAMS.getRawTableGroupCode(), dbConn, mySqlConn, true);
-		log.info("Done.");
+		CosmosConnections conns = new CosmosConnections();
+		try {
+			log.info("Updating group table...");
+			// mysql stuff
+			log.info("Updating columnAliases");
+			updateColumnAliaises(conns.getMySqlConnection());
+			Database.commit(conns.getMySqlConnection());
+			// databricks stuff
+			log.info("DELETING DB FILE");
+			DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(DB_DIR);
+			log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
+			log.info("UPDATING GROUP TABLE");
+			CreateGrpDataTableAction.execute(PARAMS.getRawTableGroupCode(), conns, true);
+			log.info("Done.");
+		} finally {
+			conns.close();
+		}
 	}
 
 	private void updateColumnAliaises(Connection conn) {

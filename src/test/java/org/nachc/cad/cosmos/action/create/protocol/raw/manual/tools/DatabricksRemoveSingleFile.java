@@ -5,6 +5,7 @@ import java.sql.Connection;
 
 import org.nachc.cad.cosmos.action.delete.DeleteSingleFileAction;
 import org.nachc.cad.cosmos.action.refresh.RefreshSchemaAction;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
@@ -25,28 +26,33 @@ public class DatabricksRemoveSingleFile {
 	private static final String RAW_TABLE_NAME = "womens_health_he_enc_health_efficient_ccdata__encounters4_1_19to3_31_20_csv";
 
 	public static void main(String[] args) {
-		String dataGroupCode = "womens_health_proc_cat";
-		log.info("Starting delete for: " + dataGroupCode);
-		// get mysql connection
-		log.info("Getting MySql Connection");
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		// get databricks connection
-		log.info("Getting Databricks Connection");
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		// execute
-		exec(mySqlConn, dbConn);
-		log.info("Done.");
+		CosmosConnections conns = new CosmosConnections();
+		try {
+			String dataGroupCode = "womens_health_proc_cat";
+			log.info("Starting delete for: " + dataGroupCode);
+			// get mysql connection
+			log.info("Getting MySql Connection");
+			Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
+			// get databricks connection
+			log.info("Getting Databricks Connection");
+			Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+			// execute
+			exec(conns);
+			log.info("Done.");
+		} finally {
+			conns.close();
+		}
 	}
 
-	public static void exec(Connection mySqlConn, Connection dbConn) {
+	public static void exec(CosmosConnections conns) {
 		// do the delete
-		DeleteSingleFileAction.delete(RAW_TABLE_SCHEMA, RAW_TABLE_NAME, mySqlConn, dbConn);
+		DeleteSingleFileAction.delete(RAW_TABLE_SCHEMA, RAW_TABLE_NAME, conns);
 		// rebuild the schema
 		log.info("Rebuilding schema");
-		Database.executeSqlScript(CREATE_SCHEMA_SCRIPT, dbConn);
+		Database.executeSqlScript(CREATE_SCHEMA_SCRIPT, conns.getDbConnection());
 		// refresh schema
 		log.info("Doing refresh");
-		RefreshSchemaAction.exec(SCHEMA, dbConn);
+		RefreshSchemaAction.exec(SCHEMA, conns.getDbConnection());
 	}
 	
 }
