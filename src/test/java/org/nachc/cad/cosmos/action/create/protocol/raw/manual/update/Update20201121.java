@@ -32,12 +32,6 @@ public class Update20201121 {
 			updateFiles("Other", "other", conns);
 			updateFiles("Procedure", "proc", conns);
 			updateFiles("Rx", "rx", conns);
-			log("Doing updates");
-			new UpdateDemoGroupTable().doUpdate();
-			new UpdateEncGroupTable().doUpdate();
-			new UpdateOtherGroupTable().doUpdate();
-			new UpdateProcedureGroupTable().doUpdate();
-			new UpdateRxGroupTable().doUpdate();
 			log.info("Done.");
 		} finally {
 			conns.close();
@@ -48,7 +42,7 @@ public class Update20201121 {
 		log(name);
 		RawDataFileUploadParams params = getParams(name, abr, conns.getMySqlConnection());
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		// CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
 	}
 
 	private static void log(String msg) {

@@ -35,7 +35,11 @@ public class CosmosConnections {
 		log.info("! ! ! CLOSING MYSQL CONNECTION ! ! !");
 		Database.close(mySqlConnection);
 		log.info("! ! ! CLOSING DATABRICKS CONNECTION ! ! !");
-		Database.close(dbConnection);
+		try {
+			Database.close(dbConnection);
+		} catch(Exception exp) {
+			log.info("Closing Databricks connection threw and exception (this happens sometimes)");
+		}
 		log.info("Done closing connections");
 	}
 	

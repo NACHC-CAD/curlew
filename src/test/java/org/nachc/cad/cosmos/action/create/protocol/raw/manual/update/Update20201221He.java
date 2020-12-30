@@ -28,14 +28,10 @@ public class Update20201221He {
 			updateFiles("Demographics", "demo", conns);
 			updateFiles("Encounter", "enc", conns);
 			updateFiles("Rx", "rx", conns);
-			log("Doing updates");
-			new UpdateDemoGroupTable().doUpdate();
-			new UpdateEncGroupTable().doUpdate();
-			new UpdateRxGroupTable().doUpdate();
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	private static void updateFiles(String name, String abr, CosmosConnections conns) {
@@ -46,7 +42,7 @@ public class Update20201221He {
 		}
 		log.info("Uploading " + name + " using: " + params.getDelimiter());
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		// CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
 	}
 
 	private static void log(String msg) {

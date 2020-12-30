@@ -16,6 +16,8 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201211Ac;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221He;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221RemoveHe;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201228AddPostPartumProject;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update99999999CreateWomensHealthSchema;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
@@ -40,11 +42,6 @@ public class Build {
 			addFiles("Other", "other", conns);
 			addFiles("Procedure", "proc", conns);
 			addFiles("Rx", "rx", conns);
-			log("Doing updates");
-			new UpdateDemoGroupTable().doUpdate();
-			new UpdateDiagGroupTable().doUpdate();
-			new UpdateEncGroupTable().doUpdate();
-			new UpdateRxGroupTable().doUpdate();
 			log("Addtional updates");
 			Update20201121.main(null);
 			Update20201122.main(null);
@@ -55,8 +52,10 @@ public class Build {
 			Update20201211Ac.main(null);
 			Update20201221He.main(null);
 			Update20201221RemoveHe.main(null);
+			Update20201228AddPostPartumProject.main(null);
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
+			Update99999999CreateWomensHealthSchema.main(null);
 			log.info("Done.");
 		} finally {
 			conns.close();

@@ -33,12 +33,6 @@ public class Update20201211Ac {
 			updateFiles("Observation", "obs", conns);
 			updateFiles("Procedure", "proc", conns);
 			updateFiles("Rx", "rx", conns);
-			log("Doing updates");
-			new UpdateDemoGroupTable().doUpdate();
-			new UpdateEncGroupTable().doUpdate();
-			new UpdateObsGroupTable().doUpdate();
-			new UpdateProcedureGroupTable().doUpdate();
-			new UpdateRxGroupTable().doUpdate();
 			log.info("Done.");
 		} finally {
 			conns.close();
@@ -53,7 +47,7 @@ public class Update20201211Ac {
 		}
 		log.info("Uploading " + name + " using: " + params.getDelimiter());
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		// CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
 	}
 
 	private static void log(String msg) {

@@ -47,8 +47,6 @@ public class UploadRawDataFiles {
 			updateParamsWithFileInfo(params, file);
 			AddRawDataFileAction.execute(params, conns.getDbConnection(), conns.getMySqlConnection(), isOverwrite);
 		}
-		log.info("Creating group table");
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns);
 		log.info("Done.");
 
 	}

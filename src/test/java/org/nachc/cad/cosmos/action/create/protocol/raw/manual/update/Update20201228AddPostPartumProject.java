@@ -20,6 +20,7 @@ public class Update20201228AddPostPartumProject {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health-pp/";
 
 	public static void main(String[] args) {
+		log.info("Starting process...");
 		CosmosConnections conns = new CosmosConnections();
 		try {
 			exec(conns);
@@ -27,6 +28,7 @@ public class Update20201228AddPostPartumProject {
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	public static void exec(CosmosConnections conns) {

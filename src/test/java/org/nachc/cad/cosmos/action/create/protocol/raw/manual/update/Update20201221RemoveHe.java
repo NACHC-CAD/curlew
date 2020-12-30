@@ -48,18 +48,10 @@ public class Update20201221RemoveHe {
 			rawTableSchema = "prj_raw_womens_health_rx";
 			rawTableName = "womens_health_he_rx_health_efficient_ccdata__medications4_1_19to3_31_20_csv";
 			DeleteSingleFileAction.delete(rawTableSchema, rawTableName, conns);
-			// clean up
-			// rebuild the schema
-			log.info("Rebuilding schema");
-			Database.executeSqlScript(CREATE_SCHEMA_SCRIPT, dbConn);
-			// refresh schema
-			log.info("Doing refresh");
-			RefreshSchemaAction.exec(SCHEMA, dbConn);
-			// done
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 }
