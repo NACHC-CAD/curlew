@@ -15,14 +15,14 @@ import org.yaorma.database.Database;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UpdateProcedureGroupTable {
+public class UpdatePregGroupTable {
 
 	@Test
 	public void doUpdate() {
 		CosmosConnections conns = new CosmosConnections();
 		try {
 			log.info("Updating group table...");
-			RawDataFileUploadParams params = BuildParamsWomensHealth.getParams("Procedure", "proc");
+			RawDataFileUploadParams params = BuildParamsWomensHealth.getParams("Pregnancy", "preg");
 			log.info("Updating columnAliases");
 			updateColumnAliaises(conns.getMySqlConnection());
 			Database.commit(conns.getMySqlConnection());
@@ -36,15 +36,7 @@ public class UpdateProcedureGroupTable {
 
 	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		// ac
-		CreateColumnAlias.execute("womens_health_proc", "prj_raw_womens_health_proc", "womens_health_ac_proc_nachc__ucsf__patient__procedures_txt", "dummy_id", "patient_id", conn);
-		CreateColumnAlias.execute("womens_health_proc", "prj_raw_womens_health_proc", "womens_health_ac_proc_nachc__ucsf__patient__procedures_txt", "procedure_description", "procedure_code_description", conn);
-		//ac lot 2
-		CreateColumnAlias.execute("womens_health_proc", "prj_raw_womens_health_proc", "womens_health_ac_proc_nachc__ucsf__patient__procedures_csv", "dummy_id", "patient_id", conn);
-		CreateColumnAlias.execute("womens_health_proc", "prj_raw_womens_health_proc", "womens_health_ac_proc_nachc__ucsf__patient__procedures_csv", "procedure_description", "procedure_code_description", conn);
-		//ac lot 2 PP
-		CreateColumnAlias.execute("womens_health_pp_proc", "prj_raw_womens_health_pp_proc", "womens_health_pp_ac_proc_nachc__ucsf__patient__procedures_csv", "dummy_id", "patient_id", conn);
-		CreateColumnAlias.execute("womens_health_pp_proc", "prj_raw_womens_health_pp_proc", "womens_health_pp_ac_proc_nachc__ucsf__patient__procedures_csv", "procedure_description", "procedure_code_description", conn);
+		CreateColumnAlias.execute("womens_health_pp_preg", "prj_raw_womens_health_pp_preg", "womens_health_pp_ochin_preg_nachc_preg_supplement_20201231_csv", "pat_id", "patient_id", conn);
 	}
 
 }

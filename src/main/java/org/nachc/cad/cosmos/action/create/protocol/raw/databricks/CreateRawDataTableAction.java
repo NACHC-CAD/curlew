@@ -16,6 +16,16 @@ public class CreateRawDataTableAction {
 	public static void execute(RawDataFileUploadParams params, Connection dbConn, boolean isOverwrite) {
 		String schemaName = params.getRawTableDvo().getSchemaName();
 		String tableName = params.getRawTableName();
+		String rawSchemaName = params.getRawTableSchemaName();
+		String grpSchemaName = params.getGroupTableSchemaName();
+		// create the raw schema if it does not exist
+		if(DatabricksDbUtil.databaseExists(rawSchemaName, dbConn) == false) {
+			DatabricksDbUtil.createDatabase(rawSchemaName, dbConn);
+		}
+		// create the group schema if it does not exist
+		if(DatabricksDbUtil.databaseExists(grpSchemaName, dbConn) == false) {
+			DatabricksDbUtil.createDatabase(grpSchemaName, dbConn);
+		}
 		DatabricksDbUtil.dropTable(schemaName, tableName, dbConn);
 		// String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(dvo, fileDvo, cols);
 		String sqlString = RawTableProxy.getDatabricksCreateTableSqlString(params.getRawTableDvo(), params.getRawTableFileDvo(), params.getRawTableColList(), params.getDelimiter());
@@ -29,5 +39,5 @@ public class CreateRawDataTableAction {
 		Database.update(sqlString, dbConn);
 		log.info("Table created");
 	}
-	
+
 }

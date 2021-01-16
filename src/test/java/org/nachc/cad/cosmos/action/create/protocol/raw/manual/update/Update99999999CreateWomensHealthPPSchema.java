@@ -22,9 +22,9 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Update99999999CreateWomensHealthSchema {
+public class Update99999999CreateWomensHealthPPSchema {
 
-	public static final File FILE = FileUtil.getFile("/org/nachc/cad/cosmos/databricks/update/projects/womenshealth/init/womens-health-tables-001.sql", true);
+	public static final File FILE = FileUtil.getFile("/org/nachc/cad/cosmos/databricks/update/projects/womenshealth/init/womens-health-pp-tables-001.sql", true);
 
 	public static void main(String[] args) {
 		Timer timer = new Timer();
@@ -37,7 +37,7 @@ public class Update99999999CreateWomensHealthSchema {
 		log.info("Executing script...");
 		Database.executeSqlScript(FILE, dbConn);
 		log.info("Refreshing schema...");
-		RefreshSchemaAction.exec("womens_health", dbConn);
+		RefreshSchemaAction.exec("womens_health_pp", dbConn);
 		log.info("Done creating womens health schema.");
 		timer.stop();
 		log.info("START:   " + timer.getStartAsString());

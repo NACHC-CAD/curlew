@@ -47,10 +47,11 @@ public class UpdateDiagGroupTable {
 		}
 	}
 
-	private void updateColumnAliaises(Connection conn) {
+	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
 		CreateColumnAlias.execute("womens_health_dx", "prj_raw_womens_health_dx", "womens_health_ac_dx_nachc__ucsf__patient__diagnosis_txt", "dummy_id", "patient_id", conn);
 		CreateColumnAlias.execute("womens_health_dx", "prj_raw_womens_health_dx", "womens_health_ac_dx_nachc__ucsf__patient__diagnosis_csv", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_pp_dx", "prj_raw_womens_health_pp_dx", "womens_health_pp_ac_dx_nachc__ucsf__patient__diagnosis_csv", "dummy_id", "patient_id", conn);
 	}
 
 }

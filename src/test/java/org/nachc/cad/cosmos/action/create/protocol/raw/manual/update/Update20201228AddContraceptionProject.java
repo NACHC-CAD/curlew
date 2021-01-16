@@ -13,11 +13,11 @@ import org.yaorma.dao.Dao;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Update20201228AddPostPartumProject {
+public class Update20201228AddContraceptionProject {
 
 	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2020-12-21-HE\\";
 
-	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health-pp/";
+	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health-contra/";
 
 	public static void main(String[] args) {
 		log.info("Starting process...");
@@ -53,8 +53,8 @@ public class Update20201228AddPostPartumProject {
 	public static RawDataFileUploadParams getParams(String name, String abr, Connection mySqlConn) {
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		params.setCreatedBy("greshje");
-		params.setProjCode("womens_health_pp");
-		params.setProtocolNamePretty("Women's Health Post Partum");
+		params.setProjCode("womens_health_contra");
+		params.setProtocolNamePretty("Women's Health (Contraception)");
 		params.setDataLot("LOT 2");
 		params.setDatabricksFileLocation(DATABRICKS_FILE_ROOT + abr);
 		params.setDataGroupName(name);

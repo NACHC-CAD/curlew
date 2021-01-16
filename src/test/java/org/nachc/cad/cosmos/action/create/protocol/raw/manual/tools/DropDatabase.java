@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DropDatabase {
 
 	public static void main(String[] args) {
-		String dbName = "womens_health";
+		String dbName = "womens_health_pp";
 		log.info("Getting connection...");
 		Connection conn = DatabricksDbConnectionFactory.getConnection();
 		log.info("Droping database schema: " + dbName);

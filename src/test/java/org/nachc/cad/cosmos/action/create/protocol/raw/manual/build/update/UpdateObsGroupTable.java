@@ -34,9 +34,9 @@ public class UpdateObsGroupTable {
 		}
 	}
 
-	private void updateColumnAliaises(Connection conn) {
+	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		// CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "age_at_the_endof_measurement_year", "age", conn);
+		CreateColumnAlias.execute("womens_health_pp_obs", "prj_raw_womens_health_pp_obs", "womens_health_pp_ac_obs_nachc__ucsf__patient__observations_2_txt", "dummy_id", "patient_id", conn);
 	}
 
 }

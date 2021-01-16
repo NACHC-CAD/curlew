@@ -38,6 +38,7 @@ public class CreateRawTableAction {
 		RawTableDvo foundDvo = Dao.find(dvo, keys, vals, conn);
 		if(foundDvo != null) {
 			removeTableCols(dvo, conn);
+			removeTableFile(dvo, conn);
 			Dao.delete(foundDvo, conn);
 		}
 	}
@@ -45,7 +46,17 @@ public class CreateRawTableAction {
 	private static void removeTableCols(RawTableDvo dvo, Connection conn) {
 		String sqlString = "delete from raw_table_col where raw_table = ?";
 		String rawTable = dvo.getGuid();
-		Database.update(sqlString, rawTable, conn);
+		log.info("Removing COL records for: '" + rawTable + "'");
+		int cnt = Database.update(sqlString, rawTable, conn);
+		log.info(cnt + " COL records removed.");
+	}
+	
+	private static void removeTableFile(RawTableDvo dvo, Connection conn) {
+		String sqlString = "delete from raw_table_file where raw_table = ?";
+		String rawTable = dvo.getGuid();
+		log.info("Removing FILE records for: '" + rawTable + "'");
+		int cnt = Database.update(sqlString, rawTable, conn);
+		log.info(cnt + " FILE records removed.");
 	}
 	
 	private static void checkOrgCode(Connection conn) {

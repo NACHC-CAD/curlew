@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ConfirmConfiguration {
 
 	public static void main(String[] args) {
+		log.info("Getting databricks connection...");
 		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+		log.info("Getting mysql connection...");
 		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
 		exec(mySqlConn, dbConn);
 	}

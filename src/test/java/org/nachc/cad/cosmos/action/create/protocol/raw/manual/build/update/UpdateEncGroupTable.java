@@ -45,7 +45,7 @@ public class UpdateEncGroupTable {
 		}
 	}
 
-	private void updateColumnAliaises(Connection conn) {
+	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
 		// ac
 		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ac_enc_nachc__ucsf__patient__encounters_txt", "dummy_id", "patient_id", conn);
@@ -53,8 +53,13 @@ public class UpdateEncGroupTable {
 		// ac lot 2
 		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ac_enc_nachc__ucsf__patient__encounters_csv", "dummy_id", "patient_id", conn);
 		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ac_enc_nachc__ucsf__patient__encounters_csv", "encounter_type", "enc_type", conn);
+		// ac lot 2 PP
+		CreateColumnAlias.execute("womens_health_pp_enc", "prj_raw_womens_health_pp_enc", "womens_health_pp_ac_enc_nachc__ucsf__patient__encounters_csv", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_pp_enc", "prj_raw_womens_health_pp_enc", "womens_health_pp_ac_enc_nachc__ucsf__patient__encounters_csv", "encounter_type", "enc_type", conn);
 		// ochin
 		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ochin_enc_encounters_feb_to_mar2020_csv", "patient_encounter", "encounter_id", conn);
+		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_ochin_enc_nachc_encounters_20201231_csv", "patient_encounter", "encounter_id", conn);
+		CreateColumnAlias.execute("womens_health_pp_enc", "prj_raw_womens_health_pp_enc", "womens_health_pp_ochin_enc_nachc_encounters_20201231_csv", "patient_encounter", "encounter_id", conn);
 		// denver v1
 		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_denver_enc_denver_encounters_csv", "pregnancy_intention_marker", "pregnancy_intention", conn);
 		CreateColumnAlias.execute("womens_health_enc", "prj_raw_womens_health_enc", "womens_health_denver_enc_denver_encounters_csv", "sexually_active_marker", "sexually_active", conn);

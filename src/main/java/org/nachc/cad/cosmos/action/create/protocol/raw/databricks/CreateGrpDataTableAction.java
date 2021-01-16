@@ -14,6 +14,8 @@ import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 import org.yaorma.database.Row;
 
+import com.nach.core.util.databricks.database.DatabricksDbUtil;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,9 +49,11 @@ public class CreateGrpDataTableAction {
 		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		// DROP THE TABLE IF IT EXISTS
 		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
-		// create the table in databricks
-		// create the table if there are any files remaining
+		// CREATE THE TABLE IN DATABRICKS IF ANY FILES REMAIN
 		if(tables.size() > 0) {
+			log.info("initializing connection parse policy");
+			DatabricksDbUtil.initParsePolicy(conns.getDbConnection());
+			log.info("done initializing connection parse policy");
 			log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 			Database.update(sqlString, conns.getDbConnection());
 			if (refresh == true) {
@@ -94,19 +98,55 @@ public class CreateGrpDataTableAction {
 		log.info("Got " + tableCols.size() + " cols for guid: " + rawTableGuid);
 		String sqlString = "";
 		sqlString += "select \n";
+		String patientId = null;
 		for (String colName : groupCols) {
 			RawTableColDvo dvo;
 			dvo = getAsAlias(colName, tableCols);
 			if (dvo != null) {
-				sqlString += "  trim(" + dvo.getColName() + ") as " + dvo.getColAlias() + ", \n";
+				if(dvo.getColAlias().endsWith("_date")) {
+					// sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + dvo.getColAlias() + "_string, \n";
+					String str = "";
+					str += "  coalesce(\n";
+					str += "    to_date((" + dvo.getColName() + "), \"yyyy-MM-dd\"),\n";
+					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yy\"),\n";
+					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yyyy\"),\n";
+					str += "    to_date((" + dvo.getColName() + "), \"yyyyMMdd\")) as " + dvo.getColAlias() + ", \n";
+					sqlString += str;
+				} else {
+					String alias = dvo.getColAlias();
+					if("patient_id".equals(alias)) {
+						alias = "org_patient_id";
+						patientId = dvo.getColName();
+					}
+					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + alias + ", \n";
+				}
 				continue;
 			}
 			dvo = getAsName(colName, tableCols);
 			if (dvo != null) {
-				sqlString += "  trim(" + dvo.getColName() + ") as " + dvo.getColName() + ", \n";
+				if(dvo.getColName().endsWith("_date")) {
+					// sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + dvo.getColName() + "_string, \n";
+					String str = "";
+					str += "  coalesce(\n";
+					str += "    to_date((" + dvo.getColName() + "), \"yyyy-MM-dd\"),\n";
+					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yy\"),\n";
+					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yyyy\"),\n";
+					str += "    to_date((" + dvo.getColName() + "), \"yyyyMMdd\")) as " + dvo.getColName() + ", \n";
+					sqlString += str;
+				} else {
+					String alias = dvo.getColName();
+					if("patient_id".equals(alias)) {
+						alias = "org_patient_id";
+						patientId = "patient_id";
+					}
+					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + alias + ", \n";
+				}
 				continue;
 			}
 			sqlString += "  null as " + colName + ", \n";
+		}
+		if(patientId != null) {
+			sqlString += "  concat('" + fileDvo.getOrgCode() + "', '|', " + patientId + ") as patient_id, \n";
 		}
 		sqlString += "  trim('" + fileDvo.getOrgCode() + "') as org, \n";
 		sqlString += "  trim('" + fileDvo.getDataLot() + "') as data_lot, \n";

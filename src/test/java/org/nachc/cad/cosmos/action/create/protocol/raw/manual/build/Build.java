@@ -3,10 +3,6 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.BurnEverythingToTheGround;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProjectWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDemoGroupTable;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateEncGroupTable;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201121;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201122;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201123Terminology;
@@ -16,11 +12,12 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201211Ac;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221He;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221RemoveHe;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201228AddPostPartumProject;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201228AddContraceptionProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update99999999CreateWomensHealthSchema;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
+import org.yaorma.util.time.Timer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +27,8 @@ public class Build {
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		try {
+			Timer timer = new Timer();
+			timer.start();
 			log("Burning everything to the ground.");
 			BurnEverythingToTheGround.main(null);
 			log("Adding Project");
@@ -52,10 +51,14 @@ public class Build {
 			Update20201211Ac.main(null);
 			Update20201221He.main(null);
 			Update20201221RemoveHe.main(null);
-			Update20201228AddPostPartumProject.main(null);
+			Update20201228AddContraceptionProject.main(null);
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
 			Update99999999CreateWomensHealthSchema.main(null);
+			timer.stop();
+			log.info("START:   " + timer.getStart());
+			log.info("DONE:    " + timer.getStop());
+			log.info("Elapsed: " + timer.getElapsedString());
 			log.info("Done.");
 		} finally {
 			conns.close();

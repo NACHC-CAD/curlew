@@ -18,8 +18,6 @@ public class DatabricksRemoveRawDataGroup {
 			String dataGroupCode = "womens_health_proc_cat";
 			log.info("Starting delete for: " + dataGroupCode);
 			log.info("Getting connections...");
-			Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-			Connection dbConn = DatabricksDbConnectionFactory.getConnection();
 			log.info("Doing delete...");
 			DeleteRawDataGroupAction.delete(dataGroupCode, conns);
 			log.info("Done.");

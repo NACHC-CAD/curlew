@@ -43,6 +43,8 @@ public class RawDataFileUploadParams {
 	private String createdBy;
 
 	private char delimiter;
+	
+	private boolean groupedByOrg = false;
 
 	//
 	// generated parameters

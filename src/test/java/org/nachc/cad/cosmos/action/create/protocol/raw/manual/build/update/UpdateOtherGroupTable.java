@@ -34,7 +34,7 @@ public class UpdateOtherGroupTable {
 		}
 	}
 
-	private void updateColumnAliaises(Connection conn) {
+	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
 		// CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "age_at_the_endof_measurement_year", "age", conn);
 	}
