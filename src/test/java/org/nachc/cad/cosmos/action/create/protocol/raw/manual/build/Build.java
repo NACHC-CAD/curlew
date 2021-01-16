@@ -26,9 +26,9 @@ public class Build {
 
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
+		Timer timer = new Timer();
+		timer.start();
 		try {
-			Timer timer = new Timer();
-			timer.start();
 			log("Burning everything to the ground.");
 			BurnEverythingToTheGround.main(null);
 			log("Adding Project");
@@ -50,19 +50,19 @@ public class Build {
 			Update20201207MedValueSetCat.main(null);
 			Update20201211Ac.main(null);
 			Update20201221He.main(null);
-			Update20201221RemoveHe.main(null);
 			Update20201228AddContraceptionProject.main(null);
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
-			Update99999999CreateWomensHealthSchema.main(null);
-			timer.stop();
-			log.info("START:   " + timer.getStart());
-			log.info("DONE:    " + timer.getStop());
-			log.info("Elapsed: " + timer.getElapsedString());
-			log.info("Done.");
+//			Update99999999CreateWomensHealthSchema.main(null);
 		} finally {
+			log.info("Closing connection");
 			conns.close();
 		}
+		timer.stop();
+		log.info("START:   " + timer.getStart());
+		log.info("DONE:    " + timer.getStop());
+		log.info("Elapsed: " + timer.getElapsedString());
+		log.info("Done.");
 	}
 
 	private static void addFiles(String name, String abr, CosmosConnections conns) {

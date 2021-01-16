@@ -22,6 +22,7 @@ public class Update20201221He {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
+		log.info("Starting update...");
 		CosmosConnections conns = new CosmosConnections();
 		try {
 			log.info("Adding update files...");

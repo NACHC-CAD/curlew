@@ -36,7 +36,7 @@ public class CreateGrpDataTableAction {
 		log.info("Getting tables in group");
 		List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), conns.getMySqlConnection());
 		log.info("Got " + tables.size() + " tables");
-		String sqlString = "create table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName() + " as \n";
+		String sqlString = "create table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName() + " using delta as \n";
 		for (RawTableDvo table : tables) {
 			if (sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
@@ -143,7 +143,12 @@ public class CreateGrpDataTableAction {
 				}
 				continue;
 			}
-			sqlString += "  null as " + colName + ", \n";
+			if("patient_id".equals(colName)) {
+				patientId = "''";
+				sqlString += "  null as org_patient_id, \n";
+			} else {
+				sqlString += "  null as " + colName + ", \n";
+			}
 		}
 		if(patientId != null) {
 			sqlString += "  concat('" + fileDvo.getOrgCode() + "', '|', " + patientId + ") as patient_id, \n";
