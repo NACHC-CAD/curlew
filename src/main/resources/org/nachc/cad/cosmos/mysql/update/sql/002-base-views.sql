@@ -57,7 +57,7 @@ from
     join raw_table_group grp on tbl.raw_table_group = grp.guid
 );
 
-create view raw_table_detail as (
+create or replace view raw_table_detail as (
 select 
 	grp.guid raw_table_group_guid,
     grp.project,
@@ -74,7 +74,8 @@ select
     fil.file_name,
     fil.file_size,
     fil.file_size_units,
-    fil.org_code
+    fil.org_code,
+    fil.data_lot
 from 
 	raw_table_group grp
 	join raw_table tbl on tbl.raw_table_group = grp.guid

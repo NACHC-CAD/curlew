@@ -28,15 +28,15 @@ public class UpdateFlatGroupTable {
 			Database.commit(conns.getMySqlConnection());
 			log.info("UPDATING GROUP TABLE");
 			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		// CreateColumnAlias.execute("womens_health_demo", "prj_raw_womens_health_demo", "womens_health_ac_demo_nachc__ucsf__patient__demographic_txt", "age_at_the_endof_measurement_year", "age", conn);
+		CreateColumnAlias.execute("womens_health_flat", "prj_raw_womens_health_flat", "womens_health_sc_flat_south_carolina__womens_health__v1_csv", "mrn", "patient_id", conn);
 	}
 
 }

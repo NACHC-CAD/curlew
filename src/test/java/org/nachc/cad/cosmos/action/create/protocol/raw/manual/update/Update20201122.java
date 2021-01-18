@@ -4,6 +4,7 @@ import java.sql.Connection;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateFlatGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
@@ -39,6 +40,7 @@ public class Update20201122 {
 		RawDataFileUploadParams params = getParams(name, abr, conns);
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
 		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		new UpdateFlatGroupTable().doUpdate();
 	}
 
 	private static void log(String msg) {

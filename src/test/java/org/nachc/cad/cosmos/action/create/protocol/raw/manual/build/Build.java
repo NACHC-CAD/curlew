@@ -3,6 +3,15 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.BurnEverythingToTheGround;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProjectWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDemoGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateEncGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateFlatGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateObsGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateOtherGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdatePregGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateProcedureGroupTable;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201121;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201122;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201123Terminology;
@@ -11,9 +20,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201207MedValueSetCat;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201211Ac;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221He;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221RemoveHe;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201228AddContraceptionProject;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update99999999CreateWomensHealthSchema;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210105Ochin;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
@@ -41,6 +48,7 @@ public class Build {
 			addFiles("Other", "other", conns);
 			addFiles("Procedure", "proc", conns);
 			addFiles("Rx", "rx", conns);
+			updateGroupTables();
 			log("Addtional updates");
 			Update20201121.main(null);
 			Update20201122.main(null);
@@ -50,7 +58,8 @@ public class Build {
 			Update20201207MedValueSetCat.main(null);
 			Update20201211Ac.main(null);
 			Update20201221He.main(null);
-			Update20201228AddContraceptionProject.main(null);
+//			Update20201228AddContraceptionProject.main(null);
+			Update20210105Ochin.main(null);
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
 //			Update99999999CreateWomensHealthSchema.main(null);
@@ -69,6 +78,27 @@ public class Build {
 		log(name);
 		RawDataFileUploadParams params = BuildParamsWomensHealth.getParams(name, abr);
 		UploadRawDataFiles.createNewEntity(params, conns, false);
+	}
+
+	private static void updateGroupTables() {
+		log("UPDATING demo GROUP TABLE (1 of 9)");
+		new UpdateDemoGroupTable().doUpdate();
+		log("UPDATING diag GROUP TABLE (2 of 9)");
+		new UpdateDiagGroupTable().doUpdate();
+		log("UPDATING enc GROUP TABLE (3 of 9)");
+		new UpdateEncGroupTable().doUpdate();
+//		log("UPDATING flat GROUP TABLE (4 of 9)");
+//		new UpdateFlatGroupTable().doUpdate();
+		log("UPDATING obs GROUP TABLE (5 of 9)");
+		new UpdateObsGroupTable().doUpdate();
+		log("UPDATING other GROUP TABLE (6 of 9)");
+		new UpdateOtherGroupTable().doUpdate();
+//		log("UPDATING preg GROUP TABLE (7 of 9)");
+//		new UpdatePregGroupTable().doUpdate();
+		log("UPDATING procedure GROUP TABLE (8 of 9)");
+		new UpdateProcedureGroupTable().doUpdate();
+		log("UPDATING rx GROUP TABLE (9 of 9)");
+		new UpdateRxGroupTable().doUpdate();
 	}
 
 	private static void log(String msg) {

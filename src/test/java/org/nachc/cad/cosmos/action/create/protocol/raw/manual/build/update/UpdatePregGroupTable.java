@@ -28,15 +28,15 @@ public class UpdatePregGroupTable {
 			Database.commit(conns.getMySqlConnection());
 			log.info("UPDATING GROUP TABLE");
 			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		CreateColumnAlias.execute("womens_health_pp_preg", "prj_raw_womens_health_pp_preg", "womens_health_pp_ochin_preg_nachc_preg_supplement_20201231_csv", "pat_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_preg", "prj_raw_womens_health_preg", "womens_health_ochin_preg_nachc_preg_supplement_20201231_csv", "pat_id", "patient_id", conn);
 	}
 
 }

@@ -28,15 +28,20 @@ public class UpdateObsGroupTable {
 			Database.commit(conns.getMySqlConnection());
 			log.info("UPDATING GROUP TABLE");
 			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	public static void updateColumnAliaises(Connection conn) {
 		// groupCode, tableSchema, tableName, colName, colAlias, conn
-		CreateColumnAlias.execute("womens_health_pp_obs", "prj_raw_womens_health_pp_obs", "womens_health_pp_ac_obs_nachc__ucsf__patient__observations_2_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_obs", "prj_raw_womens_health_obs", "womens_health_ac_obs_nachc__ucsf__patient__observations_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_obs", "prj_raw_womens_health_obs", "womens_health_ac_obs_nachc__ucsf__patient__observations_txt", "fglu_resut", "fglu_result", conn);
+		CreateColumnAlias.execute("womens_health_obs", "prj_raw_womens_health_obs", "womens_health_ac_obs_nachc__ucsf__patient__observations_txt", "hba1_cresult", "hba1_c_result", conn);
+		CreateColumnAlias.execute("womens_health_obs", "prj_raw_womens_health_obs", "womens_health_ac_obs_nachc__ucsf__patient__observations_2_txt", "dummy_id", "patient_id", conn);
+		CreateColumnAlias.execute("womens_health_obs", "prj_raw_womens_health_obs", "womens_health_ac_obs_nachc__ucsf__patient__observations_2_txt", "fglu_resut", "fglu_result", conn);
+		CreateColumnAlias.execute("womens_health_obs", "prj_raw_womens_health_obs", "womens_health_ac_obs_nachc__ucsf__patient__observations_2_txt", "hba1_cresult", "hba1_c_result", conn);
 	}
 
 }
