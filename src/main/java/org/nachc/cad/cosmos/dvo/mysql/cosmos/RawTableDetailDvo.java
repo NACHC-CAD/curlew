@@ -29,6 +29,7 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
+        "data_lot",
         "file_location",
         "file_name",
         "file_size",
@@ -59,6 +60,7 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
+        "dataLot",
         "fileLocation",
         "fileName",
         "fileSize",
@@ -82,6 +84,7 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
+        "DataLot",
         "FileLocation",
         "FileName",
         "FileSize",
@@ -106,6 +109,8 @@ public class RawTableDetailDvo implements Dvo {
     //
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
+    
+    private String dataLot;
     
     private String fileLocation;
     
@@ -142,6 +147,16 @@ public class RawTableDetailDvo implements Dvo {
     //
     // trivial getters and setters
     //
+    
+    // dataLot
+    
+    public void setDataLot(String val) {
+        this.dataLot = val;
+    }
+    
+    public String getDataLot() {
+        return this.dataLot;
+    }
     
     // fileLocation
     
