@@ -14,7 +14,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.Updat
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateProcedureGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
-import org.nachc.cad.cosmos.action.delete.DeleteProjectAction;
+import org.nachc.cad.cosmos.action.delete.DeleteProjectFromMySqlAction;
 import org.nachc.cad.cosmos.action.delete.DeleteRawDataGroupAction;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
@@ -63,7 +63,7 @@ public class Update20210110PP {
 		DeleteRawDataGroupAction.delete("womens_health_pp_rx", conns);
 		// delete project
 		log.info("Deleting project");
-		DeleteProjectAction.delete("womens_health_pp", conns);
+		DeleteProjectFromMySqlAction.delete("womens_health_pp", conns);
 		conns.commit();
 		log.info("Done with deletes");
 	}

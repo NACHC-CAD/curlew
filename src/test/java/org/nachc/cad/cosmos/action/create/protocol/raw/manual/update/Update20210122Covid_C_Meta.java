@@ -8,18 +8,22 @@ import com.nach.core.util.databricks.database.DatabricksDbUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Update20210122CovidMeta {
+public class Update20210122Covid_C_Meta {
 
 	public static void main(String[] args) {
 		log.info("Starting...");
 		log.info("Getting connections");
 		CosmosConnections conns = new CosmosConnections();
-		log.info("Dropping meta schema");
-		DatabricksDbUtil.dropDatabase("covid_meta", conns.getDbConnection());
-		log.info("Creating schema");
-		DatabricksDbUtil.createDatabase("covid_meta", conns.getDbConnection());
-		log.info("Creating meta data tables");
-		CreateMetricsTable.createMetaSchema("covid", "covid_meta", conns);
+		try {
+			log.info("Dropping meta schema");
+			DatabricksDbUtil.dropDatabase("covid_meta", conns.getDbConnection());
+			log.info("Creating schema");
+			DatabricksDbUtil.createDatabase("covid_meta", conns.getDbConnection());
+			log.info("Creating meta data tables");
+			CreateMetricsTable.createMetaSchema("covid", "covid_meta", conns);
+		} finally {
+			conns.close();
+		}
 		log.info("Done.");
 	}
 	

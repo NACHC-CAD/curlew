@@ -61,7 +61,7 @@ public class CreateGrpDataTableAction {
 				Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
 			}
 		}
-		log.info("Done.");
+		log.info("Done creating group table");
 	}
 
 	//

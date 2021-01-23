@@ -15,15 +15,15 @@ public class DatabricksRemoveRawDataGroup {
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		try {
-			String dataGroupCode = "womens_health_proc_cat";
+			String dataGroupCode = "covid_meta";
 			log.info("Starting delete for: " + dataGroupCode);
 			log.info("Getting connections...");
 			log.info("Doing delete...");
 			DeleteRawDataGroupAction.delete(dataGroupCode, conns);
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 }

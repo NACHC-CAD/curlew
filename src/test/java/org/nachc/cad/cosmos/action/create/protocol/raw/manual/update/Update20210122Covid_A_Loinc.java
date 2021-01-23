@@ -3,7 +3,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.update;
 import java.sql.Connection;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProjectCovid19;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProjectLoinc;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
@@ -13,11 +13,17 @@ import org.yaorma.dao.Dao;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Update20210122Covid {
+public class Update20210122Covid_A_Loinc {
 
-	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210122-COVID\\";
+	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\loinc\\";
 
-	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/covid/";
+	private static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/loinc/";
+
+	private static final String CODE = "loinc";
+
+	private static final String NAME = "Loinc";
+
+	private static final String LOT = "LOT 1";
 
 	public static void main(String[] args) {
 		log.info("Starting process...");
@@ -35,18 +41,10 @@ public class Update20210122Covid {
 		log.info("Adding project");
 		// create project in mysql
 		log.info("Creating project in mysql");
-		CreateProjectCovid19.createProject(conns.getMySqlConnection());
+		CreateProjectLoinc.createProject(conns.getMySqlConnection());
 		conns.commit();
 		// upload files
-		updateFiles("Admin", "admin", conns);
-		updateFiles("Demographics", "demo", conns);
-		updateFiles("Diagnosis", "dx", conns);
-		updateFiles("Encounter", "enc", conns);
-		updateFiles("Hospitalization", "hosp", conns);
-		updateFiles("Labs", "lab", conns);
-		updateFiles("Symptoms", "symp", conns);
-		updateFiles("Tobacco", "tobacco", conns);
-		updateFiles("Vitals", "vitals", conns);
+		updateFiles("Loinc", "loinc", conns);
 	}
 
 	private static void updateFiles(String name, String abr, CosmosConnections conns) {
@@ -59,9 +57,9 @@ public class Update20210122Covid {
 	public static RawDataFileUploadParams getParams(String name, String abr, Connection mySqlConn) {
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		params.setCreatedBy("greshje");
-		params.setProjCode("covid");
-		params.setProtocolNamePretty("COVID-19");
-		params.setDataLot("LOT 1");
+		params.setProjCode(CODE);
+		params.setProtocolNamePretty(NAME);
+		params.setDataLot(LOT);
 		params.setDatabricksFileLocation(DATABRICKS_FILE_ROOT + abr);
 		params.setDataGroupName(name);
 		params.setDataGroupAbr(abr);

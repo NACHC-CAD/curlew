@@ -21,6 +21,10 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201211Ac;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221He;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210105Ochin;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_A_Loinc;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_B;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_C_Meta;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update99999999GrantPrivileges;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
@@ -60,9 +64,13 @@ public class Build {
 			Update20201221He.main(null);
 //			Update20201228AddContraceptionProject.main(null);
 			Update20210105Ochin.main(null);
+			Update20210122Covid_A_Loinc.main(null);
+			Update20210122Covid_B.main(null);
+			Update20210122Covid_C_Meta.main(null);
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
 //			Update99999999CreateWomensHealthSchema.main(null);
+//			Update99999999GrantPrivileges.main(null);
 		} finally {
 			log.info("Closing connection");
 			conns.close();
