@@ -31,10 +31,10 @@ public class UpdateRxGroupTable {
 			Database.commit(conns.getMySqlConnection());
 			log.info("UPDATING GROUP TABLE");
 			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	public static void updateColumnAliaises(Connection conn) {

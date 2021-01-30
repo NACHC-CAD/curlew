@@ -24,6 +24,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_A_Loinc;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_B;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_C_Meta;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210128UpdateColumnNames;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update99999999GrantPrivileges;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
@@ -52,7 +53,6 @@ public class Build {
 			addFiles("Other", "other", conns);
 			addFiles("Procedure", "proc", conns);
 			addFiles("Rx", "rx", conns);
-			updateGroupTables();
 			log("Addtional updates");
 			Update20201121.main(null);
 			Update20201122.main(null);
@@ -67,6 +67,9 @@ public class Build {
 			Update20210122Covid_A_Loinc.main(null);
 			Update20210122Covid_B.main(null);
 			Update20210122Covid_C_Meta.main(null);
+			Update20210128UpdateColumnNames.main(null);
+			log("Updating GROUP TABLES");
+			updateGroupTables();
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
 //			Update99999999CreateWomensHealthSchema.main(null);
