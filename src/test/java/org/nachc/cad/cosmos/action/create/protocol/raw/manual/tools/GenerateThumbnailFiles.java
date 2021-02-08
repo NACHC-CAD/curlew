@@ -10,9 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GenerateThumbnailFiles {
 
-	public static final String SRC_DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2020-12-11-AC\\_ETC\\src\\";
+	public static final String SRC_DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\million-hearts\\me-med-mapping-2021-02-02\\term\\";
 
-	public static final Integer CNT = 100;
+	public static final Integer CNT = 250;
 
 	public static void main(String[] args) {
 		log.info("Starting...");

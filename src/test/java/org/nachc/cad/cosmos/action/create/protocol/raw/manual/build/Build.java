@@ -1,15 +1,14 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build;
 
+import org.nachc.cad.cosmos.action.confirm.ConfirmConfiguration;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.BurnEverythingToTheGround;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateProjectWomensHealth;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDemoGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateEncGroupTable;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateFlatGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateObsGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateOtherGroupTable;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdatePregGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateProcedureGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateRxGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201121;
@@ -21,11 +20,8 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201211Ac;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20201221He;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210105Ochin;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_A_Loinc;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_B;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210122Covid_C_Meta;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210128MedDescCatV2;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210128UpdateColumnNames;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update99999999GrantPrivileges;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
@@ -41,7 +37,9 @@ public class Build {
 		Timer timer = new Timer();
 		timer.start();
 		try {
-			log("Burning everything to the ground.");
+			log("Confirming Configuration");
+			ConfirmConfiguration.main(null);
+			log("Burning everything to the ground");
 			BurnEverythingToTheGround.main(null);
 			log("Adding Project");
 			CreateProjectWomensHealth.createProject();
@@ -64,9 +62,7 @@ public class Build {
 			Update20201221He.main(null);
 //			Update20201228AddContraceptionProject.main(null);
 			Update20210105Ochin.main(null);
-			Update20210122Covid_A_Loinc.main(null);
-			Update20210122Covid_B.main(null);
-			Update20210122Covid_C_Meta.main(null);
+			Update20210128MedDescCatV2.main(null);
 			Update20210128UpdateColumnNames.main(null);
 			log("Updating GROUP TABLES");
 			updateGroupTables();

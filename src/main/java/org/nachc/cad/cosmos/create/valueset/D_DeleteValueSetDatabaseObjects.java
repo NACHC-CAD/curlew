@@ -2,6 +2,7 @@ package org.nachc.cad.cosmos.create.valueset;
 
 import java.sql.Connection;
 
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.yaorma.database.Database;
 
@@ -17,16 +18,16 @@ public class D_DeleteValueSetDatabaseObjects {
 	}
 
 	public static void delete() {
-		Connection conn = null;
+		CosmosConnections conns = new CosmosConnections();
 		try {
 			log.info("Getting connection...");
-			conn = DatabricksDbConnectionFactory.getConnection();
+			Connection conn = conns.getDbConnection();
 			String schemaName =  A_ParametersForValueSetSchema.SCHEMA_NAME;
 			log.info("Dropping database: " + schemaName);
-			DatabricksDbUtil.dropDatabase(schemaName, conn);
+			DatabricksDbUtil.dropDatabase(schemaName, conn, conns);
 			log.info("Done dropping: " + schemaName);
 		} finally {
-			Database.close(conn);
+			conns.close();
 		}
 	}
 	

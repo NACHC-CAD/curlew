@@ -3,7 +3,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.tools.enviornment
 import java.io.File;
 
 import org.apache.commons.io.FileUtils;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.ConfirmConfiguration;
+import org.nachc.cad.cosmos.action.confirm.ConfirmConfiguration;
 
 import com.nach.core.util.file.FileUtil;
 

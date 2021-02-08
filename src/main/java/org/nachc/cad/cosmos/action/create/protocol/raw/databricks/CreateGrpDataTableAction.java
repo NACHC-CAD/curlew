@@ -21,9 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateGrpDataTableAction {
 
+	// JEG: DELETE THIS, DON'T REFRESH
 	public static void execute(String rawTableGroupCode, CosmosConnections conns) {
 		execute(rawTableGroupCode, conns, false);
 	}
+
+	/**
+	 * 
+	 * This table gets the parameters for the creation of the group table from the
+	 * database. The only parameter required is the rawTableGroupCode.
+	 * 
+	 */
 
 	public static void execute(String rawTableGroupCode, CosmosConnections conns, boolean refresh) {
 		// get the group
@@ -50,7 +58,7 @@ public class CreateGrpDataTableAction {
 		// DROP THE TABLE IF IT EXISTS
 		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
 		// CREATE THE TABLE IN DATABRICKS IF ANY FILES REMAIN
-		if(tables.size() > 0) {
+		if (tables.size() > 0) {
 			log.info("initializing connection parse policy");
 			DatabricksDbUtil.initParsePolicy(conns.getDbConnection());
 			log.info("done initializing connection parse policy");
@@ -103,8 +111,9 @@ public class CreateGrpDataTableAction {
 			RawTableColDvo dvo;
 			dvo = getAsAlias(colName, tableCols);
 			if (dvo != null) {
-				if(dvo.getColAlias().endsWith("_date")) {
-					// sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + dvo.getColAlias() + "_string, \n";
+				if (dvo.getColAlias().endsWith("_date")) {
+					// sqlString += " if(lower(trim(" + dvo.getColName() + ")) = 'null', null,
+					// trim("+ dvo.getColName() +")) as " + dvo.getColAlias() + "_string, \n";
 					String str = "";
 					str += "  coalesce(\n";
 					str += "    to_date((" + dvo.getColName() + "), \"yyyy-MM-dd\"),\n";
@@ -114,18 +123,19 @@ public class CreateGrpDataTableAction {
 					sqlString += str;
 				} else {
 					String alias = dvo.getColAlias();
-					if("patient_id".equals(alias)) {
+					if ("patient_id".equals(alias)) {
 						alias = "org_patient_id";
 						patientId = dvo.getColName();
 					}
-					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + alias + ", \n";
+					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim(" + dvo.getColName() + ")) as " + alias + ", \n";
 				}
 				continue;
 			}
 			dvo = getAsName(colName, tableCols);
 			if (dvo != null) {
-				if(dvo.getColName().endsWith("_date")) {
-					// sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + dvo.getColName() + "_string, \n";
+				if (dvo.getColName().endsWith("_date")) {
+					// sqlString += " if(lower(trim(" + dvo.getColName() + ")) = 'null', null,
+					// trim("+ dvo.getColName() +")) as " + dvo.getColName() + "_string, \n";
 					String str = "";
 					str += "  coalesce(\n";
 					str += "    to_date((" + dvo.getColName() + "), \"yyyy-MM-dd\"),\n";
@@ -135,22 +145,22 @@ public class CreateGrpDataTableAction {
 					sqlString += str;
 				} else {
 					String alias = dvo.getColName();
-					if("patient_id".equals(alias)) {
+					if ("patient_id".equals(alias)) {
 						alias = "org_patient_id";
 						patientId = "patient_id";
 					}
-					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim("+ dvo.getColName() +")) as " + alias + ", \n";
+					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim(" + dvo.getColName() + ")) as " + alias + ", \n";
 				}
 				continue;
 			}
-			if("patient_id".equals(colName)) {
+			if ("patient_id".equals(colName)) {
 				patientId = "''";
 				sqlString += "  null as org_patient_id, \n";
 			} else {
 				sqlString += "  null as " + colName + ", \n";
 			}
 		}
-		if(patientId != null) {
+		if (patientId != null) {
 			sqlString += "  concat('" + fileDvo.getOrgCode() + "', '|', " + patientId + ") as patient_id, \n";
 		}
 		sqlString += "  trim('" + fileDvo.getOrgCode() + "') as org, \n";

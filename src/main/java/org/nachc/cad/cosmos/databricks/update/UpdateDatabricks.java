@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.util.List;
 
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.yaorma.database.Data;
 import org.yaorma.database.Database;
@@ -18,20 +19,20 @@ public class UpdateDatabricks {
 
 	public static void main(String[] args) {
 		log.info("Updating schema...");
-		Connection conn = DatabricksDbConnectionFactory.getConnection();
+		CosmosConnections conns = new CosmosConnections();
 		log.info("Checking for existing schema...");
-		if (schemaExists(conn) == false) {
+		if (schemaExists(conns) == false) {
 			log.info("* * * CREATING DATABASE (THIS WILL ONLY HAPPEN IF THIS IS A NEW INSTANCE * * *");
-			initSchema(conn);
+			initSchema(conns.getDbConnection());
 		} else {
 			log.info("Schema exists, doing update");
 		}
-		updateSchema(conn);
+		updateSchema(conns.getDbConnection());
 		log.info("Done.");
 	}
 
-	private static boolean schemaExists(Connection conn) {
-		boolean rtn = DatabricksDbUtil.databaseExists("cosmos", conn);
+	private static boolean schemaExists(CosmosConnections conns) {
+		boolean rtn = DatabricksDbUtil.databaseExists("cosmos", conns.getDbConnection(), conns);
 		return rtn;
 	}
 

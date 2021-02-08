@@ -3,6 +3,7 @@ package org.nachc.cad.cosmos.databricks.drop;
 import java.sql.Connection;
 import java.util.List;
 
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.params.DatabricksParams;
@@ -26,14 +27,15 @@ public class DropDatabricksSchema {
 		String token = DatabricksAuthUtil.getToken();
 		DatabricksFileUtil util = new DatabricksFileUtil(url, token);
 		log.info("Getting connection...");
-		Connection conn = DatabricksDbConnectionFactory.getConnection();
+		CosmosConnections conns = new CosmosConnections();
+		Connection conn = conns.getDbConnection();
 		log.info("Doing drop");
 		log.info("Dropping cosmos");
-		DatabricksDbUtil.dropDatabase("cosmos", conn);
+		DatabricksDbUtil.dropDatabase("cosmos", conn, conns);
 		log.info("Dropping rxnorm");
-		DatabricksDbUtil.dropDatabase("rxnorm", conn);
+		DatabricksDbUtil.dropDatabase("rxnorm", conn, conns);
 		log.info("Dropping value_set");
-		DatabricksDbUtil.dropDatabase("value_set", conn);
+		DatabricksDbUtil.dropDatabase("value_set", conn, conns);
 		log.info("Deleting prod files...");
 		String response = util.list("/FileStore/tables");
 		log.info("Got response: \n" + response);

@@ -20,9 +20,15 @@ public class RawDataFileUploadParams {
 	// initial parameters
 	//
 
+	private String localHostFileRootDir;
+	
 	private String localHostFileAbsLocation;
 	
 	private String projCode;
+	
+	private String projName;
+	
+	private String projDescription;
 
 	private String orgCode;
 	
@@ -33,6 +39,8 @@ public class RawDataFileUploadParams {
 	private String dataGroupName;
 
 	private String dataGroupAbr;
+
+	private String databricksFileRoot;
 
 	private String databricksFileLocation;
 

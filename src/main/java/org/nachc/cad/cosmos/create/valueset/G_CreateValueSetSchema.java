@@ -2,6 +2,7 @@ package org.nachc.cad.cosmos.create.valueset;
 
 import java.sql.Connection;
 
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.yaorma.database.Database;
 
@@ -17,18 +18,18 @@ public class G_CreateValueSetSchema {
 	}
 
 	public static void create() {
-		Connection conn = null;
+		CosmosConnections conns = new CosmosConnections();
 		try {
 			log.info("Getting connection...");
-			conn = DatabricksDbConnectionFactory.getConnection();
+			Connection conn = conns.getDbConnection();
 			String schemaName = A_ParametersForValueSetSchema.SCHEMA_NAME;
 			log.info("Dropping schema: " + schemaName);
-			DatabricksDbUtil.dropDatabase(schemaName, conn);
+			DatabricksDbUtil.dropDatabase(schemaName, conn, conns);
 			log.info("Creating schema: " + schemaName);
 			DatabricksDbUtil.createDatabase(schemaName, conn);
 			log.info("Done creating schema: " + schemaName);
 		} finally {
-			Database.close(conn);
+			conns.close();
 		}
 	}
 

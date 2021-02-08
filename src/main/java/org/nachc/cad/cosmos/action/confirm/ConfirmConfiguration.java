@@ -1,8 +1,9 @@
-package org.nachc.cad.cosmos.action.create.protocol.raw.manual;
+package org.nachc.cad.cosmos.action.confirm;
 
 import java.sql.Connection;
 
 import org.nachc.cad.cosmos.util.configuration.ConfigurationUtil;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
@@ -15,16 +16,16 @@ public class ConfirmConfiguration {
 
 	public static void main(String[] args) {
 		log.info("Getting databricks connection...");
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
-		log.info("Getting mysql connection...");
-		Connection mySqlConn = MySqlConnectionFactory.getCosmosConnection();
-		exec(mySqlConn, dbConn);
+		CosmosConnections conns = new CosmosConnections();
+		exec(conns);
 	}
 
-	public static void exec(Connection mySqlConn, Connection dbConn) {
+	public static void exec(CosmosConnections conns) {
+		Connection dbConn = conns.getDbConnection();
+		Connection mySqlConn = conns.getMySqlConnection();
 		log.info("Starting configuration test...");
 		String databricksFiles = ConfigurationUtil.getDatabricksFileStoreInstance();
-		String databricksDb = ConfigurationUtil.getDatabricksSqlInstance(dbConn);
+		String databricksDb = ConfigurationUtil.getDatabricksSqlInstance(conns);
 		String mySql = ConfigurationUtil.getMySqlInstance(mySqlConn);
 		String msg = "\n\n* * * CONFIGURATION * * *";
 		msg += "\nDatabricks Files:    " + databricksFiles;

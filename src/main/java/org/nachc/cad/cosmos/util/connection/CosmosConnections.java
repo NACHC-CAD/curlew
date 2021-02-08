@@ -5,6 +5,7 @@ import java.sql.Connection;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
+import org.yaorma.database.DatabaseConnectionManager;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,13 +14,17 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @Setter
 @Slf4j
-public class CosmosConnections {
+public class CosmosConnections implements DatabaseConnectionManager {
 
 	private Connection mySqlConnection;
 	
 	private Connection dbConnection;
 	
 	public CosmosConnections() {
+		init();
+	}
+	
+	private void init() {
 		log.info("* * * CREATING NEW MYSQL CONNECTION * * *");
 		this.mySqlConnection = MySqlConnectionFactory.getCosmosConnection();
 		log.info("* * * CREATING NEW DATABRICKS CONNECTION * * *");
@@ -33,14 +38,50 @@ public class CosmosConnections {
 	
 	public void close() {
 		log.info("! ! ! CLOSING MYSQL CONNECTION ! ! !");
-		Database.close(mySqlConnection);
+		closeMySqlConnection();
 		log.info("! ! ! CLOSING DATABRICKS CONNECTION ! ! !");
+		closeDbConnection();
+		log.info("Done closing connections");
+	}
+
+	private void closeMySqlConnection() {
+		Database.close(mySqlConnection);
+	}
+	
+	private void closeDbConnection() {
 		try {
 			Database.close(dbConnection);
 		} catch(Exception exp) {
 			log.info("Closing Databricks connection threw and exception (this happens sometimes)");
 		}
-		log.info("Done closing connections");
+	}
+	
+	@Override
+	public void resetConnections() {
+		close();
+		init();
+	}
+
+	@Override
+	public void resetConnection(String name) {
+		if("databricks".equals(name)) {
+			closeDbConnection();
+			this.dbConnection = DatabricksDbConnectionFactory.getConnection();
+		} else if("mysql".equals(name)) {
+			closeMySqlConnection();
+			this.mySqlConnection = MySqlConnectionFactory.getCosmosConnection();
+		}
+	}
+
+	@Override
+	public Connection getConnection(String name) {
+		if("databricks".equals(name)) {
+			return this.dbConnection;
+		} else if("mysql".equals(name)) {
+			return this.mySqlConnection;
+		} else {
+			return null;
+		}
 	}
 	
 }

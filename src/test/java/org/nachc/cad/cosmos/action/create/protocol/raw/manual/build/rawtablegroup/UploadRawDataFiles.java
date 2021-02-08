@@ -45,7 +45,7 @@ public class UploadRawDataFiles {
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
 			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, conns.getDbConnection(), conns.getMySqlConnection(), isOverwrite);
+			AddRawDataFileAction.execute(params, conns, isOverwrite);
 		}
 		log.info("Done.");
 
@@ -66,8 +66,8 @@ public class UploadRawDataFiles {
 		// clear the files off of data bricks
 		DatabricksFileUtilFactory.get().rmdir(params.getDatabricksFileLocation());
 		// drop the raw and grp databases in data bricks
-		DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), conns.getDbConnection());
-		DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), conns.getDbConnection());
+		DatabricksDbUtil.dropDatabase(params.getGroupTableSchemaName(), conns.getDbConnection(), conns);
+		DatabricksDbUtil.dropDatabase(params.getRawTableSchemaName(), conns.getDbConnection(), conns);
 		// create the raw and grp databases in data bricks
 		CreateRawDataDatabricksSchemaAction.execute(params, conns.getDbConnection());
 	}

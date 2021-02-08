@@ -3,7 +3,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.update;
 import java.io.File;
 import java.sql.Connection;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.ConfirmConfiguration;
+import org.nachc.cad.cosmos.action.confirm.ConfirmConfiguration;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDemoGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateDiagGroupTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.update.UpdateEncGroupTable;

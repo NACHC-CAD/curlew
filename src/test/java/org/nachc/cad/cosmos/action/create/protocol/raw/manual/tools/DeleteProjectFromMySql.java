@@ -13,9 +13,7 @@ public class DeleteProjectFromMySql {
 		log.info("Getting connections...");
 		CosmosConnections conns = new CosmosConnections();
 		log.info("Doing delete");
-		DeleteProjectFromMySqlAction.delete("loinc", conns);
-		DeleteProjectFromMySqlAction.delete("covid", conns);
-		DeleteProjectFromMySqlAction.delete("covid_meta", conns);
+		DeleteProjectFromMySqlAction.delete("million_hearts", conns);
 		conns.commit();
 		log.info("Done.");
 	}

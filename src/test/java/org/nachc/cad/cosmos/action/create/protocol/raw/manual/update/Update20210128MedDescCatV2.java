@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Update20210128MedDescCatV2 {
 
-	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2021-01-28-desc-cat-v2\\src\\";
+	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2021-01-28-desc-cat-v2\\src\\_PROD\\";
 
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
@@ -28,6 +28,7 @@ public class Update20210128MedDescCatV2 {
 			log.info("Adding update files...");
 			updateFiles("ProcDescriptionCatV2", "proc_desc_cat_v2", conns);
 			updateFiles("MedDescriptionCatV2", "med_desc_cat_v2", conns);
+			updateFiles("MedCatV2", "med_cat_v2", conns);
 			log("Doing updates");
 		} finally {
 			conns.close();
@@ -95,13 +96,13 @@ public class Update20210128MedDescCatV2 {
 		String schemaName;
 		// raw data schema
 		schemaName = params.getRawTableSchemaName();
-		if(DatabricksDbUtil.databaseExists(schemaName, conn) == false) {
+		if(DatabricksDbUtil.databaseExists(schemaName, conn, conns) == false) {
 			log.info("* * * CREATING SCHEMA: " + schemaName + " * * *");
 			DatabricksDbUtil.createDatabase(schemaName, conn);
 		}
 		// group data schema
 		schemaName = params.getGroupTableSchemaName();
-		if(DatabricksDbUtil.databaseExists(schemaName, conn) == false) {
+		if(DatabricksDbUtil.databaseExists(schemaName, conn, conns) == false) {
 			log.info("* * * CREATING SCHEMA: " + schemaName + " * * *");
 			DatabricksDbUtil.createDatabase(schemaName, conn);
 		}

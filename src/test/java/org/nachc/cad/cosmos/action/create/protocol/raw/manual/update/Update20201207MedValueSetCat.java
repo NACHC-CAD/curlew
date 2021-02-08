@@ -95,13 +95,13 @@ public class Update20201207MedValueSetCat {
 		String schemaName;
 		// raw data schema
 		schemaName = params.getRawTableSchemaName();
-		if(DatabricksDbUtil.databaseExists(schemaName, conn) == false) {
+		if(DatabricksDbUtil.databaseExists(schemaName, conn, conns) == false) {
 			log.info("* * * CREATING SCHEMA: " + schemaName + " * * *");
 			DatabricksDbUtil.createDatabase(schemaName, conn);
 		}
 		// group data schema
 		schemaName = params.getGroupTableSchemaName();
-		if(DatabricksDbUtil.databaseExists(schemaName, conn) == false) {
+		if(DatabricksDbUtil.databaseExists(schemaName, conn, conns) == false) {
 			log.info("* * * CREATING SCHEMA: " + schemaName + " * * *");
 			DatabricksDbUtil.createDatabase(schemaName, conn);
 		}

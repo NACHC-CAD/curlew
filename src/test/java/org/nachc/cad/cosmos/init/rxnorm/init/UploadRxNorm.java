@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.junit.Test;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.auth.DatabricksAuthUtil;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.params.DatabricksParams;
@@ -24,10 +25,10 @@ public class UploadRxNorm {
 	public void shouldUploadFiles() {
 		log.info("Starting test...");
 		log.info("Deleteting RXNORM Schema");
-		Connection conn = DatabricksDbConnectionFactory.getConnection();
-		DatabricksDbUtil.dropDatabase("rxnorm", conn);
+		CosmosConnections conns = new CosmosConnections();
+		DatabricksDbUtil.dropDatabase("rxnorm", conns.getDbConnection(), conns);
 		log.info("Closing database");
-		Database.close(conn);
+		conns.close();
 		log.info("Doing file uploads...");
 		String path = DatabricksParams.getRxNormDatabricksDir();
 		String currentPath = "";

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.yaorma.database.Data;
 import org.yaorma.database.Database;
@@ -29,8 +30,9 @@ public class ConfigurationUtil {
 		return files.get(0);
 	}
 
-	public static String getDatabricksSqlInstance(Connection dbConn) {
-		Data data = DatabricksDbUtil.showSchemas(dbConn);
+	public static String getDatabricksSqlInstance(CosmosConnections conns) {
+		Connection dbConn = conns.getDbConnection();
+		Data data = DatabricksDbUtil.showSchemas(conns);
 		ArrayList<String> matches = new ArrayList<String>();
 		log.info("Got data.");
 		for (Row row : data) {

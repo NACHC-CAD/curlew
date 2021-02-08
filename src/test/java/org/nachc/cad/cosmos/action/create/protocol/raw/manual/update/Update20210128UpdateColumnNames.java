@@ -16,6 +16,11 @@ public class Update20210128UpdateColumnNames {
 			updateColName(conns, "contraceptive_med_dose", "med_dose");
 			updateColName(conns, "contraceptive_med_refills", "refils");
 			updateColName(conns, "womens_health_he_rx%", "med_name", "med_description");
+			updateColName(conns, "womens_health_he_rx%", "description", "description_not_used");
+			updateColName(conns, "womens_health_%_enc%", "contraceptive_counseling_marker","contraceptive_counseling");
+			updateColName(conns, "womens_health_%_enc%", "contr_couns_marker","contraceptive_counseling");
+			updateColName(conns, "womens_health_%_enc%", "contraceptive_counseling_marker","contraceptive_counseling");
+			updateColName(conns, "womens_health_%_flat%", "contraceptive_counseling_done","contraceptive_counseling");
 			conns.commit();
 		} finally {
 			conns.close();
@@ -35,12 +40,12 @@ public class Update20210128UpdateColumnNames {
 		log.info("RECORDS UPDATED:\t" + cnt + "\t" + name);
 	}
 
-	private static void updateColName(CosmosConnections conns, String org, String name, String alias) {
+	private static void updateColName(CosmosConnections conns, String rawTableName, String name, String alias) {
 		String sqlString = "";
 		sqlString += "update raw_table_col_alias \n";
 		sqlString += "set col_alias = '" + alias + "' \n";
 		sqlString += "where 1=1 \n";
-		sqlString += "  and raw_table_name like '" + org + "' \n";
+		sqlString += "  and raw_table_name like '" + rawTableName + "' \n";
 		sqlString += "	and col_name = '" + name + "' \n";
 		sqlString += "  and col_alias is null \n";
 		// log.info("Sql: \n" + sqlString);

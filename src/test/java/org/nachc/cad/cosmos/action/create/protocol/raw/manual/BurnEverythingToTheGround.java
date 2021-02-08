@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.nachc.cad.cosmos.mysql.update.UpdateMySql;
+import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksFileUtilFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
@@ -27,14 +28,15 @@ public class BurnEverythingToTheGround {
 
 	private static void doDatabricks() {
 		log.info("Getting Databricks connection");
-		Connection dbConn = DatabricksDbConnectionFactory.getConnection();
+		CosmosConnections conns = new CosmosConnections();
+		Connection dbConn = conns.getDbConnection();
 		log.info("Dropping Databricks");
 		DatabricksFileUtilFactory.get().rmdir("/FileStore/tables");
 		List<String> schema = DatabricksDbUtil.listRawSchema(dbConn);
 		for (String str : schema) {
 			if(str.startsWith("this_is_") == false) {
 				log.info("Dropping schema: " + str);
-				DatabricksDbUtil.dropDatabase(str, dbConn);
+				DatabricksDbUtil.dropDatabase(str, dbConn, conns);
 			}
 		}
 //		rmHiveDirs();
