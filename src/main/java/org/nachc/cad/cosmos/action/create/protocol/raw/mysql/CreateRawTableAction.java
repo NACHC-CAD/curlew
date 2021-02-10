@@ -27,6 +27,7 @@ public class CreateRawTableAction {
 		if(overwrite == true) {
 			remove(dvo, conn);
 		}
+		log.info("Creating record for: " + dvo.getRawTableSchema() + "." + dvo.getRawTableName());
 		Dao.insert(dvo, conn);
 		params.setRawTableDvo(dvo);
 		log.info("Creating raw_table record");

@@ -29,12 +29,31 @@ public class CreateRawTableColAction {
 			dvo.setColName(colName.getColName());
 			dvo.setDirtyName(colName.getDirtyName());
 			dvo.setProject(params.getProjCode());
+			doInsert(dvo, conn);
 			rtn.add(dvo);
 		}
-		log.info("Doing inserts...");
-		Dao.insert(rtn, conn);
 		log.info("Done creating raw_table_col records: " + rtn.size() + " records created.");
 		params.setRawTableColList(rtn);
+	}
+
+	private static void doInsert(RawTableColDvo dvo, Connection conn) {
+		String rootColName = dvo.getColName();
+		for(int i=0;i<10;i++) {
+			// allow for upto 10 columns with the same name
+			try {
+				log.info("Doing insert for: " + dvo.getTableName() + "." + dvo.getColName());
+				Dao.insert(dvo, conn);
+				log.info("Successful insert for: " + dvo.getTableName() + "." + dvo.getColName());
+				break;
+			} catch(Exception exp) {
+				if(i<9) {
+					dvo.setColName(rootColName + "_" + i);
+					continue;
+				} else {
+					throw(new RuntimeException (exp));
+				}
+			}
+		}
 	}
 
 }
