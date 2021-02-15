@@ -36,6 +36,10 @@ public class CosmosConnections implements DatabaseConnectionManager {
 		Database.commit(this.mySqlConnection);
 	}
 	
+	public void rollback() {
+		Database.rollback(this.mySqlConnection);
+	}
+	
 	public void close() {
 		log.info("! ! ! CLOSING MYSQL CONNECTION ! ! !");
 		closeMySqlConnection();
