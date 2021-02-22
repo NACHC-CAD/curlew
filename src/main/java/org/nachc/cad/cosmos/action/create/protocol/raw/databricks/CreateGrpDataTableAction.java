@@ -110,17 +110,21 @@ public class CreateGrpDataTableAction {
 		for (String colName : groupCols) {
 			RawTableColDvo dvo;
 			dvo = getAsAlias(colName, tableCols);
+			boolean dateStringAdded = false;
 			if (dvo != null) {
 				if (dvo.getColAlias().endsWith("_date")) {
 					// sqlString += " if(lower(trim(" + dvo.getColName() + ")) = 'null', null,
 					// trim("+ dvo.getColName() +")) as " + dvo.getColAlias() + "_string, \n";
+					String alias = dvo.getColAlias();
+					dateStringAdded = true;
 					String str = "";
 					str += "  coalesce(\n";
-					str += "    to_date((" + dvo.getColName() + "), \"yyyy-MM-dd\"),\n";
-					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yy\"),\n";
-					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yyyy\"),\n";
-					str += "    to_date((" + dvo.getColName() + "), \"yyyyMMdd\")) as " + dvo.getColAlias() + ", \n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"yyyy-MM-dd\"),\n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"MM/dd/yy\"),\n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"MM/dd/yyyy\"),\n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"yyyyMMdd\")) as " + dvo.getColAlias() + ", \n";
 					sqlString += str;
+					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim(" + dvo.getColName() + ")) as " + alias + "_string, \n";
 				} else {
 					String alias = dvo.getColAlias();
 					if ("patient_id".equals(alias)) {
@@ -136,13 +140,16 @@ public class CreateGrpDataTableAction {
 				if (dvo.getColName().endsWith("_date")) {
 					// sqlString += " if(lower(trim(" + dvo.getColName() + ")) = 'null', null,
 					// trim("+ dvo.getColName() +")) as " + dvo.getColName() + "_string, \n";
+					String alias = dvo.getColName();
+					dateStringAdded = true;
 					String str = "";
 					str += "  coalesce(\n";
-					str += "    to_date((" + dvo.getColName() + "), \"yyyy-MM-dd\"),\n";
-					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yy\"),\n";
-					str += "    to_date((" + dvo.getColName() + "), \"MM/dd/yyyy\"),\n";
-					str += "    to_date((" + dvo.getColName() + "), \"yyyyMMdd\")) as " + dvo.getColName() + ", \n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"yyyy-MM-dd\"),\n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"MM/dd/yy\"),\n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"MM/dd/yyyy\"),\n";
+					str += "    to_date(substring(" + dvo.getColName() + ",0,10), \"yyyyMMdd\")) as " + dvo.getColName() + ", \n";
 					sqlString += str;
+					sqlString += "  if(lower(trim(" + dvo.getColName() + ")) = 'null', null, trim(" + dvo.getColName() + ")) as " + alias + "_string, \n";
 				} else {
 					String alias = dvo.getColName();
 					if ("patient_id".equals(alias)) {
@@ -158,6 +165,9 @@ public class CreateGrpDataTableAction {
 				sqlString += "  null as org_patient_id, \n";
 			} else {
 				sqlString += "  null as " + colName + ", \n";
+			}
+			if(dateStringAdded == false &&  colName.endsWith("_date")) {
+				sqlString += "  null as " + colName + "_string, \n";
 			}
 		}
 		if (patientId != null) {

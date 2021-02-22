@@ -4,6 +4,8 @@
 --
 -- * * *
 
+use cosmos;
+
 -- 
 -- get all the entities for a project
 -- 
@@ -29,11 +31,26 @@ order by org_code, file_name
 ;
 
 --
--- get all the columns for a table
+-- get all the columns for a project and org
 --
 
-select raw_table_col, project, org_code, group_table_name, col_name, col_alias
+select col_index as col, file_name, project, org_code, group_table_name, col_name, col_alias
 from raw_table_col_detail
 where project = 'covid'
-order by project, group_table_name, col_name, col_alias
+and org_code = 'chcn'
+order by project, group_table_name, col, col_alias
 ;
+
+-- 
+-- show distinct file names
+--
+
+select file_name, count(*) from raw_table_file
+group by 1
+order by 2 desc
+;
+
+select * from raw_table_file;
+
+select * from raw_table_col;
+

@@ -9,7 +9,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covi
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210122_Covid_CHCN;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_AC;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_HCN;
-import org.nachc.cad.cosmos.mysql.alias.CreateColumnAlias;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210217_TestResults;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,21 +41,24 @@ public class BuildCovid {
 
 	/**
 	 * 
-	 * This method will delete and rebuild the COVID-19 projects: - covid -
-	 * covid_meta - covid_loinc
+	 * This method will delete and rebuild the COVID-19 projects: (covid, covid_meta, covid_loinc)
 	 * 
 	 */
 
 	public static void exec(CosmosConnections conns) {
 		/*
+		// delete and recreate the project
 		DeleteCovidProject.exec(conns);
 		CreateCovidProject.exec(conns);
+		// do the file uploads
 		Update20210207_Covid_HCN.exec(conns);
-		Update20210121_Covid_Loinc.exec(conns);
 		Update20210122_Covid_CHCN.exec(conns);
 		Update20210207_Covid_AC.exec(conns);
-		*/
+		Update20210121_Covid_Loinc.exec(conns);
+		Update20210217_TestResults.exec(conns);
+		// create the database objects
 		CreateCovidColumnMappings.exec(conns);
+		 */
 		CreateCovidGroupTables.exec(conns);
 		CreateCovidSchemas.exec(conns);
 		conns.commit();
