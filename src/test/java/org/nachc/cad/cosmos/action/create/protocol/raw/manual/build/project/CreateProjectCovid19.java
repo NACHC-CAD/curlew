@@ -15,7 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateProjectCovid19 {
 
-	public static void createProject(Connection mySqlConn) {
+	// TODO: JEG DELETE THIS CLASS
+	public static void createProjectNEVERCALLED(Connection mySqlConn) {
 		// create proj_code record
 		createProjCodeRecord(mySqlConn);
 		// create project record
@@ -27,8 +28,6 @@ public class CreateProjectCovid19 {
 		log.info("Doing insert");
 		Dao.insert(dvo, mySqlConn);
 		log.info("Adding url records");
-		// create the urls
-		createUrls(mySqlConn, dvo);
 	}
 
 	private static void createProjCodeRecord(Connection mySqlConn) {
@@ -38,7 +37,4 @@ public class CreateProjectCovid19 {
 		Dao.insert(dvo, mySqlConn);
 	}
 	
-	private static void createUrls(Connection conn, ProjectDvo proj) {
-	}
-
 }

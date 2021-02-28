@@ -46,7 +46,6 @@ public class BuildCovid {
 	 */
 
 	public static void exec(CosmosConnections conns) {
-		/*
 		// delete and recreate the project
 		DeleteCovidProject.exec(conns);
 		CreateCovidProject.exec(conns);
@@ -58,7 +57,6 @@ public class BuildCovid {
 		Update20210217_TestResults.exec(conns);
 		// create the database objects
 		CreateCovidColumnMappings.exec(conns);
-		 */
 		CreateCovidGroupTables.exec(conns);
 		CreateCovidSchemas.exec(conns);
 		conns.commit();
