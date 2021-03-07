@@ -10,6 +10,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covi
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_AC;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_HCN;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210217_TestResults;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Updateupdate_20210306_NACHC_Mappings;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,7 @@ public class BuildCovid {
 		Update20210207_Covid_AC.exec(conns);
 		Update20210121_Covid_Loinc.exec(conns);
 		Update20210217_TestResults.exec(conns);
+		Updateupdate_20210306_NACHC_Mappings.exec(conns);
 		// create the database objects
 		CreateCovidColumnMappings.exec(conns);
 		CreateCovidGroupTables.exec(conns);

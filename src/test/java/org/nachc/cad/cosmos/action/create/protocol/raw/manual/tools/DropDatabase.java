@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DropDatabase {
 
-	public static final String DB_NAME = "scratch";
+	public static final String DB_NAME = "covid_bronze";
 	
 	public static void main(String[] args) {
 		log.info("Confirming Configuration...");
