@@ -3,7 +3,7 @@ package org.nachc.cad.cosmos.action.delete;
 import java.sql.Connection;
 import java.util.List;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;

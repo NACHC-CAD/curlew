@@ -7,7 +7,7 @@ import org.nachc.cad.cosmos.action.create.metrics.CreateMetricsTable;
 import org.nachc.cad.cosmos.action.create.project.CreateProjectAction;
 import org.nachc.cad.cosmos.action.create.project.UploadFilesAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateColumnMappingsAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.action.delete.DeleteProjectAction;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;

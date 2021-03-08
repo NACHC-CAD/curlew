@@ -2,7 +2,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.cov
 
 import java.util.List;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.create.CreateCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;

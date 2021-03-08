@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.util.List;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
-import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawDataDatabricksSchemaAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.mysql.CreateRawTableGroupRecordAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;

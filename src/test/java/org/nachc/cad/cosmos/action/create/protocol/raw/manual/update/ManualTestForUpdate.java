@@ -2,7 +2,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.update;
 
 import java.sql.Connection;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateGrpDataTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.CreateIntegrationTestProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.rawtablegroup.UploadRawDataFiles;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;

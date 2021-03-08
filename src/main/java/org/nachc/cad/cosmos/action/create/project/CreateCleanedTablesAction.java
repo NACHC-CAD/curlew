@@ -1,10 +1,12 @@
 package org.nachc.cad.cosmos.action.create.project;
 
 import java.io.File;
+import java.sql.Connection;
 import java.util.List;
 
-import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateCleanedTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
+import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
@@ -14,15 +16,7 @@ import com.nach.core.util.file.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class UploadFilesAction {
-
-	/**
-	 *
-	 * Uploads all of the files in the dir in the parms object. Creates a new raw
-	 * table group if one does not exist. Throws a runtime exception if file already
-	 * exists (JEG: NEED TO CONFIRM).
-	 *
-	 */
+public class CreateCleanedTablesAction {
 
 	public static void exec(String dataGroupName, String dataGroupAbr, String dataLot, RawDataFileUploadParams params, CosmosConnections conns) {
 		log.info("Looking for existing raw table group...");
@@ -33,11 +27,9 @@ public class UploadFilesAction {
 		log.info("Got " + files.size() + " files.");
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
-			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, conns, false);
+			updateParamsWithFileInfo(params, file, conns.getMySqlConnection());
+			CreateCleanedTableAction.exec(params.getRawTableFileDvo().getRawTable(), conns);
 		}
-		log.info("Creating cleaned table");
-		CreateCleanedTablesAction.exec(dataGroupName, dataGroupAbr, dataLot, params, conns);
 		log.info("Done uploading files.");
 	}
 
@@ -67,7 +59,7 @@ public class UploadFilesAction {
 		return rtn;
 	}
 
-	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file) {
+	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file, Connection conn) {
 		params.setFileName(file.getName());
 		params.setFile(file);
 		params.setOrgCode(file.getParentFile().getName());
@@ -76,6 +68,10 @@ public class UploadFilesAction {
 		} else {
 			params.setDelimiter(',');
 		}
+		String[] keys = {"file_location", "file_name"};
+		String[] vals = {params.getDatabricksFileLocation(), params.getFileName()};
+		RawTableFileDvo dvo = Dao.find(new RawTableFileDvo(), keys, vals, conn);
+		params.setRawTableFileDvo(dvo);
 	}
 
 }

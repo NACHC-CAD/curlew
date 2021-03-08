@@ -17,6 +17,7 @@ public class DatabricksDbConnectionFactory {
 		String token = DatabricksAuthUtil.getToken();
 		log.info("URL: " + url);
 		Connection conn = DatabricksDbUtil.getConnection(url, token);
+		DatabricksDbUtil.initParsePolicy(conn);
 		log.info("Got connection");
 		return conn;
 	}
