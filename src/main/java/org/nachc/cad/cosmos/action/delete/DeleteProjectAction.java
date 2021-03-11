@@ -36,7 +36,7 @@ public class DeleteProjectAction {
 		Data data = DatabricksDbUtil.showSchemas(conns);
 		for(Row row : data) {
 			String namespace = row.get("namespace");
-			if(namespace == null) {
+			if (namespace == null) {
 				namespace = row.get("databasename");
 			}
 			if(namespace.toLowerCase().startsWith("prj_grp_" + projectName) || namespace.toLowerCase().startsWith("prj_raw_" + projectName)) {

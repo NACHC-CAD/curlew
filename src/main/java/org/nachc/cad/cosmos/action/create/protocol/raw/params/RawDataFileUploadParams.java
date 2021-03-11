@@ -34,6 +34,8 @@ public class RawDataFileUploadParams {
 
 	private String orgCode;
 	
+	private String orgName;
+	
 	private String dataLot;
 
 	private String protocolNamePretty;
@@ -55,6 +57,8 @@ public class RawDataFileUploadParams {
 	private char delimiter;
 	
 	private boolean groupedByOrg = false;
+	
+	private boolean createNewOrg = false;
 	
 	private boolean createNewProject = false;
 	

@@ -14,7 +14,7 @@ import org.yaorma.dao.Dao;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class BuildProjectIntegrationTest {
+public class BuildProjectFromUploadDirIntegrationTest {
 
 	public static final String PROJ_NAME = "integration_test";
 
@@ -27,10 +27,6 @@ public class BuildProjectIntegrationTest {
 	 * Delete existing project and create a new project from data files.
 	 * 
 	 */
-
-	//
-	// TODO: THIS WILL NEED TO BE SET FOR EACH DIR:dataGroupAbbr
-	//
 
 	@Test
 	public void shouldBuildProject() {
@@ -53,15 +49,19 @@ public class BuildProjectIntegrationTest {
 		log.info("Done.");
 	}
 	
+	//
+	// method to check that the project was correctly deleted/created
+	//
+	
 	private void assertProjectExists(boolean exists, CosmosConnections conns) {
 		ProjectDvo projDvo = Dao.find(new ProjectDvo(), "code", PROJ_NAME, conns.getMySqlConnection());
 		ProjCodeDvo projCodeDvo = Dao.find(new ProjCodeDvo(), "code", PROJ_NAME, conns.getMySqlConnection());
 		if(exists == true) {
 			assertTrue(projDvo != null);
-			assertTrue(projDvo != null);
+			assertTrue(projCodeDvo != null);
 		} else {
 			assertTrue(projDvo == null);
-			assertTrue(projDvo == null);
+			assertTrue(projCodeDvo == null);
 		}
 	}
 
