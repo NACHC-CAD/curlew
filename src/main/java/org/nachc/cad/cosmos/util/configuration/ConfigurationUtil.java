@@ -31,12 +31,14 @@ public class ConfigurationUtil {
 	}
 
 	public static String getDatabricksSqlInstance(CosmosConnections conns) {
-		Connection dbConn = conns.getDbConnection();
 		Data data = DatabricksDbUtil.showSchemas(conns);
 		ArrayList<String> matches = new ArrayList<String>();
 		log.info("Got data.");
 		for (Row row : data) {
 			String namespace = row.get("namespace");
+			if (namespace == null) {
+				namespace = row.get("databasename");
+			}
 			if (namespace != null && namespace.startsWith("this_is_")) {
 				matches.add(namespace);
 			}
