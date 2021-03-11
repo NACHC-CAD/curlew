@@ -14,7 +14,7 @@ public class Update20210121_Covid_Loinc {
 
 	public static void exec(CosmosConnections conns) {
 		RawDataFileUploadParams params = CreateCovidProject.getParams();
-		params.setLocalHostFileRootDir(SRC_ROOT);
+		params.setLocalHostFileAbsLocation(SRC_ROOT);
 		UploadFilesAction.exec("Covid Loinc", "covid_loinc", "LOT 1", params, conns);
 	}
 

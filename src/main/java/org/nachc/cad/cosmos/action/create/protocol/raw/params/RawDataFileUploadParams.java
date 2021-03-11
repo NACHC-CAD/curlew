@@ -20,9 +20,11 @@ public class RawDataFileUploadParams {
 	// initial parameters
 	//
 
-	private String localHostFileRootDir;
+	// private String localHostFileRootDir;
 	
 	private String localHostFileAbsLocation;
+	
+	private File localDirForUpload;
 	
 	private String projCode;
 	
@@ -55,6 +57,8 @@ public class RawDataFileUploadParams {
 	private boolean groupedByOrg = false;
 	
 	private boolean createNewProject = false;
+	
+	private boolean overwriteExistingFiles = false;
 
 	//
 	// generated parameters

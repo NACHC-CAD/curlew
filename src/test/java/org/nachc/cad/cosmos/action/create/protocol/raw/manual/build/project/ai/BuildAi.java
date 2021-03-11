@@ -95,7 +95,7 @@ public class BuildAi {
 
 	private static void uploadLot1(CosmosConnections conns) {
 		RawDataFileUploadParams params = getParams();
-		params.setLocalHostFileRootDir(LOT1_SRC_ROOT);
+		params.setLocalHostFileAbsLocation(LOT1_SRC_ROOT);
 		UploadFilesAction.exec("cpt", "cpt", "2021-02", params, conns);
 		UploadFilesAction.exec("demo", "demo", "2021-02", params, conns);
 		UploadFilesAction.exec("enc", "enc", "2021-02", params, conns);
@@ -105,7 +105,7 @@ public class BuildAi {
 
 	private static void uploadLot2(CosmosConnections conns) {
 		RawDataFileUploadParams params = getParams();
-		params.setLocalHostFileRootDir(LOT2_SRC_ROOT_OCHIN);
+		params.setLocalHostFileAbsLocation(LOT2_SRC_ROOT_OCHIN);
 		UploadFilesAction.exec("demo", "demo", "2021-03", params, conns);
 		UploadFilesAction.exec("enc", "enc", "2021-03", params, conns);
 	}

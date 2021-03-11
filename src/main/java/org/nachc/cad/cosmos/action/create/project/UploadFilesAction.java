@@ -40,7 +40,7 @@ public class UploadFilesAction {
 			AddRawDataFileAction.execute(params, conns, true);
 		}
 		log.info("Creating mappings");
-		createMappings(params.getLocalHostFileRootDir(), conns);
+		createMappings(params.getLocalHostFileAbsLocation(), conns);
 		log.info("Creating cleaned table");
 		CreateCleanedTablesAction.exec(dataGroupName, dataGroupAbr, dataLot, params, conns);
 		log.info("Done uploading files.");
@@ -52,7 +52,7 @@ public class UploadFilesAction {
 		params.setDataGroupAbr(dataGroupAbr);
 		params.setDataLot(dataLot);
 		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + dataGroupAbr);
-		String localHostFileAbsLocation = params.getLocalHostFileRootDir() + dataGroupAbr;
+		String localHostFileAbsLocation = params.getLocalHostFileAbsLocation() + dataGroupAbr;
 		params.setLocalHostFileAbsLocation(localHostFileAbsLocation);
 		String code = params.getRawTableGroupCode();
 		log.info("Getting raw_table_group for: " + code);

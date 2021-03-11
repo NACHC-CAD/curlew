@@ -14,7 +14,7 @@ public class Update20210217_TestResults {
 
 	public static void exec(CosmosConnections conns) {
 		RawDataFileUploadParams params = CreateCovidProject.getParams();
-		params.setLocalHostFileRootDir(SRC_ROOT);
+		params.setLocalHostFileAbsLocation(SRC_ROOT);
 		UploadFilesAction.exec("TestResultCat", "test_result_cat", "LOT 1", params, conns);
 	}
 

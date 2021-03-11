@@ -1,17 +1,18 @@
 package org.nachc.cad.cosmos.util.project;
 
 import java.io.File;
+import java.util.List;
 import java.util.Properties;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.ProjCodeDvo;
-import org.nachc.cad.cosmos.dvo.mysql.cosmos.ProjectDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.ProjectDvo;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.dvo.CosmosDvoUtil;
 import org.nachc.cad.cosmos.util.params.DatabricksParams;
 import org.yaorma.dao.Dao;
 
+import com.nach.core.util.file.FileUtil;
 import com.nach.core.util.props.PropertiesUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,9 @@ public class UploadDir {
 	 * 
 	 */
 
-	public void uploadDir(String absPath, String userName, String dataGroupAbbr, CosmosConnections conns) {
+	public static void exec(String absPath, String userName, CosmosConnections conns) {
 		File dir = new File(absPath);
-		uploadDir(dir, userName, dataGroupAbbr, conns);
+		uploadDir(dir, userName, conns);
 	}
 
 	/**
@@ -38,16 +39,19 @@ public class UploadDir {
 	 * 
 	 */
 
-	public void uploadDir(File dir, String userName, String dataGroupAbbr, CosmosConnections conns) {
+	public static void uploadDir(File dir, String userName, CosmosConnections conns) {
 		// get the parameters
 		File projectPropertiesFile = new File(dir, PROPS_PATH);
 		Properties props = PropertiesUtil.getAsProperties(projectPropertiesFile);
 		props.put("user-name", userName);
-		props.put("data-group-abbr", dataGroupAbbr);
 		RawDataFileUploadParams params = getParams(props);
+		params.setLocalHostFileAbsLocation(FileUtil.getCanonicalPath(dir));
+		params.setLocalDirForUpload(dir);
 		// check project records (create new project if create-new-project is true)
 		checkForProjectCodeRecord(params, conns);
 		checkForProjectRecord(params, conns);
+		// upload files
+		uploadFiles(params, conns);
 	}
 
 	// ------------------------------------------------------------------------
@@ -58,12 +62,12 @@ public class UploadDir {
 
 	//
 	// Get the parameters (parameters are parsed from
-	// - A file in the source files
+	// - A file in the source files (./_meta/project.properties)
 	// - The username (passed in as a string)
 	// - The data group (demo, enc, rx, etc.) are based on the file structure
 	//
 
-	public RawDataFileUploadParams getParams(Properties props) {
+	public static RawDataFileUploadParams getParams(Properties props) {
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		params.setProjCode(props.getProperty("project-code"));
 		params.setProjName(props.getProperty("project-name"));
@@ -71,11 +75,9 @@ public class UploadDir {
 		params.setOrgCode(props.getProperty("org"));
 		params.setCreatedBy(props.getProperty("user-name"));
 		params.setDataGroupAbr(props.getProperty("data-group-abbr"));
-		boolean createNew = false;
-		if ("true".equalsIgnoreCase(props.getProperty("create-new-project"))) {
-			createNew = true;
-		}
-		params.setCreateNewProject(createNew);
+		params.setDatabricksFileLocation(props.getProperty("data-lot"));
+		params.setCreateNewProject("true".equalsIgnoreCase(props.getProperty("create-new-project")));
+		params.setOverwriteExistingFiles("true".equalsIgnoreCase(props.getProperty("overwrite-existing-files")));
 		params.setDatabricksFileRoot(DatabricksParams.getProjectFilesRoot());
 		return params;
 	}
@@ -86,7 +88,7 @@ public class UploadDir {
 	// created)
 	//
 
-	private void checkForProjectCodeRecord(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void checkForProjectCodeRecord(RawDataFileUploadParams params, CosmosConnections conns) {
 		String projectCode = params.getProjCode();
 		log.info("Checing for project code: " + projectCode);
 		ProjCodeDvo dvo = Dao.find(new ProjCodeDvo(), "code", params.getProjCode(), conns.getMySqlConnection());
@@ -95,9 +97,8 @@ public class UploadDir {
 			dvo = new ProjCodeDvo();
 			dvo.setCode(params.getProjCode());
 			dvo.setName(params.getProjName());
-			CosmosDvoUtil.init(dvo, params.getCreatedBy(), conns.getMySqlConnection());
 			Dao.insert(dvo, conns.getMySqlConnection());
-		} else if(dvo == null && params.isCreateNewProject() == false) {
+		} else if (dvo == null && params.isCreateNewProject() == false) {
 			String msg = "";
 			msg += "NO PROJECT_CODE FOUND AND CREATE PROJECT FLAG NOT SET: \n";
 			msg += "  Either project code is wrong: " + projectCode + "\n";
@@ -109,7 +110,7 @@ public class UploadDir {
 		}
 	}
 
-	private void checkForProjectRecord(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void checkForProjectRecord(RawDataFileUploadParams params, CosmosConnections conns) {
 		String projCode = params.getProjCode();
 		String projName = params.getProjName();
 		String projDescription = params.getProjDescription();
@@ -122,7 +123,7 @@ public class UploadDir {
 			dvo.setDescription(projDescription);
 			CosmosDvoUtil.init(dvo, params.getCreatedBy(), conns.getMySqlConnection());
 			Dao.insert(dvo, conns.getMySqlConnection());
-		} else if(dvo == null && params.isCreateNewProject() == false) {
+		} else if (dvo == null && params.isCreateNewProject() == false) {
 			String msg = "";
 			msg += "NO PROJECT FOUND AND CREATE PROJECT FLAG NOT SET: \n";
 			msg += "  Either project code is wrong: " + projCode + "\n";
@@ -132,6 +133,21 @@ public class UploadDir {
 		} else {
 			log.info("PROJECT FOUND FOR CODE: " + dvo.getCode());
 		}
+	}
+
+	//
+	// UPLOAD THE FILES
+	//
+
+	private static void uploadFiles(RawDataFileUploadParams params, CosmosConnections conns) {
+		File rootDir = params.getLocalDirForUpload();
+		List<File> files = FileUtil.listFiles(rootDir);
+		files = FileUtil.removeStartsWith(files, "_");
+		String msg = "Found the following data directories: \n";
+		for (File file : files) {
+			msg += file.getName() + "\n";
+		}
+		log.info(msg);
 	}
 
 }

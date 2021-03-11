@@ -14,7 +14,7 @@ public class Updateupdate_20210306_NACHC_Mappings {
 
 	public static void exec(CosmosConnections conns) {
 		RawDataFileUploadParams params = CreateCovidProject.getParams();
-		params.setLocalHostFileRootDir(SRC_ROOT);
+		params.setLocalHostFileAbsLocation(SRC_ROOT);
 		UploadFilesAction.exec("sdoh_observation_name_nachc", "sdoh_observation_name_nachc", "LOT 1", params, conns);
 		UploadFilesAction.exec("sdoh_observation_value_nachc", "sdoh_observation_value_nachc", "LOT 1", params, conns);
 	}

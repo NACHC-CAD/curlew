@@ -39,7 +39,7 @@ public class CreateCleanedTablesAction {
 		params.setDataGroupAbr(dataGroupAbr);
 		params.setDataLot(dataLot);
 		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + dataGroupAbr);
-		String localHostFileAbsLocation = params.getLocalHostFileRootDir() + dataGroupAbr;
+		String localHostFileAbsLocation = params.getLocalHostFileAbsLocation() + dataGroupAbr;
 		params.setLocalHostFileAbsLocation(localHostFileAbsLocation);
 		String code = params.getRawTableGroupCode();
 		log.info("Getting raw_table_group for: " + code);

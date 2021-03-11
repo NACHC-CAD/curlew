@@ -92,7 +92,7 @@ public class BuildHiv {
 
 	private static void uploadLot1(CosmosConnections conns) {
 		RawDataFileUploadParams params = getParams();
-		params.setLocalHostFileRootDir(LOT1_SRC_ROOT);
+		params.setLocalHostFileAbsLocation(LOT1_SRC_ROOT);
 		UploadFilesAction.exec("Demographics", "demo", "2021-02", params, conns);
 		UploadFilesAction.exec("Encounter", "enc", "2021-02", params, conns);
 	}
