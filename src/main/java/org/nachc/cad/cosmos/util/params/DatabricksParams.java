@@ -20,6 +20,10 @@ public class DatabricksParams {
 		return PROPS.getProperty("rest-url");
 	}
 	
+	public static String getProjectFilesRoot() {
+		return PROPS.getProperty("project-files-root");
+	}
+	
 	//
 	// value set
 	//

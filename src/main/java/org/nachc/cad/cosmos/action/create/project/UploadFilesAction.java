@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateColumnMappingsAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
@@ -15,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class UploadFilesAction {
+
+	public static final String PATTERN = "\\_meta\\*.xlsx";
 
 	/**
 	 *
@@ -34,8 +37,10 @@ public class UploadFilesAction {
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
 			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, conns, false);
+			AddRawDataFileAction.execute(params, conns, true);
 		}
+		log.info("Creating mappings");
+		createMappings(params.getLocalHostFileRootDir(), conns);
 		log.info("Creating cleaned table");
 		CreateCleanedTablesAction.exec(dataGroupName, dataGroupAbr, dataLot, params, conns);
 		log.info("Done uploading files.");
@@ -76,6 +81,16 @@ public class UploadFilesAction {
 		} else {
 			params.setDelimiter(',');
 		}
+	}
+
+	public static void createMappings(String rootDirName, CosmosConnections conns) {
+		log.info("Creating column aliases...");
+		List<File> files = FileUtil.listFiles(new File(rootDirName), PATTERN);
+		for (File file : files) {
+			log.info("Processing: " + file.getName());
+			CreateColumnMappingsAction.exec(file, conns);
+		}
+		log.info("Done creating column aliases.");
 	}
 
 }

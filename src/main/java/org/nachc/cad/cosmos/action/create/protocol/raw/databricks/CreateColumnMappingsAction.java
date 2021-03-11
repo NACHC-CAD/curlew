@@ -42,6 +42,9 @@ public class CreateColumnMappingsAction {
 			if(colAlias != null && StringUtil.isEmpty(colAlias) == false) {
 				log.info("\tUPDATING COL: " + colName + "|" + colAlias + "|" + fileName);
 				String rawTableGuid = getRawTableGuid(fileName, conns);
+				if(rawTableGuid == null) {
+					continue;
+				}
 				String sqlString = "update raw_table_col set col_alias = ? where col_name = ? and raw_table = ?";
 				String[] params = {colAlias, colName, rawTableGuid};
 				int cnt = Database.update(sqlString,  params, conns.getMySqlConnection());
@@ -56,8 +59,12 @@ public class CreateColumnMappingsAction {
 
 	private static String getRawTableGuid(String fileName, CosmosConnections conns) {
 		RawTableFileDvo dvo = Dao.find(new RawTableFileDvo(), "file_name", fileName, conns.getMySqlConnection());
-		String guid = dvo.getRawTable();
-		return guid;
+		if(dvo == null) {
+			return null;
+		} else {
+			String guid = dvo.getRawTable();
+			return guid;
+		}
 	}
 
 }

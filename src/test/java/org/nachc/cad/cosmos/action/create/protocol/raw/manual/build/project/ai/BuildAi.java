@@ -33,6 +33,8 @@ public class BuildAi {
 
 	private static final String LOT1_SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\ai\\2021-02-27-AI\\";
 
+	private static final String LOT2_SRC_ROOT_OCHIN = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\ai\\2021-03-08-AI_OCHIN\\";
+
 	public static final String PATTERN = "_meta\\*.xlsx";
 
 	public static final String SQL_FILE_PATTERN = "_sql\\*.sql";
@@ -71,6 +73,7 @@ public class BuildAi {
 		createProject(conns);
 		// data file uploads
 		uploadLot1(conns);
+		uploadLot2(conns);
 		// create column mappings and group table
 		createColumnMappings(conns);
 		createGroupTables(conns);
@@ -98,6 +101,13 @@ public class BuildAi {
 		UploadFilesAction.exec("enc", "enc", "2021-02", params, conns);
 		UploadFilesAction.exec("flat", "flat", "2021-02", params, conns);
 		UploadFilesAction.exec("vacc", "vacc", "2021-02", params, conns);
+	}
+
+	private static void uploadLot2(CosmosConnections conns) {
+		RawDataFileUploadParams params = getParams();
+		params.setLocalHostFileRootDir(LOT2_SRC_ROOT_OCHIN);
+		UploadFilesAction.exec("demo", "demo", "2021-03", params, conns);
+		UploadFilesAction.exec("enc", "enc", "2021-03", params, conns);
 	}
 
 	public static void createColumnMappings(CosmosConnections conns) {

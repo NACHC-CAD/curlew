@@ -53,6 +53,8 @@ public class RawDataFileUploadParams {
 	private char delimiter;
 	
 	private boolean groupedByOrg = false;
+	
+	private boolean createNewProject = false;
 
 	//
 	// generated parameters

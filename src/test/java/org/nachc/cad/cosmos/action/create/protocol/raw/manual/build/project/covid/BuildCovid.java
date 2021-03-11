@@ -2,7 +2,6 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.cov
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.create.CreateCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidColumnMappings;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidSchemas;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210121_Covid_Loinc;
@@ -17,6 +16,30 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class BuildCovid {
+
+	/**
+	 * 
+	 * This method will delete and rebuild the COVID-19 projects: (covid,
+	 * covid_meta, covid_loinc)
+	 * 
+	 */
+
+	public static void exec(CosmosConnections conns) {
+		// delete and recreate the project
+		DeleteCovidProject.exec(conns);
+		CreateCovidProject.exec(conns);
+		// do the file uploads
+		Update20210207_Covid_HCN.exec(conns);
+		Update20210122_Covid_CHCN.exec(conns);
+		Update20210207_Covid_AC.exec(conns);
+		Update20210121_Covid_Loinc.exec(conns);
+		Update20210217_TestResults.exec(conns);
+		Updateupdate_20210306_NACHC_Mappings.exec(conns);
+		// create the database objects
+		CreateCovidGroupTables.exec(conns);
+		CreateCovidSchemas.exec(conns);
+		conns.commit();
+	}
 
 	//
 	// main method (see exec method below for implementation)
@@ -38,30 +61,6 @@ public class BuildCovid {
 			log.info("Done with close");
 		}
 		log.info("Done.");
-	}
-
-	/**
-	 * 
-	 * This method will delete and rebuild the COVID-19 projects: (covid, covid_meta, covid_loinc)
-	 * 
-	 */
-
-	public static void exec(CosmosConnections conns) {
-		// delete and recreate the project
-		DeleteCovidProject.exec(conns);
-		CreateCovidProject.exec(conns);
-		// do the file uploads
-		Update20210207_Covid_HCN.exec(conns);
-		Update20210122_Covid_CHCN.exec(conns);
-		Update20210207_Covid_AC.exec(conns);
-		Update20210121_Covid_Loinc.exec(conns);
-		Update20210217_TestResults.exec(conns);
-		Updateupdate_20210306_NACHC_Mappings.exec(conns);
-		// create the database objects
-		CreateCovidColumnMappings.exec(conns);
-		CreateCovidGroupTables.exec(conns);
-		CreateCovidSchemas.exec(conns);
-		conns.commit();
 	}
 
 }
