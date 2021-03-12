@@ -2,6 +2,8 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.params;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
@@ -27,6 +29,8 @@ public class RawDataFileUploadParams {
 	private File localDirForUpload;
 	
 	private File mappingFile;
+	
+	private Set<String> rawTableGroups = new HashSet<String>();
 	
 	private String projCode;
 	

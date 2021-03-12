@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CreateCleanedTableAction {
 
 	public static void exec(String rawTableGuid, CosmosConnections conns) {
+		log.info("CREATING CLEANED TABLE");
 		RawTableDvo dvo = Dao.find(new RawTableDvo(), "guid", rawTableGuid, conns.getMySqlConnection());
 		String tableName = dvo.getRawTableSchema() + "." + dvo.getRawTableName() + "_CLEANED";
 		String sqlString = "";
@@ -25,6 +26,7 @@ public class CreateCleanedTableAction {
 		sqlString += getQueryStringForTable(dvo, conns.getMySqlConnection()) + "\n";
 		sqlString += ")";
 		log.info("SQL STRING: \n" + sqlString);
+		log.info("Creating table using above sql...");
 		// drop the table if it exists
 		DatabricksDbUtil.dropTable(tableName, conns.getDbConnection());
 		// create the table

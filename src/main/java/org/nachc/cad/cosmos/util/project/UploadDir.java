@@ -1,12 +1,15 @@
 package org.nachc.cad.cosmos.util.project;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
 import org.nachc.cad.cosmos.action.create.project.CreateRawTableGroupAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateColumnMappingsAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateCleanedTableAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.OrgCodeDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.ProjCodeDvo;
@@ -58,6 +61,8 @@ public class UploadDir {
 		checkForOrgRecord(params, conns);
 		// upload files
 		uploadDataDirFiles(params, conns);
+		// create the group tables
+		createGroupTables(params, conns);
 	}
 
 	// ------------------------------------------------------------------------
@@ -219,27 +224,9 @@ public class UploadDir {
 			log.info("UPLOADING FILE: " + file.getName());
 			updateParamsWithFileInfo(params, file);
 			AddRawDataFileAction.execute(params, conns);
-			if(mappingFile != null) {
-				log.info("* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
-				CreateColumnMappingsAction.exec(mappingFile, file, conns);
-			} else {
-				log.info("* * * MAPPING FILE NOT FOUND, MAPPINGS SKIPPED * * *");
-			}
-		}
-	}
-
-	//
-	// update parameters for each data file
-	//
-	
-	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file) {
-		params.setFileName(file.getName());
-		params.setFile(file);
-		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + params.getDataGroupAbr());
-		if (file.getName().toLowerCase().endsWith(".txt")) {
-			params.setDelimiter('|');
-		} else {
-			params.setDelimiter(',');
+			createMappings(conns, mappingFile, file);
+			CreateCleanedTableAction.exec(params.getRawTableDvo().getGuid(), conns);
+			params.getRawTableGroups().add(params.getRawTableGroupDvo().getCode());
 		}
 	}
 
@@ -256,4 +243,41 @@ public class UploadDir {
 		}
 	}
 	
+	//
+	// update parameters for each data file
+	//
+	
+	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file) {
+		params.setFileName(file.getName());
+		params.setFile(file);
+		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + params.getDataGroupAbr());
+		if (file.getName().toLowerCase().endsWith(".txt")) {
+			params.setDelimiter('|');
+		} else {
+			params.setDelimiter(',');
+		}
+	}
+
+	//
+	// create the mappings
+	//
+	
+	private static void createMappings(CosmosConnections conns, File mappingFile, File file) {
+		if(mappingFile != null) {
+			log.info("* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
+			CreateColumnMappingsAction.exec(mappingFile, file, conns);
+		} else {
+			log.info("* * * MAPPING FILE NOT FOUND, MAPPINGS SKIPPED * * *");
+		}
+	}
+
+	private static void createGroupTables(RawDataFileUploadParams params, CosmosConnections conns) {
+		Iterator<String> iter = params.getRawTableGroups().iterator();
+		while(iter.hasNext()) {
+			String rawTableGroupCode = iter.next();
+			log.info("Creating group table for: " + rawTableGroupCode);
+			CreateGrpDataTableAction.execute(rawTableGroupCode, conns);
+		}
+	}
+
 }

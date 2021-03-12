@@ -18,6 +18,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateCleanedTablesAction {
 
+	public static void exec(RawDataFileUploadParams params, CosmosConnections conns) {
+		String dataGroupName = params.getDataGroupAbr();
+		String dataGroupAbr = params.getDataGroupAbr();
+		String dataLot = params.getDatabricksFileLocation();
+		exec(dataGroupName, dataGroupAbr, dataLot, params, conns);
+	}
+	
 	public static void exec(String dataGroupName, String dataGroupAbr, String dataLot, RawDataFileUploadParams params, CosmosConnections conns) {
 		log.info("Looking for existing raw table group...");
 		updateParams(dataGroupName, dataGroupAbr, dataLot, params, conns);
