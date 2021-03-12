@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.nachc.cad.cosmos.action.create.project.CreateRawTableGroupAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateColumnMappingsAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.OrgCodeDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.ProjCodeDvo;
@@ -178,6 +179,8 @@ public class UploadDir {
 
 	private static void uploadDataDirFiles(RawDataFileUploadParams params, CosmosConnections conns) {
 		File rootDir = params.getLocalDirForUpload();
+		File mappingFile = getMappingFile(rootDir);
+		params.setMappingFile(mappingFile);
 		List<File> dataDirs = FileUtil.listFiles(rootDir);
 		dataDirs = FileUtil.removeStartsWith(dataDirs, "_");
 		String msg = "";
@@ -210,11 +213,18 @@ public class UploadDir {
 			rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());
 		}
 		params.setRawTableGroupDvo(rawTableGroupDvo);
+		File mappingFile = params.getMappingFile();
 		List<File> files = FileUtil.listFiles(dir);
 		for (File file : files) {
 			log.info("UPLOADING FILE: " + file.getName());
 			updateParamsWithFileInfo(params, file);
 			AddRawDataFileAction.execute(params, conns);
+			if(mappingFile != null) {
+				log.info("* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
+				CreateColumnMappingsAction.exec(mappingFile, file, conns);
+			} else {
+				log.info("* * * MAPPING FILE NOT FOUND, MAPPINGS SKIPPED * * *");
+			}
 		}
 	}
 
@@ -233,4 +243,17 @@ public class UploadDir {
 		}
 	}
 
+	//
+	// get the mapping file
+	//
+	
+	private static File getMappingFile(File rootDir) {
+		List<File> files = FileUtil.listFiles(rootDir, "_meta/*.xlsx");
+		if(files.size() > 0) {
+			return files.get(0);
+		} else {
+			return null;
+		}
+	}
+	
 }

@@ -26,6 +26,8 @@ public class RawDataFileUploadParams {
 	
 	private File localDirForUpload;
 	
+	private File mappingFile;
+	
 	private String projCode;
 	
 	private String projName;
