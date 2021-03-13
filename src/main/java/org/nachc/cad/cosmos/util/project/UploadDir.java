@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.nachc.cad.cosmos.action.create.project.CreateRawTableGroupAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.AddRawDataFileAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.CreateColumnMappingsAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateBaseTablesAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateCleanedTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateGrpDataTableAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
@@ -61,8 +62,9 @@ public class UploadDir {
 		checkForOrgRecord(params, conns);
 		// upload files
 		uploadDataDirFiles(params, conns);
-		// create the group tables
+		// create the group tables and base tables
 		createGroupTables(params, conns);
+		CreateBaseTablesAction.exec(params, conns);
 	}
 
 	// ------------------------------------------------------------------------
@@ -81,6 +83,7 @@ public class UploadDir {
 	public static RawDataFileUploadParams getParams(Properties props) {
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		params.setProjCode(props.getProperty("project-code"));
+		params.setProtocolNamePretty(props.getProperty("project-code"));
 		params.setProjName(props.getProperty("project-name"));
 		params.setProjDescription(props.getProperty("project-description"));
 		params.setOrgCode(props.getProperty("org"));
@@ -211,6 +214,7 @@ public class UploadDir {
 		params.setDataGroupAbr(dataGroupAbbr);
 		params.setDataGroupName(dataGroupAbbr);
 		String code = params.getRawTableGroupCode();
+		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + dataGroupAbbr);
 		RawTableGroupDvo rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());
 		if(rawTableGroupDvo == null) {
 			// if the raw table group does not exist create it

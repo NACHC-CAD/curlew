@@ -20,4 +20,8 @@ public class MySqlParams {
 		return PROPS.getProperty("pwd");
 	}
 	
+	public static String getKey() {
+		return PROPS.getProperty("key");
+	}
+	
 }
