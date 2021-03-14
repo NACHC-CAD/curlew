@@ -7,7 +7,7 @@ import com.nach.core.util.props.PropertiesUtil;
 public class MySqlParams {
 
 	private static final Properties PROPS = PropertiesUtil.getAsProperties("/auth/mysql-auth.properties");
-	
+
 	public static String getUrl() {
 		return PROPS.getProperty("url");
 	}
