@@ -21,10 +21,10 @@ public class AddRawDataFileAction {
 		CreateRawTableColAction.execute(params, conns.getMySqlConnection());
 		// databricks stuff
 		UploadRawDataFileToDatabricksAction.execute(params, conns, isOverwrite);
-		conns.commit();
-		conns.resetConnections();
+		// conns.commit();
+		// conns.resetConnections();
 		CreateRawDataTableAction.execute(params, conns, true);
-		conns.commit();
+		// conns.commit();
 	}
 
 }

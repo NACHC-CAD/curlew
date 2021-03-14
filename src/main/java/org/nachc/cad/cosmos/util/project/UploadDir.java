@@ -94,7 +94,7 @@ public class UploadDir {
 		params.setCreateNewOrg("true".equalsIgnoreCase(props.getProperty("create-new-org")));
 		params.setCreateNewProject("true".equalsIgnoreCase(props.getProperty("create-new-project")));
 		params.setOverwriteExistingFiles("true".equalsIgnoreCase(props.getProperty("overwrite-existing-files")));
-		params.setDatabricksFileRoot(DatabricksParams.getProjectFilesRoot());
+		params.setDatabricksFileRoot(DatabricksParams.getProjectFilesRoot() + params.getProjCode());
 		return params;
 	}
 

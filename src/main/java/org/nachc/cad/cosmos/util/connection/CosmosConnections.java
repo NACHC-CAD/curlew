@@ -2,6 +2,8 @@ package org.nachc.cad.cosmos.util.connection;
 
 import java.sql.Connection;
 
+import javax.sql.DataSource;
+
 import org.nachc.cad.cosmos.util.databricks.database.DatabricksDbConnectionFactory;
 import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
@@ -23,7 +25,16 @@ public class CosmosConnections implements DatabaseConnectionManager {
 	public CosmosConnections() {
 		init();
 	}
-	
+
+	public CosmosConnections(DataSource mysqlDs, DataSource databricksDs) {
+		try {
+			this.mySqlConnection = mysqlDs.getConnection();
+			this.dbConnection = databricksDs.getConnection();
+		} catch(Exception exp) {
+			throw new RuntimeException(exp);
+		}
+	}
+
 	private void init() {
 		log.info("* * * CREATING NEW MYSQL CONNECTION * * *");
 		this.mySqlConnection = MySqlConnectionFactory.getCosmosConnection();
@@ -87,5 +98,5 @@ public class CosmosConnections implements DatabaseConnectionManager {
 			return null;
 		}
 	}
-	
+
 }
