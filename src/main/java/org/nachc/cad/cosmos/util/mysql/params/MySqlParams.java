@@ -24,4 +24,8 @@ public class MySqlParams {
 		return PROPS.getProperty("key");
 	}
 	
+	public static String getServerFileRoot() {
+		return PROPS.getProperty("sever-file-root");
+	}
+	
 }
