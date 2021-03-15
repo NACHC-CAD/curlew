@@ -23,6 +23,7 @@ import org.yaorma.dao.Dao;
 
 import com.nach.core.util.file.FileUtil;
 import com.nach.core.util.props.PropertiesUtil;
+import com.nach.core.util.web.listener.Listener;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +50,10 @@ public class UploadDir {
 	 */
 
 	public static void uploadDir(File dir, String userName, CosmosConnections conns) {
+		uploadDir(dir, userName, conns, null);
+	}
+	
+	public static void uploadDir(File dir, String userName, CosmosConnections conns, Listener lis) {
 		// get the parameters
 		File projectPropertiesFile = new File(dir, PROPS_PATH);
 		Properties props = PropertiesUtil.getAsProperties(projectPropertiesFile);
@@ -57,13 +62,13 @@ public class UploadDir {
 		params.setLocalHostFileAbsLocation(FileUtil.getCanonicalPath(dir));
 		params.setLocalDirForUpload(dir);
 		// check project records (create new project if create-new-project is true)
-		checkForProjectCodeRecord(params, conns);
-		checkForProjectRecord(params, conns);
-		checkForOrgRecord(params, conns);
+		checkForProjectCodeRecord(params, conns, lis);
+		checkForProjectRecord(params, conns, lis);
+		checkForOrgRecord(params, conns, lis);
 		// upload files
-		uploadDataDirFiles(params, conns);
+		uploadDataDirFiles(params, conns, lis);
 		// create the group tables and base tables
-		createGroupTables(params, conns);
+		createGroupTables(params, conns, lis);
 		CreateBaseTablesAction.exec(params, conns);
 	}
 
@@ -104,12 +109,12 @@ public class UploadDir {
 	// created)
 	//
 
-	private static void checkForProjectCodeRecord(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void checkForProjectCodeRecord(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		String projectCode = params.getProjCode();
-		log.info("Checing for project_code record: " + projectCode);
+		log(lis, "Checing for project_code record: " + projectCode);
 		ProjCodeDvo dvo = Dao.find(new ProjCodeDvo(), "code", projectCode, conns.getMySqlConnection());
 		if (dvo == null && params.isCreateNewProject() == true) {
-			log.info("Adding new project code for: " + projectCode);
+			log(lis, "Adding new project code for: " + projectCode);
 			dvo = new ProjCodeDvo();
 			dvo.setCode(params.getProjCode());
 			dvo.setName(params.getProjName());
@@ -122,7 +127,7 @@ public class UploadDir {
 			log.error("ERROR: \n" + msg);
 			throw new RuntimeException(msg);
 		} else {
-			log.info("PROJECT_CODE FOUND: " + projectCode);
+			log(lis, "PROJECT_CODE FOUND: " + projectCode);
 		}
 	}
 
@@ -130,14 +135,14 @@ public class UploadDir {
 	// check for project record
 	//
 	
-	private static void checkForProjectRecord(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void checkForProjectRecord(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		String projCode = params.getProjCode();
 		String projName = params.getProjName();
 		String projDescription = params.getProjDescription();
-		log.info("Checing for project record: " + projCode);
+		log(lis, "Checing for project record: " + projCode);
 		ProjectDvo dvo = Dao.find(new ProjectDvo(), "code", projCode, conns.getMySqlConnection());
 		if (dvo == null && params.isCreateNewProject() == true) {
-			log.info("Adding new project code for: " + projCode);
+			log(lis, "Adding new project code for: " + projCode);
 			dvo = new ProjectDvo();
 			dvo.setCode(projCode);
 			dvo.setName(projName);
@@ -152,7 +157,7 @@ public class UploadDir {
 			log.error("ERROR: \n" + msg);
 			throw new RuntimeException(msg);
 		} else {
-			log.info("PROJECT FOUND FOR CODE: " + projCode);
+			log(lis, "PROJECT FOUND FOR CODE: " + projCode);
 		}
 	}
 
@@ -160,11 +165,11 @@ public class UploadDir {
 	// check for org record
 	//
 	
-	private static void checkForOrgRecord(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void checkForOrgRecord(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		String orgCode = params.getOrgCode();
 		OrgCodeDvo dvo = Dao.find(new OrgCodeDvo(), "code", orgCode, conns.getMySqlConnection());
 		if (dvo == null && params.isCreateNewProject() == true) {
-			log.info("Adding new ORG code for: " + orgCode);
+			log(lis, "Adding new ORG code for: " + orgCode);
 			dvo = new OrgCodeDvo();
 			dvo.setCode(orgCode);
 			dvo.setName(params.getOrgName());
@@ -177,7 +182,7 @@ public class UploadDir {
 			log.error("ERROR: \n" + msg);
 			throw new RuntimeException(msg);
 		} else {
-			log.info("ORG FOUND FOR CODE: " + dvo.getCode());
+			log(lis, "ORG FOUND FOR CODE: " + dvo.getCode());
 		}
 	}
 	
@@ -185,7 +190,7 @@ public class UploadDir {
 	// upload each directory
 	//
 
-	private static void uploadDataDirFiles(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void uploadDataDirFiles(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		File rootDir = params.getLocalDirForUpload();
 		File mappingFile = getMappingFile(rootDir);
 		params.setMappingFile(mappingFile);
@@ -197,19 +202,19 @@ public class UploadDir {
 			msg += dir.getName() + "\n";
 		}
 		msg +=  "* * * END DIRS * * *";
-		log.info("Uploading the following dir: \n" + msg);
+		log(lis, "Uploading the following dir: \n" + msg);
 		for (File dir : dataDirs) {
-			uploadDataFiles(params, dir, conns);
+			uploadDataFiles(params, dir, conns, lis);
 		}
-		log.info("Successfully uploaded files from the following dirs: \n" + msg);
+		log(lis, "Successfully uploaded files from the following dirs: \n" + msg);
 	}
 
 	//
 	// upload each file
 	//
 
-	private static void uploadDataFiles(RawDataFileUploadParams params, File dir, CosmosConnections conns) {
-		log.info("UPLOADING FILES: " + dir);
+	private static void uploadDataFiles(RawDataFileUploadParams params, File dir, CosmosConnections conns, Listener lis) {
+		log(lis, "UPLOADING FILES: " + dir);
 		String dataGroupAbbr = dir.getName();
 		params.setDataGroupAbr(dataGroupAbbr);
 		params.setDataGroupName(dataGroupAbbr);
@@ -225,10 +230,10 @@ public class UploadDir {
 		File mappingFile = params.getMappingFile();
 		List<File> files = FileUtil.listFiles(dir);
 		for (File file : files) {
-			log.info("UPLOADING FILE: " + file.getName());
+			log(lis, "UPLOADING FILE: " + file.getName());
 			updateParamsWithFileInfo(params, file);
 			AddRawDataFileAction.execute(params, conns);
-			createMappings(conns, mappingFile, file);
+			createMappings(conns, mappingFile, file, lis);
 			CreateCleanedTableAction.exec(params.getRawTableDvo().getGuid(), conns);
 			params.getRawTableGroups().add(params.getRawTableGroupDvo().getCode());
 		}
@@ -266,22 +271,27 @@ public class UploadDir {
 	// create the mappings
 	//
 	
-	private static void createMappings(CosmosConnections conns, File mappingFile, File file) {
+	private static void createMappings(CosmosConnections conns, File mappingFile, File file, Listener lis) {
 		if(mappingFile != null) {
-			log.info("* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
+			log(lis, "* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
 			CreateColumnMappingsAction.exec(mappingFile, file, conns);
 		} else {
-			log.info("* * * MAPPING FILE NOT FOUND, MAPPINGS SKIPPED * * *");
+			log(lis, "* * * MAPPING FILE NOT FOUND, MAPPINGS SKIPPED * * *");
 		}
 	}
 
-	private static void createGroupTables(RawDataFileUploadParams params, CosmosConnections conns) {
+	private static void createGroupTables(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		Iterator<String> iter = params.getRawTableGroups().iterator();
 		while(iter.hasNext()) {
 			String rawTableGroupCode = iter.next();
-			log.info("Creating group table for: " + rawTableGroupCode);
+			log(lis, "Creating group table for: " + rawTableGroupCode);
 			CreateGrpDataTableAction.execute(rawTableGroupCode, conns);
 		}
 	}
 
+	private static void log(Listener lis, String str) {
+		log.info(str);
+		lis.notify(str);
+	}
+	
 }
