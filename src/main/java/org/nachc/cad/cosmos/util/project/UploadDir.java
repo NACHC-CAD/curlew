@@ -291,7 +291,9 @@ public class UploadDir {
 
 	private static void log(Listener lis, String str) {
 		log.info(str);
-		lis.notify(str);
+		if(lis != null) {
+			lis.notify(str);
+		}
 	}
 	
 }
