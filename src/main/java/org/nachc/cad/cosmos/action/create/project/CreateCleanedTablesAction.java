@@ -27,7 +27,9 @@ public class CreateCleanedTablesAction {
 	
 	public static void exec(String dataGroupName, String dataGroupAbr, String dataLot, RawDataFileUploadParams params, CosmosConnections conns) {
 		log.info("Looking for existing raw table group...");
-		updateParams(dataGroupName, dataGroupAbr, dataLot, params, conns);
+		if(params.isLegacy() == false) {
+			updateParams(dataGroupName, dataGroupAbr, dataLot, params, conns);
+		}
 		String rootDir = params.getLocalHostFileAbsLocation();
 		log.info("Uploading files from: " + rootDir);
 		List<File> files = getFiles(rootDir);

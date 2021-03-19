@@ -52,8 +52,16 @@ public class UploadFilesAction {
 		params.setDataGroupAbr(dataGroupAbr);
 		params.setDataLot(dataLot);
 		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + dataGroupAbr);
-		String localHostFileAbsLocation = params.getLocalHostFileAbsLocation() + dataGroupAbr;
-		params.setLocalHostFileAbsLocation(localHostFileAbsLocation);
+		if(params.isLegacy() == false) {
+			String localHostFileAbsLocation = params.getLocalHostFileAbsLocation() + dataGroupAbr;
+			params.setLocalHostFileAbsLocation(localHostFileAbsLocation);
+		} else {
+			if(params.getLocalHostFileAbsRoot() == null) {
+				params.setLocalHostFileAbsRoot(params.getLocalHostFileAbsLocation());
+			}
+			String localHostFileAbsLocation = params.getLocalHostFileAbsRoot() + params.getDataGroupAbr();
+			params.setLocalHostFileAbsLocation(localHostFileAbsLocation);
+		}
 		String code = params.getRawTableGroupCode();
 		log.info("Getting raw_table_group for: " + code);
 		RawTableGroupDvo rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());

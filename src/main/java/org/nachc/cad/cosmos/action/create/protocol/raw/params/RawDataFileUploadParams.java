@@ -25,7 +25,11 @@ public class RawDataFileUploadParams {
 
 	// private String localHostFileRootDir;
 	
+	private boolean legacy = true;
+	
 	private String localHostFileAbsLocation;
+	
+	private String localHostFileAbsRoot = null;
 	
 	private File localDirForUpload;
 	

@@ -2,8 +2,8 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.cov
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.create.CreateCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidColumnMappings;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidSchemas;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210121_Covid_Loinc;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210122_Covid_CHCN;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_AC;
@@ -33,17 +33,22 @@ public class BuildCovid {
 		CreateCovidProject.exec(conns);
 		conns.commit();
 		// do the file uploads
-//		Update20210207_Covid_HCN.exec(conns);
-//		Update20210122_Covid_CHCN.exec(conns);
-//		Update20210207_Covid_AC.exec(conns);
-//		Update20210121_Covid_Loinc.exec(conns);
-//		Update20210217_TestResults.exec(conns);
-//		Updateupdate_20210306_NACHC_Mappings.exec(conns);
+		Update20210207_Covid_HCN.exec(conns);
+		conns.commit();
+		Update20210122_Covid_CHCN.exec(conns);
+		Update20210207_Covid_AC.exec(conns);
+		Update20210121_Covid_Loinc.exec(conns);
+		Update20210217_TestResults.exec(conns);
+		Updateupdate_20210306_NACHC_Mappings.exec(conns);
 		// create the database objects
-//		CreateCovidGroupTables.exec(conns);
-//		CreateCovidSchemas.exec(conns);
+		CreateCovidColumnMappings.exec(conns);
+		CreateCovidGroupTables.exec(conns);
+		conns.commit();
 		Updateupdate_20210315_HE.main(null);
 		conns.commit();
+		Updateupdate_20210315_HCN.main(null);
+		conns.commit();
+		log.info("DONE!");
 	}
 
 	//

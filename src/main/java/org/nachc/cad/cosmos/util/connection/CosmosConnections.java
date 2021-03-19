@@ -9,6 +9,8 @@ import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 import org.yaorma.database.Database;
 import org.yaorma.database.DatabaseConnectionManager;
 
+import com.nach.core.util.databricks.database.DatabricksDbUtil;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class CosmosConnections implements DatabaseConnectionManager {
 		try {
 			this.mySqlConnection = mysqlDs.getConnection();
 			this.dbConnection = databricksDs.getConnection();
+			DatabricksDbUtil.initParsePolicy(this.dbConnection);
 		} catch(Exception exp) {
 			throw new RuntimeException(exp);
 		}
