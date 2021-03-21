@@ -38,7 +38,7 @@ public class Build {
 		timer.start();
 		try {
 			log("Confirming Configuration");
-			ConfirmConfiguration.main(null);
+//			ConfirmConfiguration.main(null);
 			log("Burning everything to the ground");
 			BurnEverythingToTheGround.main(null);
 			log("Adding Project");
@@ -51,32 +51,38 @@ public class Build {
 			addFiles("Other", "other", conns);
 			addFiles("Procedure", "proc", conns);
 			addFiles("Rx", "rx", conns);
+			conns.commit();
+			conns.close();
 			log("Addtional updates");
 			Update20201121.main(null);
-			Update20201122.main(null);
+// THIS ONE HAS LOCK ISSUES
+//			Update20201122.main(null);
+
 			Update20201123Terminology.main(null);
 			Update20201124Terminology.main(null);
 			Update20201127Proc.main(null);
 			Update20201207MedValueSetCat.main(null);
 			Update20201211Ac.main(null);
 			Update20201221He.main(null);
-//			Update20201228AddContraceptionProject.main(null);
-			Update20210105Ochin.main(null);
+
+			// Update20201228AddContraceptionProject.main(null);
+// THIS ONE HAS LOCK ISSUES
+//			Update20210105Ochin.main(null);
 			Update20210128MedDescCatV2.main(null);
 			Update20210128UpdateColumnNames.main(null);
 			log("Updating GROUP TABLES");
 			updateGroupTables();
 			log("Adding Value Sets");
 			Z_CreateValueSetSchema.main(null);
-//			Update99999999CreateWomensHealthSchema.main(null);
-//			Update99999999GrantPrivileges.main(null);
+			// Update99999999CreateWomensHealthSchema.main(null);
+			// Update99999999GrantPrivileges.main(null);
 		} finally {
 			log.info("Closing connection");
 			conns.close();
 		}
 		timer.stop();
-		log.info("START:   " + timer.getStart());
-		log.info("DONE:    " + timer.getStop());
+		log.info("START:   " + timer.getStartAsString());
+		log.info("DONE:    " + timer.getStopAsString());
 		log.info("Elapsed: " + timer.getElapsedString());
 		log.info("Done.");
 	}

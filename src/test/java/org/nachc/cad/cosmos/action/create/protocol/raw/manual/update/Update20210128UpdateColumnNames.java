@@ -27,6 +27,7 @@ public class Update20210128UpdateColumnNames {
 		}
 	}
 
+	
 	private static void updateColName(CosmosConnections conns, String name, String alias) {
 		String sqlString = "";
 		sqlString += "update raw_table_col_alias \n";

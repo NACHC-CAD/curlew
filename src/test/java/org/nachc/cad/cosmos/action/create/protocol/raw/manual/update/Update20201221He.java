@@ -29,6 +29,7 @@ public class Update20201221He {
 			updateFiles("Demographics", "demo", conns);
 			updateFiles("Encounter", "enc", conns);
 			updateFiles("Rx", "rx", conns);
+			conns.commit();
 		} finally {
 			conns.close();
 		}

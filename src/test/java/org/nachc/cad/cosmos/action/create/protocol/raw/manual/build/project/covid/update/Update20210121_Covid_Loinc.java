@@ -10,12 +10,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Update20210121_Covid_Loinc {
 
-	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid_loinc\\";
+	private static final String SRC_ROOT = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid_loinc\\update-2021-03-20-TEST\\";
 
 	public static void exec(CosmosConnections conns) {
 		RawDataFileUploadParams params = CreateCovidProject.getParams();
 		params.setLocalHostFileAbsLocation(SRC_ROOT);
-		UploadFilesAction.exec("Covid Loinc", "covid_loinc", "LOT 1", params, conns);
+		UploadFilesAction.exec("nachc_loinc_codes", "nachc_loinc_codes", "LOT 1", params, conns);
 	}
 
+	public static void main(String[] args) {
+		CosmosConnections conns = new CosmosConnections();
+		try { 
+			exec(conns);
+			conns.commit();
+		} finally {
+			conns.close();
+		}
+	}
+	
 }

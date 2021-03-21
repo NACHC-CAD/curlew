@@ -32,12 +32,14 @@ public class Update20201121 {
 			updateFiles("Other", "other", conns);
 			updateFiles("Procedure", "proc", conns);
 			updateFiles("Rx", "rx", conns);
+			conns.commit();
 			log.info("Done.");
 		} finally {
 			conns.close();
 		}
 	}
 
+	
 	private static void updateFiles(String name, String abr, CosmosConnections conns) {
 		log(name);
 		RawDataFileUploadParams params = getParams(name, abr, conns.getMySqlConnection());

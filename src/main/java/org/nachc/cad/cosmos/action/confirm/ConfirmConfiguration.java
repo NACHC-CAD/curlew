@@ -17,7 +17,11 @@ public class ConfirmConfiguration {
 	public static void main(String[] args) {
 		log.info("Getting databricks connection...");
 		CosmosConnections conns = new CosmosConnections();
-		exec(conns);
+		try {
+			exec(conns);
+		} finally {
+			conns.close();
+		}
 	}
 
 	public static void exec(CosmosConnections conns) {

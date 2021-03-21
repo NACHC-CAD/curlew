@@ -47,7 +47,7 @@ public class UploadFilesAction {
 	}
 
 	private static RawDataFileUploadParams updateParams(String dataGroupName, String dataGroupAbr, String dataLot, RawDataFileUploadParams params, CosmosConnections conns) {
-		params.setDatabricksFileLocation(params.getDatabricksFilePath() + dataGroupAbr);
+		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + dataGroupAbr);
 		params.setDataGroupName(dataGroupName);
 		params.setDataGroupAbr(dataGroupAbr);
 		params.setDataLot(dataLot);

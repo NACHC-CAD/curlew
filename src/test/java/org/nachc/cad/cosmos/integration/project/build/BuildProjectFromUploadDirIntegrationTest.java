@@ -35,7 +35,8 @@ public class BuildProjectFromUploadDirIntegrationTest {
 			log.info("Starting test...");
 			// delete the project if it exists
 			log.info("Deleting existing project");
-			DeleteProjectAction.exec(PROJ_NAME, DatabricksParams.getProjectFilesRoot(), conns);
+			String projRoot = DatabricksParams.getProjectFilesRoot() + PROJ_NAME;
+			DeleteProjectAction.exec(PROJ_NAME, projRoot, conns);
 			assertProjectExists(false, conns);
 			// built the project
 			log.info("Creating new Project from dir");

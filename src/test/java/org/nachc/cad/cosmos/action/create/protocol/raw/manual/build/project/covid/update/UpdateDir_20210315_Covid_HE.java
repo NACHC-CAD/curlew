@@ -6,7 +6,7 @@ import org.nachc.cad.cosmos.util.project.UploadDir;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Updateupdate_20210315_HE {
+public class UpdateDir_20210315_Covid_HE {
 
 	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HE-COVID-DATA";
 

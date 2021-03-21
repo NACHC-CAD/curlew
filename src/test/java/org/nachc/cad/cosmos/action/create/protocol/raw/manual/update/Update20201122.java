@@ -28,7 +28,7 @@ public class Update20201122 {
 		try {
 			log.info("Adding update files...");
 			updateFiles("FlatFile", "flat", conns);
-			log("Doing updates");
+			conns.commit();
 			log.info("Done.");
 		} finally {
 			conns.close();

@@ -10,8 +10,7 @@ public class DeleteCovidProject {
 	public static void exec(CosmosConnections conns) {
 		DeleteProjectAction.exec("covid", DATABRICKS_FILE_ROOT + "covid", conns);
 		DeleteProjectAction.exec("covid_meta", DATABRICKS_FILE_ROOT + "covid_meta", conns);
-		DeleteProjectAction.exec("covid_loinc", DATABRICKS_FILE_ROOT + "covid_loinc", conns);
-		DeleteProjectAction.exec("loinc", DATABRICKS_FILE_ROOT + "loinc", conns);
+		DeleteProjectAction.exec("covidcovid", DATABRICKS_FILE_ROOT + "covid_loinc", conns);
 	}
 
 }

@@ -27,7 +27,7 @@ public class Update20201207MedValueSetCat {
 		try {
 			log.info("Adding update files...");
 			updateFiles("MedValueSetCat", "med_value_set_cat", conns);
-			log("Doing updates");
+			conns.commit();
 			log.info("Done.");
 		} finally {
 			conns.close();

@@ -131,7 +131,31 @@ public class RawDataFileUploadParams {
 	//
 
 	public String getDatabricksFilePath() {
-		return databricksFileLocation + "/" + this.fileName;
+		String rtn = databricksFileRoot;
+		if(rtn.endsWith("/") == false) {
+			rtn += "/";
+		}
+		if(rtn.endsWith(this.projCode + "/") == false) {
+			rtn += this.projCode + "/";
+		}
+		rtn = rtn + dataGroupAbr + "/" + this.fileName;
+		return rtn;
+	}
+
+	public String getDatabricksFilePathWithoutFileName() {
+		return getDatabricksFilePathWithoutFileNameAndWithoutTrailingSeparator() + "/";
+	}
+
+	public String getDatabricksFilePathWithoutFileNameAndWithoutTrailingSeparator() {
+		String rtn = databricksFileRoot;
+		if(rtn.endsWith("/") == false) {
+			rtn += "/";
+		}
+		if(rtn.endsWith(this.projCode + "/") == false) {
+			rtn += this.projCode + "/";
+		}
+		rtn = rtn + dataGroupAbr;
+		return rtn;
 	}
 
 }

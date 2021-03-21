@@ -260,7 +260,12 @@ public class UploadDir {
 	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file) {
 		params.setFileName(file.getName());
 		params.setFile(file);
-		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + params.getDataGroupAbr());
+		if(params.getDatabricksFileLocation().endsWith(params.getDataGroupAbr()) == false) {
+			params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + params.getDataGroupAbr());
+		}
+		if(params.getDatabricksFileLocation().endsWith("/") == false) {
+			params.setDatabricksFileLocation(params.getDatabricksFileLocation() + "/");
+		}
 		if (file.getName().toLowerCase().endsWith(".txt")) {
 			params.setDelimiter('|');
 		} else {

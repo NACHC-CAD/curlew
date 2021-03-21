@@ -33,6 +33,7 @@ public class Update20201211Ac {
 			updateFiles("Observation", "obs", conns);
 			updateFiles("Procedure", "proc", conns);
 			updateFiles("Rx", "rx", conns);
+			conns.commit();
 			log.info("Done.");
 		} finally {
 			conns.close();

@@ -23,12 +23,12 @@ public class UploadRawDataFileToDatabricksAction {
 			log.info("Done with delete (" + resp.isSuccess() + "): \n" + resp.getResponse());
 		}
 		log.info("Writing file...");
-		DatabricksFileUtilResponse resp = util.put(params.getDatabricksFileLocation(), params.getFile());
+		DatabricksFileUtilResponse resp = util.put(params.getDatabricksFilePathWithoutFileName(), params.getFile());
 		log.info("Success: " + resp.isSuccess());
 		log.info("Got response (" + resp.isSuccess() + ") " + resp.getElapsedSeconds() + " sec: " + resp.getFileName() + "\n" + resp.getResponse());
 		if (resp.isSuccess() == false) {
-			log.error("Error writing file to Databricks: " + params.getDatabricksFileLocation() + "/" + params.getFileName());
-			throw new DatabricksFileException(resp, "Did not get success response from server writing file: " + params.getDatabricksFileLocation() + "/" + params.getFileName());
+			log.error("Error writing file to Databricks: " + params.getDatabricksFilePath());
+			throw new DatabricksFileException(resp, "Did not get success response from server writing file: " + params.getDatabricksFilePath());
 		}
 	}
 

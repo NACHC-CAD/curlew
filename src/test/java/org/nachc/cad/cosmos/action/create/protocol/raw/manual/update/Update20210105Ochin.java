@@ -46,6 +46,7 @@ public class Update20210105Ochin {
 			new UpdateEncGroupTable().doUpdate();
 			new UpdateProcedureGroupTable().doUpdate();
 			new UpdateRxGroupTable().doUpdate();
+			conns.commit();
 		} finally {
 			conns.close();
 		}

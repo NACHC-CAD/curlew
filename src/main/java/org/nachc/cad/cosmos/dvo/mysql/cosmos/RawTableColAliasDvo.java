@@ -29,15 +29,15 @@ public class RawTableColAliasDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "col_alias",
-        "col_name",
         "group_code",
-        "raw_table",
-        "raw_table_col",
-        "raw_table_file",
-        "raw_table_group",
+        "raw_table_schema",
         "raw_table_name",
-        "raw_table_schema"
+        "col_name",
+        "col_alias",
+        "raw_table",
+        "raw_table_group",
+        "raw_table_file",
+        "raw_table_col"
     };
     
     //
@@ -52,15 +52,15 @@ public class RawTableColAliasDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "colAlias",
-        "colName",
         "groupCode",
-        "rawTable",
-        "rawTableCol",
-        "rawTableFile",
-        "rawTableGroup",
+        "rawTableSchema",
         "rawTableName",
-        "rawTableSchema"
+        "colName",
+        "colAlias",
+        "rawTable",
+        "rawTableGroup",
+        "rawTableFile",
+        "rawTableCol"
     };
     
     //
@@ -68,15 +68,15 @@ public class RawTableColAliasDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "ColAlias",
-        "ColName",
         "GroupCode",
-        "RawTable",
-        "RawTableCol",
-        "RawTableFile",
-        "RawTableGroup",
+        "RawTableSchema",
         "RawTableName",
-        "RawTableSchema"
+        "ColName",
+        "ColAlias",
+        "RawTable",
+        "RawTableGroup",
+        "RawTableFile",
+        "RawTableCol"
     };
     
     
@@ -86,47 +86,27 @@ public class RawTableColAliasDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String colAlias;
-    
-    private String colName;
-    
     private String groupCode;
     
-    private String rawTable;
-    
-    private String rawTableCol;
-    
-    private String rawTableFile;
-    
-    private String rawTableGroup;
+    private String rawTableSchema;
     
     private String rawTableName;
     
-    private String rawTableSchema;
+    private String colName;
+    
+    private String colAlias;
+    
+    private String rawTable;
+    
+    private String rawTableGroup;
+    
+    private String rawTableFile;
+    
+    private String rawTableCol;
     
     //
     // trivial getters and setters
     //
-    
-    // colAlias
-    
-    public void setColAlias(String val) {
-        this.colAlias = val;
-    }
-    
-    public String getColAlias() {
-        return this.colAlias;
-    }
-    
-    // colName
-    
-    public void setColName(String val) {
-        this.colName = val;
-    }
-    
-    public String getColName() {
-        return this.colName;
-    }
     
     // groupCode
     
@@ -138,44 +118,14 @@ public class RawTableColAliasDvo implements Dvo {
         return this.groupCode;
     }
     
-    // rawTable
+    // rawTableSchema
     
-    public void setRawTable(String val) {
-        this.rawTable = val;
+    public void setRawTableSchema(String val) {
+        this.rawTableSchema = val;
     }
     
-    public String getRawTable() {
-        return this.rawTable;
-    }
-    
-    // rawTableCol
-    
-    public void setRawTableCol(String val) {
-        this.rawTableCol = val;
-    }
-    
-    public String getRawTableCol() {
-        return this.rawTableCol;
-    }
-    
-    // rawTableFile
-    
-    public void setRawTableFile(String val) {
-        this.rawTableFile = val;
-    }
-    
-    public String getRawTableFile() {
-        return this.rawTableFile;
-    }
-    
-    // rawTableGroup
-    
-    public void setRawTableGroup(String val) {
-        this.rawTableGroup = val;
-    }
-    
-    public String getRawTableGroup() {
-        return this.rawTableGroup;
+    public String getRawTableSchema() {
+        return this.rawTableSchema;
     }
     
     // rawTableName
@@ -188,14 +138,64 @@ public class RawTableColAliasDvo implements Dvo {
         return this.rawTableName;
     }
     
-    // rawTableSchema
+    // colName
     
-    public void setRawTableSchema(String val) {
-        this.rawTableSchema = val;
+    public void setColName(String val) {
+        this.colName = val;
     }
     
-    public String getRawTableSchema() {
-        return this.rawTableSchema;
+    public String getColName() {
+        return this.colName;
+    }
+    
+    // colAlias
+    
+    public void setColAlias(String val) {
+        this.colAlias = val;
+    }
+    
+    public String getColAlias() {
+        return this.colAlias;
+    }
+    
+    // rawTable
+    
+    public void setRawTable(String val) {
+        this.rawTable = val;
+    }
+    
+    public String getRawTable() {
+        return this.rawTable;
+    }
+    
+    // rawTableGroup
+    
+    public void setRawTableGroup(String val) {
+        this.rawTableGroup = val;
+    }
+    
+    public String getRawTableGroup() {
+        return this.rawTableGroup;
+    }
+    
+    // rawTableFile
+    
+    public void setRawTableFile(String val) {
+        this.rawTableFile = val;
+    }
+    
+    public String getRawTableFile() {
+        return this.rawTableFile;
+    }
+    
+    // rawTableCol
+    
+    public void setRawTableCol(String val) {
+        this.rawTableCol = val;
+    }
+    
+    public String getRawTableCol() {
+        return this.rawTableCol;
     }
     
     //

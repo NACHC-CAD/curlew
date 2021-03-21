@@ -29,17 +29,17 @@ public class ProjUrlDvo implements Dvo {
     //
     
     public static final String[] COLUMN_NAMES = {
-        "created_by",
-        "created_date",
         "guid",
-        "link_text",
         "project",
         "sort_order",
-        "updated_by",
-        "updated_date",
         "url",
+        "url_type",
+        "link_text",
         "url_description",
-        "url_type"
+        "created_by",
+        "created_date",
+        "updated_by",
+        "updated_date"
     };
     
     //
@@ -55,17 +55,17 @@ public class ProjUrlDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES = {
-        "createdBy",
-        "createdDate",
         "guid",
-        "linkText",
         "project",
         "sortOrder",
-        "updatedBy",
-        "updatedDate",
         "url",
+        "urlType",
+        "linkText",
         "urlDescription",
-        "urlType"
+        "createdBy",
+        "createdDate",
+        "updatedBy",
+        "updatedDate"
     };
     
     //
@@ -73,17 +73,17 @@ public class ProjUrlDvo implements Dvo {
     //
     
     public static final String[] JAVA_NAMES_PROPER = {
-        "CreatedBy",
-        "CreatedDate",
         "Guid",
-        "LinkText",
         "Project",
         "SortOrder",
-        "UpdatedBy",
-        "UpdatedDate",
         "Url",
+        "UrlType",
+        "LinkText",
         "UrlDescription",
-        "UrlType"
+        "CreatedBy",
+        "CreatedDate",
+        "UpdatedBy",
+        "UpdatedDate"
     };
     
     
@@ -93,27 +93,27 @@ public class ProjUrlDvo implements Dvo {
     
     private HashMap<String, String> descriptions = new HashMap<String, String>();
     
-    private String createdBy;
-    
-    private Date createdDate;
-    
     private String guid;
-    
-    private String linkText;
     
     private String project;
     
     private Integer sortOrder;
     
-    private String updatedBy;
-    
-    private Date updatedDate;
-    
     private String url;
+    
+    private String urlType;
+    
+    private String linkText;
     
     private String urlDescription;
     
-    private String urlType;
+    private String createdBy;
+    
+    private Date createdDate;
+    
+    private String updatedBy;
+    
+    private Date updatedDate;
     
     private ProjCodeDvo projectDvo;
     
@@ -125,26 +125,6 @@ public class ProjUrlDvo implements Dvo {
     // trivial getters and setters
     //
     
-    // createdBy
-    
-    public void setCreatedBy(String val) {
-        this.createdBy = val;
-    }
-    
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-    
-    // createdDate
-    
-    public void setCreatedDate(Date val) {
-        this.createdDate = val;
-    }
-    
-    public Date getCreatedDate() {
-        return this.createdDate;
-    }
-    
     // guid
     
     public void setGuid(String val) {
@@ -153,16 +133,6 @@ public class ProjUrlDvo implements Dvo {
     
     public String getGuid() {
         return this.guid;
-    }
-    
-    // linkText
-    
-    public void setLinkText(String val) {
-        this.linkText = val;
-    }
-    
-    public String getLinkText() {
-        return this.linkText;
     }
     
     // project
@@ -185,6 +155,66 @@ public class ProjUrlDvo implements Dvo {
         return this.sortOrder;
     }
     
+    // url
+    
+    public void setUrl(String val) {
+        this.url = val;
+    }
+    
+    public String getUrl() {
+        return this.url;
+    }
+    
+    // urlType
+    
+    public void setUrlType(String val) {
+        this.urlType = val;
+    }
+    
+    public String getUrlType() {
+        return this.urlType;
+    }
+    
+    // linkText
+    
+    public void setLinkText(String val) {
+        this.linkText = val;
+    }
+    
+    public String getLinkText() {
+        return this.linkText;
+    }
+    
+    // urlDescription
+    
+    public void setUrlDescription(String val) {
+        this.urlDescription = val;
+    }
+    
+    public String getUrlDescription() {
+        return this.urlDescription;
+    }
+    
+    // createdBy
+    
+    public void setCreatedBy(String val) {
+        this.createdBy = val;
+    }
+    
+    public String getCreatedBy() {
+        return this.createdBy;
+    }
+    
+    // createdDate
+    
+    public void setCreatedDate(Date val) {
+        this.createdDate = val;
+    }
+    
+    public Date getCreatedDate() {
+        return this.createdDate;
+    }
+    
     // updatedBy
     
     public void setUpdatedBy(String val) {
@@ -203,36 +233,6 @@ public class ProjUrlDvo implements Dvo {
     
     public Date getUpdatedDate() {
         return this.updatedDate;
-    }
-    
-    // url
-    
-    public void setUrl(String val) {
-        this.url = val;
-    }
-    
-    public String getUrl() {
-        return this.url;
-    }
-    
-    // urlDescription
-    
-    public void setUrlDescription(String val) {
-        this.urlDescription = val;
-    }
-    
-    public String getUrlDescription() {
-        return this.urlDescription;
-    }
-    
-    // urlType
-    
-    public void setUrlType(String val) {
-        this.urlType = val;
-    }
-    
-    public String getUrlType() {
-        return this.urlType;
     }
     
     // projectDvo

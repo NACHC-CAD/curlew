@@ -27,7 +27,7 @@ public class Update20201124Terminology {
 		try {
 			log.info("Adding update files...");
 			updateFiles("MedDescriptionCat", "med_description_cat", conns);
-			log("Doing updates");
+			conns.commit();
 			log.info("Done.");
 		} finally {
 			conns.close();

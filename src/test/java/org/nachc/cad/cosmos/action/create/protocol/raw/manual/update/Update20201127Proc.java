@@ -27,7 +27,7 @@ public class Update20201127Proc {
 		try {
 			log.info("Adding update files...");
 			updateFiles("ProcCat", "proc_cat", conns);
-			log("Doing updates");
+			conns.commit();
 			log.info("Done.");
 		} finally {
 			conns.close();

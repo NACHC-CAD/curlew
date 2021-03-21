@@ -4,15 +4,15 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covi
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidColumnMappings;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210121_Covid_Loinc;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210122_Covid_CHCN;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_AC;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_HCN;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210217_TestResults;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Updateupdate_20210306_NACHC_Mappings;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Updateupdate_20210315_HCN;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Updateupdate_20210315_HE;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.UpdateDir_20210315_Covid_HCN;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.UpdateDir_20210315_Covid_HE;
+import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.UpdateDir_20210320_Covid_NACHC_CovidTestNameMap;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
+import org.nachc.cad.cosmos.util.project.UploadDir;
+import org.yaorma.util.time.Timer;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,28 +27,43 @@ public class BuildCovid {
 	 */
 
 	public static void exec(CosmosConnections conns) {
+		Timer timer = new Timer();
+		timer.start();
 		// delete and recreate the project
 		DeleteCovidProject.exec(conns);
 		conns.commit();
 		CreateCovidProject.exec(conns);
 		conns.commit();
-		// do the file uploads
+		// do the legacy file uploads
+		Update20210122_Covid_CHCN.exec(conns);
+		conns.commit();
+		Update20210207_Covid_AC.exec(conns);
+		conns.commit();
 		Update20210207_Covid_HCN.exec(conns);
 		conns.commit();
-		Update20210122_Covid_CHCN.exec(conns);
-		Update20210207_Covid_AC.exec(conns);
-		Update20210121_Covid_Loinc.exec(conns);
-		Update20210217_TestResults.exec(conns);
-		Updateupdate_20210306_NACHC_Mappings.exec(conns);
 		// create the database objects
 		CreateCovidColumnMappings.exec(conns);
+		conns.commit();
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
-		Updateupdate_20210315_HE.main(null);
+		// do the new uploads
+		// partner data
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HCN-COVID-DATA", conns);
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HE-COVID-DATA",conns);
+		// mappings
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210317-COVID-LabTestResultNachc",conns);
 		conns.commit();
-		Updateupdate_20210315_HCN.main(null);
-		conns.commit();
+		timer.stop();
+		log.info("START:   " + timer.getStartAsString());
+		log.info("DONE:    " + timer.getStopAsString());
+		log.info("Elapsed: " + timer.getElapsedString());
+		log.info("Done.");
 		log.info("DONE!");
+	}
+
+	private static void uploadDir(String dirName, CosmosConnections conns) {
+		UploadDir.exec(dirName, "greshje", conns);
+		conns.commit();
 	}
 
 	//

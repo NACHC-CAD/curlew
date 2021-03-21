@@ -29,7 +29,7 @@ public class Update20210128MedDescCatV2 {
 			updateFiles("ProcDescriptionCatV2", "proc_desc_cat_v2", conns);
 			updateFiles("MedDescriptionCatV2", "med_desc_cat_v2", conns);
 			updateFiles("MedCatV2", "med_cat_v2", conns);
-			log("Doing updates");
+			conns.commit();
 		} finally {
 			conns.close();
 		}
