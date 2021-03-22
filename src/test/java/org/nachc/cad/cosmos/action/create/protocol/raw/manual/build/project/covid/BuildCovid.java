@@ -76,6 +76,7 @@ public class BuildCovid {
 		CosmosConnections conns = new CosmosConnections();
 		try {
 			log.info("executing...");
+//			DeleteCovidProject.exec(conns);
 			exec(conns);
 			log.info("Committing");
 			conns.commit();
