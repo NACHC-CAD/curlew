@@ -2,21 +2,28 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.params;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableColDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableGroupDvo;
 import org.nachc.cad.cosmos.util.column.ColumnNameUtil;
+import org.yaorma.util.time.TimeUtil;
+
+import com.nach.core.util.string.StringUtil;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Setter
+@Slf4j
 public class RawDataFileUploadParams {
 
 	//
@@ -34,6 +41,10 @@ public class RawDataFileUploadParams {
 	private File localDirForUpload;
 	
 	private File mappingFile;
+	
+	private String providedBy;
+	
+	private Date providedDate;
 	
 	private Set<String> rawTableGroups = new HashSet<String>();
 	
@@ -89,6 +100,21 @@ public class RawDataFileUploadParams {
 
 	private ArrayList<RawTableColDvo> rawTableColList;
 
+	//
+	// non-trivial setters
+	//
+	
+	public void setProvidedDate(String dateString) {
+		if(dateString != null && StringUtils.isBlank(dateString) == false) {
+			try {
+				this.providedDate = TimeUtil.getDateForYyyy_Mm_Dd(dateString);
+			} catch(Exception exp) {
+				log.error("COULD NOT PARSE STRING AS DATE: " + dateString);
+				exp.printStackTrace();
+			}
+		}
+	}
+	
 	//
 	// non-trivial getters
 	//

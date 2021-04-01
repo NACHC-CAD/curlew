@@ -27,6 +27,8 @@ public class CreateRawTableFileAction {
 		dvo.setOrgCode(params.getOrgCode());
 		dvo.setProject(params.getProjCode());
 		dvo.setDataLot(params.getDataLot());
+		dvo.setProvidedBy(params.getProvidedBy());
+		dvo.setProvidedDate(params.getProvidedDate());
 		if(isOverwrite == true) {
 			remove(dvo, conn);
 		}

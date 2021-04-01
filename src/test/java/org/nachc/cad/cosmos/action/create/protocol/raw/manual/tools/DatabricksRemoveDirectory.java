@@ -11,7 +11,7 @@ public class DatabricksRemoveDirectory {
 
 	public static void main(String[] args) {
 //		String dirName = "/FileStore/tables/prod";
-		String dirName = "/user/hive/warehouse/covid_bronze.db/dx_ac";
+		String dirName = "/user/hive/warehouse/covid_bronze.db/symp_src";
 		log.info("Removing dir: " + dirName);
 		DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(dirName);
 		log.info("Success: " + resp.isSuccess());

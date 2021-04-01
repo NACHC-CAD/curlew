@@ -4,12 +4,8 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covi
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidColumnMappings;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210122_Covid_CHCN;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_AC;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_HCN;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.UpdateDir_20210315_Covid_HCN;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.UpdateDir_20210315_Covid_HE;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.UpdateDir_20210320_Covid_NACHC_CovidTestNameMap;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.project.UploadDir;
 import org.yaorma.util.time.Timer;
@@ -35,7 +31,7 @@ public class BuildCovid {
 		CreateCovidProject.exec(conns);
 		conns.commit();
 		// do the legacy file uploads
-		Update20210122_Covid_CHCN.exec(conns);
+//		Update20210122_Covid_CHCN.exec(conns);
 		conns.commit();
 		Update20210207_Covid_AC.exec(conns);
 		conns.commit();
@@ -49,9 +45,11 @@ public class BuildCovid {
 		// do the new uploads
 		// partner data
 		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HCN-COVID-DATA", conns);
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HE-COVID-DATA",conns);
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HE-COVID-DATA", conns);
 		// mappings
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210317-COVID-LabTestResultNachc",conns);
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210317-COVID-LabTestResultNachc", conns);
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210331\\ac-2021-03-31", conns);
+		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210331\\chcn-2021-03-31", conns);
 		conns.commit();
 		timer.stop();
 		log.info("START:   " + timer.getStartAsString());

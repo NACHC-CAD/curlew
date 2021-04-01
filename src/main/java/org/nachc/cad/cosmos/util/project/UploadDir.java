@@ -96,6 +96,8 @@ public class UploadDir {
 		params.setCreatedBy(props.getProperty("user-name"));
 		params.setDataGroupAbr(props.getProperty("data-group-abbr"));
 		params.setDataLot(props.getProperty("data-lot"));
+		params.setProvidedBy(props.getProperty("provided-by"));
+		params.setProvidedDate(props.getProperty("provided-date"));
 		params.setCreateNewOrg("true".equalsIgnoreCase(props.getProperty("create-new-org")));
 		params.setCreateNewProject("true".equalsIgnoreCase(props.getProperty("create-new-project")));
 		params.setOverwriteExistingFiles("true".equalsIgnoreCase(props.getProperty("overwrite-existing-files")));
