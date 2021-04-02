@@ -50,7 +50,7 @@ public class BuildCovidUsingDir {
 				log.info("* * *");
 				log.info("* * *");
 				log.info("* * * ---------------------");
-				UploadDir.uploadDir(file, UID, conns);
+				UploadDir.uploadDir(file, UID, conns, true);
 				conns.commit();
 			}
 			// commit

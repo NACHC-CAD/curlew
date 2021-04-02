@@ -173,6 +173,12 @@ public class CreateGrpDataTableAction {
 		if (patientId != null) {
 			sqlString += "  concat('" + fileDvo.getOrgCode() + "', '|', " + patientId + ") as patient_id, \n";
 		}
+		sqlString += "  coalesce(\n";
+		sqlString += "    to_date(substring(" + fileDvo.getProvidedDate() + ",0,10), \"yyyy-MM-dd\"),\n";
+		sqlString += "    to_date(substring(" + fileDvo.getProvidedDate() + ",0,10), \"MM/dd/yy\"),\n";
+		sqlString += "    to_date(substring(" + fileDvo.getProvidedDate() + ",0,10), \"MM/dd/yyyy\"),\n";
+		sqlString += "    to_date(substring(" + fileDvo.getProvidedDate() + ",0,10), \"yyyyMMdd\")) as provided_date, \n";
+		sqlString += "  trim('" + fileDvo.getProvidedBy() + "') as provided_by, \n";
 		sqlString += "  trim('" + fileDvo.getOrgCode() + "') as org, \n";
 		sqlString += "  trim('" + fileDvo.getDataLot() + "') as data_lot, \n";
 		sqlString += "  trim('" + tableDvo.getRawTableName() + "') as raw_table \n";

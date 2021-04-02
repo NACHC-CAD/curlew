@@ -39,8 +39,12 @@ public class UploadDir {
 	 */
 
 	public static void exec(String absPath, String userName, CosmosConnections conns) {
+		exec(absPath, userName, conns, false);
+	}
+
+	public static void exec(String absPath, String userName, CosmosConnections conns, boolean createGroupTables) {
 		File dir = new File(absPath);
-		uploadDir(dir, userName, conns);
+		uploadDir(dir, userName, conns, createGroupTables);
 	}
 
 	/**
@@ -49,11 +53,11 @@ public class UploadDir {
 	 * 
 	 */
 
-	public static void uploadDir(File dir, String userName, CosmosConnections conns) {
-		uploadDir(dir, userName, conns, null);
+	public static void uploadDir(File dir, String userName, CosmosConnections conns, boolean createGroupTables) {
+		uploadDir(dir, userName, conns, null, createGroupTables);
 	}
-	
-	public static void uploadDir(File dir, String userName, CosmosConnections conns, Listener lis) {
+
+	public static void uploadDir(File dir, String userName, CosmosConnections conns, Listener lis, boolean createGroupTables) {
 		// get the parameters
 		File projectPropertiesFile = new File(dir, PROPS_PATH);
 		Properties props = PropertiesUtil.getAsProperties(projectPropertiesFile);
@@ -137,7 +141,7 @@ public class UploadDir {
 	//
 	// check for project record
 	//
-	
+
 	private static void checkForProjectRecord(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		String projCode = params.getProjCode();
 		String projName = params.getProjName();
@@ -167,7 +171,7 @@ public class UploadDir {
 	//
 	// check for org record
 	//
-	
+
 	private static void checkForOrgRecord(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		String orgCode = params.getOrgCode();
 		OrgCodeDvo dvo = Dao.find(new OrgCodeDvo(), "code", orgCode, conns.getMySqlConnection());
@@ -188,7 +192,7 @@ public class UploadDir {
 			log(lis, "ORG FOUND FOR CODE: " + dvo.getCode());
 		}
 	}
-	
+
 	//
 	// upload each directory
 	//
@@ -204,7 +208,7 @@ public class UploadDir {
 		for (File dir : dataDirs) {
 			msg += dir.getName() + "\n";
 		}
-		msg +=  "* * * END DIRS * * *";
+		msg += "* * * END DIRS * * *";
 		log(lis, "Uploading the following dir: \n" + msg);
 		for (File dir : dataDirs) {
 			uploadDataFiles(params, dir, conns, lis);
@@ -224,7 +228,7 @@ public class UploadDir {
 		String code = params.getRawTableGroupCode();
 		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + dataGroupAbbr);
 		RawTableGroupDvo rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());
-		if(rawTableGroupDvo == null) {
+		if (rawTableGroupDvo == null) {
 			// if the raw table group does not exist create it
 			CreateRawTableGroupAction.exec(params, conns);
 			rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());
@@ -245,27 +249,27 @@ public class UploadDir {
 	//
 	// get the mapping file
 	//
-	
+
 	private static File getMappingFile(File rootDir) {
 		List<File> files = FileUtil.listFiles(rootDir, "_meta/*.xlsx");
-		if(files.size() > 0) {
+		if (files.size() > 0) {
 			return files.get(0);
 		} else {
 			return null;
 		}
 	}
-	
+
 	//
 	// update parameters for each data file
 	//
-	
+
 	private static void updateParamsWithFileInfo(RawDataFileUploadParams params, File file) {
 		params.setFileName(file.getName());
 		params.setFile(file);
-		if(params.getDatabricksFileLocation().endsWith(params.getDataGroupAbr()) == false) {
+		if (params.getDatabricksFileLocation().endsWith(params.getDataGroupAbr()) == false) {
 			params.setDatabricksFileLocation(params.getDatabricksFileRoot() + params.getProjCode() + "/" + params.getDataGroupAbr());
 		}
-		if(params.getDatabricksFileLocation().endsWith("/") == false) {
+		if (params.getDatabricksFileLocation().endsWith("/") == false) {
 			params.setDatabricksFileLocation(params.getDatabricksFileLocation() + "/");
 		}
 		if (file.getName().toLowerCase().endsWith(".txt")) {
@@ -278,9 +282,9 @@ public class UploadDir {
 	//
 	// create the mappings
 	//
-	
+
 	private static void createMappings(CosmosConnections conns, File mappingFile, File file, Listener lis) {
-		if(mappingFile != null) {
+		if (mappingFile != null) {
 			log(lis, "* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
 			CreateColumnMappingsAction.exec(mappingFile, file, conns);
 		} else {
@@ -290,7 +294,7 @@ public class UploadDir {
 
 	private static void createGroupTables(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		Iterator<String> iter = params.getRawTableGroups().iterator();
-		while(iter.hasNext()) {
+		while (iter.hasNext()) {
 			String rawTableGroupCode = iter.next();
 			log(lis, "Creating group table for: " + rawTableGroupCode);
 			CreateGrpDataTableAction.execute(rawTableGroupCode, conns);
@@ -299,9 +303,9 @@ public class UploadDir {
 
 	private static void log(Listener lis, String str) {
 		log.info(str);
-		if(lis != null) {
+		if (lis != null) {
 			lis.notify(str);
 		}
 	}
-	
+
 }

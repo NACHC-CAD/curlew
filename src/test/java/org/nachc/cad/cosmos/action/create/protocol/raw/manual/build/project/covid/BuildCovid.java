@@ -2,10 +2,7 @@ package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.cov
 
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.create.CreateCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidColumnMappings;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_AC;
-import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.update.Update20210207_Covid_HCN;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.project.UploadDir;
 import org.yaorma.util.time.Timer;
@@ -25,31 +22,24 @@ public class BuildCovid {
 	public static void exec(CosmosConnections conns) {
 		Timer timer = new Timer();
 		timer.start();
-		// delete and recreate the project
+		// DELETE THE EXISTING PROJECT
 		DeleteCovidProject.exec(conns);
 		conns.commit();
+		// CREATE THE COVID PROJECT
 		CreateCovidProject.exec(conns);
 		conns.commit();
-		// do the legacy file uploads
-//		Update20210122_Covid_CHCN.exec(conns);
-		conns.commit();
-		Update20210207_Covid_AC.exec(conns);
-		conns.commit();
-		Update20210207_Covid_HCN.exec(conns);
-		conns.commit();
-		// create the database objects
-		CreateCovidColumnMappings.exec(conns);
-		conns.commit();
+		// DO THE UPLOADS (ONLY DO ONE FOR CHCN, They are giving a full refresh)
+		String root = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\";
+		uploadDir(root + "update-2021-02-07-COVID-AC", conns);
+		uploadDir(root + "update-2021-02-07-COVID-HCN", conns);
+		uploadDir(root + "update-2021-03-15-COVID-HCN", conns);
+		uploadDir(root + "update-2021-03-15-COVID-HE", conns);
+		uploadDir(root + "update-2021-03-17-COVID-LabTestResultNachc", conns);
+		uploadDir(root + "update-2021-03-31-COVID-AC", conns);
+		uploadDir(root + "update-2021-03-31-COVID-CHCN", conns);
+		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
-		// do the new uploads
-		// partner data
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HCN-COVID-DATA", conns);
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210315-HE-COVID-DATA", conns);
-		// mappings
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210317-COVID-LabTestResultNachc", conns);
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210331\\ac-2021-03-31", conns);
-		uploadDir("C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-20210331\\chcn-2021-03-31", conns);
 		conns.commit();
 		timer.stop();
 		log.info("START:   " + timer.getStartAsString());
@@ -60,7 +50,8 @@ public class BuildCovid {
 	}
 
 	private static void uploadDir(String dirName, CosmosConnections conns) {
-		UploadDir.exec(dirName, "greshje", conns);
+		log("UPLODAING DIR: " + dirName);
+		UploadDir.exec(dirName, "greshje", conns, false);
 		conns.commit();
 	}
 
@@ -84,6 +75,19 @@ public class BuildCovid {
 			log.info("Done with close");
 		}
 		log.info("Done.");
+	}
+
+	private static void log(String msg) {
+		String str = "";
+		str += "Building COVID...\n";
+		str += "---------------------------------------------------------------";
+		str += "\n\n\n\n";
+		str += "-- * * * \n";
+		str += "-- \n";
+		str += "-- " + msg + "\n";
+		str += "-- \n";
+		str += "-- * * * \n\n";
+		log.info(str);
 	}
 
 }
