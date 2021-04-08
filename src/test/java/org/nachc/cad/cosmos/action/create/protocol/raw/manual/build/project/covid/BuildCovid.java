@@ -30,6 +30,7 @@ public class BuildCovid {
 		conns.commit();
 		// DO THE UPLOADS (ONLY DO ONE FOR CHCN, They are giving a full refresh)
 		String root = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\";
+		uploadDir(root + "update-2021-01-22-COVID-CHCN", conns);
 		uploadDir(root + "update-2021-02-07-COVID-AC", conns);
 		uploadDir(root + "update-2021-02-07-COVID-HCN", conns);
 		uploadDir(root + "update-2021-03-15-COVID-HCN", conns);
@@ -37,6 +38,7 @@ public class BuildCovid {
 		uploadDir(root + "update-2021-03-17-COVID-LabTestResultNachc", conns);
 		uploadDir(root + "update-2021-03-31-COVID-AC", conns);
 		uploadDir(root + "update-2021-03-31-COVID-CHCN", conns);
+		uploadDir(root + "update-2021-04-02-COVID-RaceNachc", conns);
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();

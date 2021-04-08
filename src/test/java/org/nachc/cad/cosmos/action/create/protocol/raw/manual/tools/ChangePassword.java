@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChangePassword {
 
-	private static final String uid = "admin";
+	private static final String uid = "greshje";
 	
 	private static final String pwd = "BobsBurgers";
 	
