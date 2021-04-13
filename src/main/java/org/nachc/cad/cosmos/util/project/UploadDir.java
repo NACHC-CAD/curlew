@@ -72,8 +72,10 @@ public class UploadDir {
 		// upload files
 		uploadDataDirFiles(params, conns, lis);
 		// create the group tables and base tables
-		createGroupTables(params, conns, lis);
-		CreateBaseTablesAction.exec(params, conns);
+		if(createGroupTables == true) {
+			createGroupTables(params, conns, lis);
+			CreateBaseTablesAction.exec(params, conns);
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -226,7 +228,11 @@ public class UploadDir {
 		params.setDataGroupAbr(dataGroupAbbr);
 		params.setDataGroupName(dataGroupAbbr);
 		String code = params.getRawTableGroupCode();
-		params.setDatabricksFileLocation(params.getDatabricksFileRoot() + dataGroupAbbr);
+		if(params.getDatabricksFileRoot().endsWith("/")) {
+			params.setDatabricksFileLocation(params.getDatabricksFileRoot() + dataGroupAbbr);
+		} else {
+			params.setDatabricksFileLocation(params.getDatabricksFileRoot() + "/" + dataGroupAbbr);
+		}
 		RawTableGroupDvo rawTableGroupDvo = Dao.find(new RawTableGroupDvo(), "code", code, conns.getMySqlConnection());
 		if (rawTableGroupDvo == null) {
 			// if the raw table group does not exist create it

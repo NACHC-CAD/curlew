@@ -9,17 +9,24 @@ import org.nachc.cad.cosmos.util.mysql.connection.MySqlConnectionFactory;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 
+ * Deletes all of the artifacts for a single Databricks table (raw_data_group_code).  
+ * Use this class to delete an entire data group (e.g. the covid enc table)
+ *
+ */
 @Slf4j
-public class DatabricksRemoveRawDataGroup {
+public class DeleteTable {
 
+	private static final String GROUP_CODE = "covid_sdoh_name_nachc";
+	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		try {
-			String dataGroupCode = "covid_lab_test_result_nachc";
-			log.info("Starting delete for: " + dataGroupCode);
+			log.info("Starting delete for: " + GROUP_CODE);
 			log.info("Getting connections...");
 			log.info("Doing delete...");
-			DeleteRawDataGroupAction.delete(dataGroupCode, conns);
+			DeleteRawDataGroupAction.delete(GROUP_CODE, conns);
 		} finally {
 			conns.close();
 		}

@@ -9,6 +9,7 @@ import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.databricks.file.DatabricksFileUtil;
+import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,9 +35,11 @@ public class DeleteRawDataGroupAction {
 			// DatabricksDbUtil.dropDatabase(dvo.getGroupTableSchema(), dbConn);
 			log.info("Doing databricks drop for " + dvo.getRawTableSchema());
 			// DatabricksDbUtil.dropDatabase(dvo.getRawTableSchema(), dbConn);
-			log.info("Deleting files from: " + dvo.getFileLocation());
+			log.info("Deleting files (rmdir) from: " + dvo.getFileLocation());
 			DatabricksFileUtil fileUtil = DatabricksFileUtilFactory.get();
-			fileUtil.rmdir(dvo.getFileLocation());
+			DatabricksFileUtilResponse resp = fileUtil.rmdir(dvo.getFileLocation());
+			log.info("Delete success: " + resp.isSuccess());
+			log.info("Response: \n" + resp.getResponse());
 			// mysql stuff
 			log.info("Doing mysql deletes...");
 			Database.update("delete from raw_table_col where raw_table in (select guid from raw_table where raw_table_group = ?)", dvo.getGuid(), conns.getMySqlConnection());

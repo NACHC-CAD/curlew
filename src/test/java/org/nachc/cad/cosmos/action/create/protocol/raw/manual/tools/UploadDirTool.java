@@ -8,16 +8,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadDirTool {
 
-	public static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-02-COVID-RaceNachc\\";
+	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-12-COVID-SdohNameNachc\\";
+	
+	private static final boolean UPDATE_GROUP_TABLES = true;
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		try {
-			UploadDir.exec(DIR, "greshje", conns);
+			UploadDir.exec(DIR, "greshje", conns, UPDATE_GROUP_TABLES);
 			conns.commit();
 		} finally {
 			conns.close();
-		}
+		} 
 		log.info("Done.");
 	}
 	
