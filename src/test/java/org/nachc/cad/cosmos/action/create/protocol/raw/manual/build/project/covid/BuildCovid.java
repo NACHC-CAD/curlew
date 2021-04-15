@@ -1,5 +1,7 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid;
 
+import org.nachc.cad.cosmos.action.confirm.ConfirmConfiguration;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateBaseTablesAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.create.CreateCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
@@ -22,6 +24,8 @@ public class BuildCovid {
 	public static void exec(CosmosConnections conns) {
 		Timer timer = new Timer();
 		timer.start();
+		// CONFIRM CONFIGURATION
+		ConfirmConfiguration.exec(conns);
 		// DELETE THE EXISTING PROJECT
 		DeleteCovidProject.exec(conns);
 		conns.commit();
@@ -35,13 +39,18 @@ public class BuildCovid {
 		uploadDir(root + "update-2021-02-07-COVID-HCN", conns);
 		uploadDir(root + "update-2021-03-15-COVID-HCN", conns);
 		uploadDir(root + "update-2021-03-15-COVID-HE", conns);
+		uploadDir(root + "update-2021-03-17-COVID-LabTestCategoryNachc", conns);
 		uploadDir(root + "update-2021-03-17-COVID-LabTestResultNachc", conns);
 		uploadDir(root + "update-2021-03-31-COVID-AC", conns);
 		uploadDir(root + "update-2021-03-31-COVID-CHCN", conns);
 		uploadDir(root + "update-2021-04-02-COVID-DemoRaceNachc", conns);
+		uploadDir(root + "update-2021-04-11-COVID-DemoSexNachc", conns);
+		uploadDir(root + "update-2021-04-12-COVID-SdohNameNachc", conns);
+		uploadDir(root + "update-2021-04-12-COVID-SdohValueNachc", conns);
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
+		CreateBaseTablesAction.exec("covid", conns);
 		conns.commit();
 		timer.stop();
 		log.info("START:   " + timer.getStartAsString());
@@ -81,14 +90,15 @@ public class BuildCovid {
 
 	private static void log(String msg) {
 		String str = "";
-		str += "Building COVID...\n";
-		str += "---------------------------------------------------------------";
 		str += "\n\n\n\n";
+		str += "Building COVID...\n";
+		str += "-- -------------------------------------------------------------/n";
 		str += "-- * * * \n";
-		str += "-- \n";
-		str += "-- " + msg + "\n";
-		str += "-- \n";
-		str += "-- * * * \n\n";
+		str += "-- * \n";
+		str += "-- *" + msg + "\n";
+		str += "-- * \n";
+		str += "-- * * * \n";
+		str += "-- -------------------------------------------------------------/n";
 		log.info(str);
 	}
 

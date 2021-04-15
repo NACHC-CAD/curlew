@@ -14,8 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CreateBaseTablesAction {
 
 	public static void exec(RawDataFileUploadParams params, CosmosConnections conns) {
-		createSchemaIfNotExists(params, conns);
+		createSchemaIfNotExists(params.getProjCode(), conns);
 		List<RawTableGroupDvo> list = getBaseTables(params, conns);
+		for (RawTableGroupDvo dvo : list) {
+			createTable(dvo, conns);
+		}
+	}
+
+	public static void exec(String projCode, CosmosConnections conns) {
+		createSchemaIfNotExists(projCode, conns);
+		List<RawTableGroupDvo> list = getBaseTables(projCode, conns);
 		for (RawTableGroupDvo dvo : list) {
 			createTable(dvo, conns);
 		}
@@ -27,8 +35,13 @@ public class CreateBaseTablesAction {
 		return list;
 	}
 
-	private static void createSchemaIfNotExists(RawDataFileUploadParams params, CosmosConnections conns) {
-		String sqlString = "create schema if not exists " + params.getProjCode();
+	private static List<RawTableGroupDvo> getBaseTables(String projCode, CosmosConnections conns) {
+		List<RawTableGroupDvo> list = Dao.findList(new RawTableGroupDvo(), "project", projCode, conns.getMySqlConnection());
+		return list;
+	}
+
+	private static void createSchemaIfNotExists(String projCode, CosmosConnections conns) {
+		String sqlString = "create schema if not exists " + projCode;
 		Database.update(sqlString, conns.getDbConnection());
 	}
 

@@ -6,6 +6,8 @@
 
 use cosmos;
 
+
+
 --
 -- files for project
 --
@@ -22,3 +24,9 @@ where 1=1
 	and project = 'covid'
 order by 1,2,3
 ;
+
+show tables;
+
+select * from org_code order by code;
+
+

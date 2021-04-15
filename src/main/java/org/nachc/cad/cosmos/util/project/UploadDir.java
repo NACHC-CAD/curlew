@@ -47,6 +47,10 @@ public class UploadDir {
 		uploadDir(dir, userName, conns, createGroupTables);
 	}
 
+	public static void exec(File dir, String userName, CosmosConnections conns, boolean createGroupTables) {
+		uploadDir(dir, userName, conns, createGroupTables);
+	}
+
 	/**
 	 * 
 	 * Upload a directory of files given path as a String
