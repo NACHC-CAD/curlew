@@ -47,6 +47,7 @@ public class BuildCovid {
 		uploadDir(root + "update-2021-04-11-COVID-DemoSexNachc", conns);
 		uploadDir(root + "update-2021-04-12-COVID-SdohNameNachc", conns);
 		uploadDir(root + "update-2021-04-12-COVID-SdohValueNachc", conns);
+		uploadDir(root + "update-2021-04-17-COVID-CHCN", conns);
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
