@@ -26,7 +26,7 @@ public class CreateCovidSchemas {
 		log.info("Creating schema");
 		DatabricksDbUtil.createDatabase("covid_meta", conns.getDbConnection());
 		log.info("Creating meta data tables");
-		CreateMetricsTable.createMetaSchema("covid", "covid_meta", conns);
+		CreateMetricsTable.exec("covid", "covid_meta", conns);
 		log.info("Done creating meta.");
 	}
 

@@ -1,7 +1,7 @@
 -- Databricks notebook source
 -- * * *
 --
--- COVID BRONZE BASIC TABLES SCRIPT 2021-04-17
+-- COVID BRONZE BASIC TABLES SCRIPT 2021-04-15
 -- This script creates everything up to the "_SRC" tables.  
 -- The "_SRC" tables are subsequently joint to the "_NACHC" tables to create the base tables (e.g. demo, enc, dx, etc.).
 --
@@ -73,18 +73,6 @@ drop table if exists lab_test_category_nachc;
 
 drop table if exists patient_covid_exp;
 drop table if exists patient_race;
-
-drop table if exists lab_test_category_nachc_ac_cat;
-drop table if exists lab_test_category_nachc_chcn_code;
-drop table if exists lab_test_category_nachc_chcn_name;
-drop table if exists lab_test_category_nachc_hcn_name;
-drop table if exists lab_test_category_nachc_he_cat;
-drop table if exists lab_test_category_nachc_he_code;
-
-drop table if exists sdoh_observation_name_nachc;
-drop table if exists sdoh_observation_value_nachc;
-
-drop table if exists sdoh_housing_status;
 
 drop table if exists cur;
 
@@ -172,7 +160,7 @@ select distinct
   last(data_lot) data_lot,
   last(raw_table) raw_table
 from 
-  (select * from covid.demo order by provided_date)
+  covid.demo
 where 1=1 
   and org = 'chcn'
   and patient_id is not null
@@ -355,8 +343,6 @@ from (
     and patient_id is not null and observation_date_string is not null
   group by 6
 
-  order by provided_date
-
 )
 group by 6
 order by provided_date, is_dummy;
@@ -418,7 +404,7 @@ select distinct
   last(provided_date) provided_date,
   0 as is_dummy
 from 
-  (select * from covid.he_dx order by provided_date)
+  covid.he_dx
 where 1=1 
   and org = 'he'
   and patient_id is not null
@@ -498,9 +484,7 @@ from (
     and patient_id is not null
     and recorded_date_string is not null
   group by 6
-  
   order by provided_date, is_dummy
-  
   ) enc
 group by 6
 );
@@ -510,7 +494,7 @@ group by 6
 -- * * *
 -- 
 -- LAB
--- Note: All lab results are assumed to be unique instances of a test (i.e. all inserts, no updates)
+--
 -- * * *
 
 -- COMMAND ----------

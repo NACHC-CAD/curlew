@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateMetricsTable {
 
-	public static void createMetaSchema(String schemaName, String metaSchema, CosmosConnections conns) {
+	public static void exec(String schemaName, String metaSchema, CosmosConnections conns) {
+		DatabricksDbUtil.dropDatabase(metaSchema, conns);
+		DatabricksDbUtil.createDatabase(metaSchema, conns);
 		Data data = Database.query("show tables in " + schemaName, conns.getDbConnection());
 		for(Row row : data) {
 			String tableName = row.get("tablename");
@@ -21,6 +23,7 @@ public class CreateMetricsTable {
 			sqlString += getMetricsTableSqlString(schemaName, tableName, conns) + "\n";
 			sqlString += ")\n";
 			log.info("SqlString: \n\n" + sqlString + "\n\n");
+			log.info("Creating table (from above sqlString): " + tableName);
 			Database.update(sqlString, conns.getDbConnection());
 		}
 		

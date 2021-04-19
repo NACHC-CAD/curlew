@@ -145,7 +145,7 @@ public class BuildHiv {
 		log.info("Creating schema");
 		DatabricksDbUtil.createDatabase(metaSchemaName, conns.getDbConnection());
 		log.info("Creating meta data tables");
-		CreateMetricsTable.createMetaSchema(PROJECT_CODE, metaSchemaName, conns);
+		CreateMetricsTable.exec(PROJECT_CODE, metaSchemaName, conns);
 		log.info("Done creating meta.");
 	}
 

@@ -1,6 +1,7 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid;
 
 import org.nachc.cad.cosmos.action.confirm.ConfirmConfiguration;
+import org.nachc.cad.cosmos.action.create.metrics.CreateMetricsTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateBaseTablesAction;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.create.CreateCovidProject;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.delete.DeleteCovidProject;
@@ -52,6 +53,8 @@ public class BuildCovid {
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
 		CreateBaseTablesAction.exec("covid", conns);
+		conns.commit();
+		CreateMetricsTable.exec("covid", "covid_metrics", conns);
 		conns.commit();
 		timer.stop();
 		log.info("START:   " + timer.getStartAsString());
