@@ -1,7 +1,7 @@
 -- Databricks notebook source
 -- * * *
 -- 
--- (2021-01-31)
+-- (2021-04-22)
 -- UPDATED CREATE TABLES FOR WOMENS HEALTH SCHEMA
 -- 2021-01-31: Updated to use merge functionality.  
 -- 
@@ -743,6 +743,46 @@ create table include_for_contraception using delta as (
 
 -- COMMAND ----------
 
+drop table if exists counseling;
+create table counseling as (
+select distinct
+  org,
+  org_patient_id,
+  patient_id,
+  encounter_id,
+  encounter_date,
+  coalesce(encounter_type, enc_type) encounter_type,
+  contraceptive_counseling,
+  data_lot
+from
+  enc
+where lower(contraceptive_counseling) = 'y'
+  or lower(contraceptive_counseling) = 'yes'
+  or lower(contraceptive_counseling) like 'z30%'
+  or contraceptive_counseling = 1
+);
+
+
+-- COMMAND ----------
+
+-- * * *
+-- 
+-- INCLUDES FOR CONTRACEPTION WITH COUNSELING
+-- 
+-- * * *
+
+drop table if exists include_for_contraception_with_counseling;
+
+create table include_for_contraception_with_counseling as (
+  select 
+    couns.*
+  from
+    include_for_contraception inc
+    join counseling couns on couns.patient_id = inc.patient_id
+);
+
+-- COMMAND ----------
+
 -- * * *
 --
 -- CONTRACEPTION CATEGORIZATIONS
@@ -944,6 +984,46 @@ select
   data_lot
 from patient_med_cat
 );
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- DISTRIBUTION OF CONTRACEPTION FOR TOTAL POPULATION
+--
+-- * * *
+
+drop table if exists contraception_category_counseling;
+
+create table contraception_category_counseling as (
+select
+  cat.category category,
+  count(distinct inc.patient_id) total,
+  count(distinct inc.patient_id) - count(distinct couns.patient_id) not_counseled,
+  count(distinct couns.patient_id) counseled,
+  (select count(distinct inc.patient_id)
+   from include_for_contraception inc 
+   join enc on inc.patient_id = enc.patient_id
+   where enc.data_lot = 'LOT 2' and year(enc.encounter_date) > 2019
+  ) total_included_patients,
+  (select count(distinct inc.patient_id)
+   from include_for_contraception inc 
+   join enc on inc.patient_id = enc.patient_id and enc.data_lot = 'LOT 2' and year(enc.encounter_date) > 2019
+   join counseling couns on couns.patient_id = inc.patient_id
+  ) total_included_patients_with_counseling
+from
+  include_for_contraception inc
+  join enc on inc.patient_id = enc.patient_id
+  join patient_contraception_cat cat on cat.patient_id = inc.patient_id
+  left outer join counseling couns on couns.patient_id = inc.patient_id
+where 1=1
+  and cat.data_lot = 'LOT 2'
+  and year(enc.encounter_date) > 2019
+  and cat.category != 'NOT BIRTH CONTROL'
+group by 1
+order by 1
+);
+
 
 -- COMMAND ----------
 
