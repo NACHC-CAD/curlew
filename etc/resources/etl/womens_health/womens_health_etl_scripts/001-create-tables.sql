@@ -528,7 +528,7 @@ select
   enc.org,
   enc.org_patient_id,
   enc.patient_id,
-  coalesce(max_act_delivery_date, min_act_delivery_date, max_est_delivery_date, max_est_delivery_date) as est_delivery_date,
+  coalesce(max_act_delivery_date, min_act_delivery_date, max_est_delivery_date, min_est_delivery_date) as est_delivery_date,
   'pregnancy_marker_he' as inclusion_reason,
   enc.data_lot,
   enc.raw_table
@@ -1272,3 +1272,122 @@ create table diabetes_screening as (
     ogttresult is not null
 )
 ;
+
+-- COMMAND ----------
+
+show tables in covid_bronze
+;
+
+-- COMMAND ----------
+
+select * from prj_grp_covid_demo_race_nachc.demo_race_nachc
+
+-- COMMAND ----------
+
+show tables in prj_raw_covid_demo_race_nachc;
+
+-- COMMAND ----------
+
+select * from prj_raw_covid_demo_race_nachc.covid_nachc_demo_race_nachc_2021_03_31race_mappings_ru_csv;
+
+-- COMMAND ----------
+
+select * from covid.demo_race_nachc;
+
+-- COMMAND ----------
+
+-- * * *
+-- 
+-- TODO: Using race mappings from covid for now, need to restructure this
+--
+-- * * *
+drop table if exists demo_race_nachc;
+create table demo_race_nachc as select * from covid.demo_race_nachc;
+
+-- COMMAND ----------
+
+drop table if exists patient_race_nachc_src;
+create table patient_race_nachc_src as (
+  select distinct 
+    demo.patient_id,
+    demo.org_patient_id,
+    demo.org,
+    max(demo.race) race,
+    max(race.race_nachc) race_nachc
+  from
+    demo
+    left outer join demo_race_nachc race on lower(race.race) = lower(demo.race)
+  group by 1,2,3
+);
+
+-- COMMAND ----------
+
+drop table if exists patient_race_nachc;
+create table patient_race_nachc as (
+  select
+    race.patient_id,
+    race.org_patient_id,
+    race.org,
+    race.race,
+    (case
+        when lower(demo.ethnicity) in ('hispanic','hispanic or latino','hispanic/latino') then 'Latino'
+        else race.race_nachc
+        end
+    ) race_nachc
+  from
+    patient_race_nachc_src race
+    join demo on demo.patient_id = race.patient_id
+);
+
+-- COMMAND ----------
+
+select count(distinct patient_id) from demo
+union all 
+select count(distinct patient_id) from patient_race_nachc;
+
+-- COMMAND ----------
+
+select distinct race, count(distinct patient_id)
+from patient_race_nachc
+where 1=1
+  and race is not null 
+  and race_nachc is null
+group by 1
+order by 1
+;
+
+
+-- COMMAND ----------
+
+create table pp_pregnancy as (
+  select 
+    org,
+    org_patient_id,
+    patient_id,
+    max(est_delivery_date) est_delivery_date,
+    max(est_delivery_date) max_est_delivery_date,
+    min(est_delivery_date) min_est_delivery_date
+  from pregnancy 
+  group by 1,2,3
+  having max_est_delivery_date = min_est_delivery_date
+);
+
+
+-- COMMAND ----------
+
+drop table if exists first_pp_visit;
+create table first_pp_visit as (
+  select
+    preg.org,
+    preg.org_patient_id,
+    preg.patient_id,
+    preg.est_delivery_date,
+    min(enc.encounter_date) fist_pp_visit,
+    cast(datediff(min(enc.encounter_date), preg.est_delivery_date) as int) days_after,
+    cast(datediff(min(enc.encounter_date), preg.est_delivery_date)/7 as int) weeks_after,
+    cast(datediff(min(enc.encounter_date), preg.est_delivery_date)/28 as int) months_after
+  from
+    pp_pregnancy preg
+    join enc on enc.patient_id = preg.patient_id and enc.encounter_date > preg.est_delivery_date
+  group by 1,2,3,4
+);
