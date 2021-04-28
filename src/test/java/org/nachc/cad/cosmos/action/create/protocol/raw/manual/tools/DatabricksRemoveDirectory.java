@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DatabricksRemoveDirectory {
 
 	public static void main(String[] args) {
-		String dirName = "/FileStore/tables/prod/covid/race_nachc";
+		String dirName = "/FileStore/tables/integration-test/delete-me/delete-me-test-file.csv";
 //		String dirName = "/user/hive/warehouse/covid_bronze.db/symp_src";
 		log.info("Removing dir: " + dirName);
 		DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(dirName);

@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadDirTool {
 
-	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-11-COVID-DemoSexNachc\\";
+	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-02-COVID-DemoRaceNachc\\";
 	
 	private static final boolean UPDATE_GROUP_TABLES = true;
 	
