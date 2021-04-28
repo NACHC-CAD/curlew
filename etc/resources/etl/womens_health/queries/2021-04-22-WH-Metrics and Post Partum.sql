@@ -225,7 +225,7 @@ order by 1 asc
 
 -- * * *
 --
--- Range for Estimated Deliery Date (Table)
+-- Range for Estimated Deliery Date in MONTHS (Table)
 --
 -- * * *
 
@@ -284,7 +284,7 @@ select 'pct' metric, format_number((select (select count(distinct patient_id) fr
 select 
   weeks_after `Weeks Post Partum`,
   count(distinct patient_id) `Distinct Patients`,
-  count(distinct patient_id)/(select count(distinct patient_id) from first_pp_visit) * 100 `Percent Total`
+  count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 `Percent Total`
 from 
   first_pp_visit
 where
@@ -303,28 +303,11 @@ order by 1
 select 
   weeks_after `Weeks Post Partum`,
   count(distinct patient_id) `Distinct Patients`,
-  count(distinct patient_id)/(select count(distinct patient_id) from first_pp_visit) * 100 `Percent Total`
+  count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 `Percent Total`
 from 
   first_pp_visit
 where
   months_after <= 6
-group by 1
-order by 1
-
--- COMMAND ----------
-
--- * * *
---
--- FIRST POST PARTUM VISIT PERCENT (Chart)
--- 
--- * * *
-
-select 
-  weeks_after `Weeks Post Partum`,
-  count(distinct patient_id) `Distinct Patients`,
-  count(distinct patient_id)/(select count(distinct patient_id) from first_pp_visit) * 100 `Percent Total`
-from 
-  first_pp_visit
 group by 1
 order by 1
 
