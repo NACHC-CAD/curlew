@@ -1359,6 +1359,14 @@ order by 1
 
 -- COMMAND ----------
 
+-- * * *
+-- 
+-- Pregnacies to be considered for pp analysis
+-- pregnancies where the min_est_delivery_date is equal to the max_est_delivery_date
+--
+-- * * *
+
+drop table if exists pp_pregnancy;
 create table pp_pregnancy as (
   select 
     org,
@@ -1368,6 +1376,8 @@ create table pp_pregnancy as (
     max(est_delivery_date) max_est_delivery_date,
     min(est_delivery_date) min_est_delivery_date
   from pregnancy 
+    where data_lot != 'LOT 1'
+    and year(est_delivery_date) > 2019
   group by 1,2,3
   having max_est_delivery_date = min_est_delivery_date
 );
