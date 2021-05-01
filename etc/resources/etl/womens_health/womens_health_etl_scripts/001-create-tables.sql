@@ -1,7 +1,7 @@
 -- Databricks notebook source
 -- * * *
 -- 
--- (2021-04-22)
+-- (2021-04-28)
 -- UPDATED CREATE TABLES FOR WOMENS HEALTH SCHEMA
 -- 2021-01-31: Updated to use merge functionality.  
 -- 
@@ -1378,6 +1378,7 @@ create table pp_pregnancy as (
   from pregnancy 
     where data_lot != 'LOT 1'
     and year(est_delivery_date) > 2019
+    and org in ('ac','ochin')
   group by 1,2,3
   having max_est_delivery_date = min_est_delivery_date
 );

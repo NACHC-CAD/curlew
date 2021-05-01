@@ -3,7 +3,7 @@
 --
 -- WOMENS_HEALTH BASIC METRICS 
 -- AND POST PARTUM 
--- 2021-04-22
+-- 2021-04-28
 -- This file shows basic metrics for womens_health data leading up to analysis of contraception use comparing patients with or without contraception counseling.  
 -- All data are for
 --   - Patientes with an encounter after 2019
@@ -39,6 +39,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(enc.encounter_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 ;
@@ -59,6 +60,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(enc.encounter_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 ;
@@ -79,6 +81,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(enc.encounter_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 ;
@@ -99,6 +102,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(enc.encounter_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 ;
@@ -118,7 +122,8 @@ from
   enc
 where 1=1
   and data_lot = 'LOT 2'
-  and year(enc.encounter_date) > 2019
+  and year(enc.encounter_date) > 2019  
+  and org in ('ac','ochin')
 group by 1
 order by 1
 ;
@@ -139,6 +144,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(enc.encounter_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 ;
@@ -159,6 +165,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(est_delivery_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 
@@ -178,6 +185,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(est_delivery_date) > 2019
+  and org in ('ac','ochin')
   
 union all
 
@@ -189,6 +197,7 @@ from
 where 1=1
   and data_lot = 'LOT 2'
   and year(est_delivery_date) > 2019
+  and org in ('ac','ochin')
 group by 1
 order by 1
 
@@ -214,6 +223,7 @@ from (
   where 1=1
     and data_lot = 'LOT 2'
     and year(est_delivery_date) > 2019
+    and org in ('ac','ochin')
   group by 1
   order by 4 desc
 )
@@ -243,6 +253,7 @@ from (
   where 1=1
     and data_lot = 'LOT 2'
     and year(est_delivery_date) > 2019
+    and org in ('ac','ochin')
   group by 1
   order by 4 desc
 )
@@ -284,7 +295,7 @@ select 'pct' metric, format_number((select (select count(distinct patient_id) fr
 select 
   weeks_after `Weeks Post Partum`,
   count(distinct patient_id) `Distinct Patients`,
-  count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 `Percent Total`
+  count(distinct patient_id)/(select count(distinct patient_id) from pp_pregnancy) * 100 `Percent Total`
 from 
   first_pp_visit
 where
@@ -303,7 +314,7 @@ order by 1
 select 
   weeks_after `Weeks Post Partum`,
   count(distinct patient_id) `Distinct Patients`,
-  count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 `Percent Total`
+  count(distinct patient_id)/(select count(distinct patient_id) from pp_pregnancy) * 100 `Percent Total`
 from 
   first_pp_visit
 where
@@ -381,7 +392,7 @@ from (
       when weeks_after < 52 then 6
     end) sort_order,
     count(distinct patient_id) distinct_patients,
-    count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 percent_total
+    count(distinct patient_id)/(select count(distinct patient_id) from pp_pregnancy) * 100 percent_total
   from 
     first_pp_visit
   where
@@ -423,7 +434,7 @@ from (
       when weeks_after < 52 then 6
     end) sort_order,
     count(distinct patient_id) distinct_patients,
-    count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 percent_total
+    count(distinct patient_id)/(select count(distinct patient_id) from pp_pregnancy) * 100 percent_total
   from 
     first_pp_visit
   where
@@ -464,7 +475,7 @@ from (
       when weeks_after < 52 then 6
     end) sort_order,
     count(distinct patient_id) distinct_patients,
-    count(distinct patient_id)/(select count(distinct patient_id) from pregnancy) * 100 percent_total
+    count(distinct patient_id)/(select count(distinct patient_id) from pp_pregnancy) * 100 percent_total
   from 
     first_pp_visit
   where
@@ -494,8 +505,8 @@ select
   coalesce(race_nachc, 'Other') `Race`,
   format_number(count(distinct preg.patient_id),0) `Distinct Patients`
 from
-  pregnancy preg
-  left outer join patient_race_nachc race on race.patient_id = preg.patient_id
+  pp_pregnancy preg
+  join patient_race_nachc race on race.patient_id = preg.patient_id
 group by 1
 order by 1
 ;
@@ -512,8 +523,8 @@ select
   coalesce(race_nachc, 'Other') `Race`,
   count(distinct preg.patient_id) `Distinct Patients`
 from
-  pregnancy preg
-  left outer join patient_race_nachc race on race.patient_id = preg.patient_id
+  pp_pregnancy preg
+  join patient_race_nachc race on race.patient_id = preg.patient_id
 group by 1
 order by 1
 ;
@@ -525,6 +536,7 @@ order by 1
 -- FIRST POST PARTUM BY RACE (cumulative)
 --
 -- * * *
+
 select
   race_nachc `Race`,
   weeks_post_partum `First Post Partum Visit (weeks)`,
@@ -560,7 +572,7 @@ from (
         coalesce(race.race_nachc, 'Other') race_nachc,
         count(distinct preg.patient_id) distinct_patients
       from
-        pregnancy preg
+        pp_pregnancy preg
         left outer join patient_race_nachc race on race.patient_id = preg.patient_id
       group by 1
   ) race_counts on race_counts.race_nachc = race.race_nachc

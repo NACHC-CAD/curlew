@@ -6,8 +6,6 @@
 
 use cosmos;
 
-
-
 --
 -- files for project
 --
@@ -29,4 +27,15 @@ show tables;
 
 select * from org_code order by code;
 
+select distinct org_code, group_table_name, col_name 
+from raw_table_col_detail
+where 1=1
+	and (lower(col_name) like '%vacc%' or lower(group_table_name) like '%flat%')
+    and project = 'covid'
+order by group_table_name, col_name
+;
 
+ 
+select * from raw_table_col_detail
+where col_name = 'vaccine_group'
+;

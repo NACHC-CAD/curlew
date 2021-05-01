@@ -1,7 +1,8 @@
 -- Databricks notebook source
 -- * * *
 --
--- WOMENS_HEALTH BASIC METRICS 
+-- WOMENS_HEALTH BASIC METRICS AND
+-- CONTRACEPTION BY COUNSELING V. NOT COUNSELED
 -- 2021-04-22
 -- This file shows basic metrics for womens_health data leading up to analysis of contraception use comparing patients with or without contraception counseling.  
 -- All data are for

@@ -35,7 +35,7 @@ public class BuildCovid {
 		conns.commit();
 		// DO THE UPLOADS (ONLY DO ONE FOR CHCN, They are giving a full refresh)
 		String root = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\";
-		uploadDir(root + "update-2021-01-22-COVID-CHCN", conns);
+//		uploadDir(root + "update-2021-01-22-COVID-CHCN", conns);
 		uploadDir(root + "update-2021-02-07-COVID-AC", conns);
 		uploadDir(root + "update-2021-02-07-COVID-HCN", conns);
 		uploadDir(root + "update-2021-03-15-COVID-HCN", conns);
@@ -43,12 +43,16 @@ public class BuildCovid {
 		uploadDir(root + "update-2021-03-17-COVID-LabTestCategoryNachc", conns);
 		uploadDir(root + "update-2021-03-17-COVID-LabTestResultNachc", conns);
 		uploadDir(root + "update-2021-03-31-COVID-AC", conns);
-		uploadDir(root + "update-2021-03-31-COVID-CHCN", conns);
+//		uploadDir(root + "update-2021-03-31-COVID-CHCN", conns);
 		uploadDir(root + "update-2021-04-02-COVID-DemoRaceNachc", conns);
 		uploadDir(root + "update-2021-04-11-COVID-DemoSexNachc", conns);
 		uploadDir(root + "update-2021-04-12-COVID-SdohNameNachc", conns);
 		uploadDir(root + "update-2021-04-12-COVID-SdohValueNachc", conns);
 		uploadDir(root + "update-2021-04-17-COVID-CHCN", conns);
+		uploadDir(root + "update-2021-04-19-COVID-AC", conns);
+		uploadDir(root + "update-2021-04-29-COVID-HE", conns);
+		uploadDir(root + "update-2021-04-30-COVID-VaccCategoryNachc", conns);
+		uploadDir(root + "update-2021-04-30-COVID-zipcode", conns);
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
