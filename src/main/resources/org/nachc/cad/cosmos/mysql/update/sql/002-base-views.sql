@@ -26,6 +26,8 @@ select
     fil.file_size_units,
     fil.org_code,
     fil.data_lot,
+    fil.provided_by,
+    fil.provided_date,
     col.col_index,
     col.dirty_name,
     col.col_name,

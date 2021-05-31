@@ -9,17 +9,31 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadDirTool {
 
-//	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-19-COVID-AC\\";
-
-	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-29-COVID-HE\\";
 	
+//	private static final String[] DIRS = {
+//	"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-05-27-COVID-CHCN\\",
+//	"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-05-27-COVID-HCN\\",
+//	"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-30-COVID-VaccCategoryNachc\\",
+//	"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-05-29-COVID-VaccCategoryNachc\\"
+//};
+
+	private static final String[] DIRS = {
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-02-07-COVID-HCN\\",
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-03-15-COVID-HCN\\",
+			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-05-27-COVID-HCN\\"
+	};
+
 	private static final boolean UPDATE_GROUP_TABLES = true;
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		try {
-			UploadDir.exec(DIR, "greshje", conns, UPDATE_GROUP_TABLES);
-			conns.commit();
+			for (String dir : DIRS) {
+				log.info("\n\n\n-----------------------------------------------------------\n");
+				log.info("* * * DOING UPLOAD FOR: " + dir);
+				UploadDir.exec(dir, "greshje", conns, UPDATE_GROUP_TABLES);
+				conns.commit();
+			}
 			if(UPDATE_GROUP_TABLES == true) {
 				CreateBaseTablesAction.exec("covid", conns);
 				conns.commit();

@@ -34,7 +34,7 @@ create table demo_race_nachc as (
   from
     covid.demo_race_nachc
   group by 1
-)
+);
 
 -- COMMAND ----------
 
@@ -52,7 +52,7 @@ create table demo_sex_nachc as (
   from
     covid.demo_sex_nachc
   group by 1
-)
+);
 
 -- COMMAND ----------
 
@@ -111,10 +111,6 @@ create table dx as (
   select distinct * from dx_src
 );
 
-
--- COMMAND ----------
-
-select * from covid.lab_test_result_nachc;
 
 -- COMMAND ----------
 
@@ -309,7 +305,7 @@ create table lab as (
     left outer join lab_test_category_nachc_he_code he_code on he_code.test_code = lab.test_code
     left outer join lab_test_category_nachc_he_cat he_cat on he_cat.test_category = lab.test_category
     left outer join lab_test_category_nachc_hcn_name hcn_name on hcn_name.test_name = lab.test_name
-)
+);
 
 -- COMMAND ----------
 
@@ -325,7 +321,7 @@ create table symp as (
     symp.*
   from
     symp_src symp
-)
+);
 
 -- COMMAND ----------
 
@@ -337,6 +333,7 @@ create table symp as (
 
 -- COMMAND ----------
 
+drop table if exists sdoh_observation_name_nachc;
 create table sdoh_observation_name_nachc as (
   select
     lower(observation_name) observation_name,
@@ -351,6 +348,7 @@ create table sdoh_observation_name_nachc as (
 
 -- COMMAND ----------
 
+drop table if exists sdoh_observation_value_nachc;
 create table sdoh_observation_value_nachc as (
   select
     observation_name_nachc,

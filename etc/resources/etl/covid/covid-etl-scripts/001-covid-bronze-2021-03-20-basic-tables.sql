@@ -1,7 +1,7 @@
 -- Databricks notebook source
 -- * * *
 --
--- COVID BRONZE BASIC TABLES SCRIPT 2021-04-17
+-- COVID BRONZE BASIC TABLES SCRIPT 2021-04-29
 -- This script creates everything up to the "_SRC" tables.  
 -- The "_SRC" tables are subsequently joint to the "_NACHC" tables to create the base tables (e.g. demo, enc, dx, etc.).
 --
@@ -86,21 +86,17 @@ drop table if exists sdoh_observation_value_nachc;
 
 drop table if exists sdoh_housing_status;
 
+drop table if exists vacc_src;
+drop table if exists vacc_category_nachc;
+drop table if exists patient_vacc_category_nachc;
+
+drop table if exists patient_location;
+
 drop table if exists cur;
 
-show tables;
-
 -- COMMAND ----------
 
 show tables;
-
--- COMMAND ----------
-
-show databases;
-
--- COMMAND ----------
-
-show tables in covid;
 
 -- COMMAND ----------
 
@@ -136,14 +132,27 @@ select distinct
   last(provided_date) provided_date,
   last(data_lot) data_lot,
   last(raw_table) raw_table
-from 
-  (select * from covid.demo order by provided_date)
+from (
+  select 
+    row_number() over (order by provided_date, data_lot) as row_num,
+    demo.*
+  from covid.demo
+  order by 1
+)
 where 1=1 
   and org = 'ac'
   and patient_id is not null
 group by 1,2
 );
   
+
+-- COMMAND ----------
+
+select data_lot, count(distinct patient_id) from demo_ac where org = 'ac' group by 1 order by 1;
+
+-- COMMAND ----------
+
+select data_lot, count(distinct patient_id) from covid.demo where org = 'ac' and patient_id is not null group by 1 order by 1;
 
 -- COMMAND ----------
 
@@ -889,10 +898,6 @@ from
 where
   org = 'ac'
 );
-
--- COMMAND ----------
-
-select * from covid.symp where org = 'chcn'
 
 -- COMMAND ----------
 
@@ -2178,3 +2183,403 @@ union
 select distinct * from sdoh_hcn
 );
 
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- VACCINATION 
+--
+-- * * *
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- VACC_CATEGORY_NACHC
+--
+-- * * *
+
+drop table if exists vacc_category_nachc;
+create table vacc_category_nachc as select * from covid.vacc_category_nachc;
+
+-- COMMAND ----------
+
+drop table if exists vacc_src0;
+create table vacc_src0 as (
+  select
+    *,
+    coalesce(
+      to_date(substring(administered_date_shifted,0,10),"yyyy-MM-dd"),
+      to_date(substring(administered_date_shifted,0,10),"MM/dd/yy"),
+      to_date(substring(administered_date_shifted,0,10),"MM/dd/yyyy"),
+      to_date(substring(administered_date_shifted,0,10),"yyyyMMdd")
+    ) administered_date,
+    administered_date_shifted administered_date_string
+  from
+    covid.vacc
+);
+
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- VACC_SRC
+--
+-- * * *
+
+drop table if exists vacc_src;
+create table vacc_src as (
+  select
+    org,
+    data_lot,
+    raw_table,
+    org_patient_id,
+    patient_id,
+    encounter_id,
+    coalesce(immune_date, given_date, procedure_date,administered_date) as vacc_date,
+    coalesce(immune_date_string, given_date_string, procedure_date_string,administered_date_string) as vacc_date_string,
+    cpt_code,
+    coalesce(cvx_code,covid_19_vacc__cvx,flu_vacc__cvx) cvx_code,
+    coalesce(vaccine__type,vaccinegroupname) vaccine_group,
+    (case 
+      when covid_19_vacc__cvx is not null and flu_vacc__cvx is null then 'covid_cvx'
+      when covid_19_vacc__cvx is null and flu_vacc__cvx is not null then 'flue_cvx'
+      else null
+      end
+    ) cvx_type,
+    coalesce(vaccine_desc,description) description,
+    procedure_code
+  from
+    vacc_src0
+);
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- PATIENT_VACC_CATEGORY_NACHC
+--
+-- * * *
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- CREATE THE TABLE PATIENT_VACC_CATEGORY_NACHC
+--
+-- * * *
+
+drop table if exists patient_vacc_category_nachc;
+create table patient_vacc_category_nachc using delta as (
+select 
+  vacc_src.*,
+  cast (null as string) as vacc_category_nachc,
+  cast (null as string) as vacc_subcategory_nachc,
+  cast (null as string) as vacc_manufacturer_nachc,
+  cast (null as string) as mapped_by
+from
+  vacc_src
+);
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- MERGES (From least specific to most specific)
+--
+-- * * *
+
+-- COMMAND ----------
+
+-- match on group
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(vaccine_group) vaccine_group, 
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from 
+    vacc_category_nachc
+  where 1=1
+    and vaccine_group is not null
+    and cpt_code is null
+    and cvx_code is null
+    and cvx_type is null
+    and description is null
+  order by 1,2,3,4
+) cat
+on 1=1 
+  and lower(cat.vaccine_group) = lower(vacc.vaccine_group)
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'group'
+;
+
+-- COMMAND ----------
+
+-- match on cvx_code and type
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(cvx_code) cvx_code, 
+    lower(cvx_type) cvx_type, 
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from 
+    vacc_category_nachc
+  where 1=1
+    and vaccine_group is null
+    and cpt_code is null
+    and cvx_code is not null
+    and cvx_type is not null
+    and description is null
+  order by 1,2,3,4
+) cat
+on 1=1 
+  and lower(cat.cvx_code) = lower(vacc.cvx_code)
+  and lower(cat.cvx_type) = lower(vacc.cvx_type)
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'cvx_code_type'
+;
+
+-- COMMAND ----------
+
+-- match on description
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(description) description, 
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from 
+    vacc_category_nachc
+  where 1=1
+    and vaccine_group is null
+    and cpt_code is null
+    and cvx_code is null
+    and cvx_type is null
+    and description is not null
+  order by 1,2,3,4
+) cat
+on 1=1 
+  and lower(cat.description) = lower(vacc.description)
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'description'
+;
+
+-- COMMAND ----------
+
+-- match on group and description
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(vaccine_group) vaccine_group, 
+    lower(description) description, 
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from 
+    vacc_category_nachc
+) cat
+on 1=1 
+  and lower(cat.vaccine_group) = lower(vacc.vaccine_group)
+  and lower(cat.description) = lower(vacc.description)
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'group_description'
+;
+
+-- COMMAND ----------
+
+-- match on procedure
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(procedure_code) procedure_code, 
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from vacc_category_nachc
+) cat
+on 1=1 
+  and lower(cat.procedure_code) = lower(vacc.procedure_code)
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'procedure'
+;
+
+-- COMMAND ----------
+
+-- match on group, code, type
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(description) description, 
+    lower(vaccine_group) vaccine_group, 
+    lower(cvx_code) cvx_code,
+    lower(cvx_type) cvx_type,
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from 
+    vacc_category_nachc
+) cat
+on 1=1 
+  and lower(cat.vaccine_group) = lower(vacc.vaccine_group)
+  and lower(cat.cvx_code) = lower(vacc.cvx_code)
+  and lower(vacc.cvx_type) = lower(vacc.cvx_type)
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'group_code_type'
+;
+
+-- COMMAND ----------
+
+-- match on group, code, description (where code is not a boolean)
+merge
+into patient_vacc_category_nachc vacc
+using (
+  select distinct 
+    lower(description) description, 
+    lower(vaccine_group) vaccine_group, 
+    lower(cvx_code) cvx_code,
+    lower(cvx_type) cvx_type,
+    vacc_category_nachc, 
+    vacc_subcategory_nachc, 
+    vacc_manufacturer_nachc
+  from 
+    vacc_category_nachc
+) cat
+on 1=1 
+  and lower(cat.vaccine_group) = lower(vacc.vaccine_group)
+  and lower(cat.cvx_code) = lower(vacc.cvx_code)
+  and lower(cat.description) = lower(vacc.description)
+  and lower(vacc.cvx_code) not in (0,1)
+  and lower(vacc.cvx_type) is null
+when matched then update set
+  vacc.vacc_category_nachc = cat.vacc_category_nachc,
+  vacc.vacc_subcategory_nachc = cat.vacc_subcategory_nachc,
+  vacc.vacc_manufacturer_nachc = cat.vacc_manufacturer_nachc,
+  vacc.mapped_by = 'group_code_description'
+;
+
+-- COMMAND ----------
+
+-- * * * 
+--
+-- DISPLAY MAPPINGS
+--
+-- * * *
+
+-- select '0.) VACC_SRC' metric, count(*) from vacc_src 
+-- union all
+-- select '1.) TOTAL' metric, count(*) from patient_vacc_category_nachc 
+-- union all
+-- select '2.) NULL' metric, count(*) from patient_vacc_category_nachc where vacc_category_nachc is null
+-- union all
+-- select coalesce(mapped_by, '3.) NULL') metric, count(*) from patient_vacc_category_nachc group by 1 
+-- order by 1
+-- ;
+
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- VACCINATIONS THAT COULD NOT BE MAPPED BY ORG
+--
+-- * * *
+
+select
+  org,
+  count(*)
+from
+  patient_vacc_category_nachc
+where
+  vacc_category_nachc is null
+group by 1
+order by 1
+;
+
+-- COMMAND ----------
+
+-- * * *
+--
+-- ZIP CODE
+--
+-- * * *
+
+-- COMMAND ----------
+
+drop table if exists demo_zip_nachc;
+create table demo_zip_nachc as select * from covid.demo_zip_nachc;
+
+-- COMMAND ----------
+
+drop table if exists patient_location;
+create table patient_location as (
+select distinct
+  demo.org,  
+  demo.org_patient_id,
+  demo.patient_id,
+  demo.zip zip,
+  demo.state demo_state,
+  zip.city,
+  zip.decommisioned,
+  zip.estimated_population,
+  zip.lat,
+  zip.location,
+  zip.location_type,
+  zip.long,
+  zip.state,
+  zip.tax_returns_filed,
+  zip.total_wages,
+  zip.zip_code zip_nachc,
+  zip.zip_code_type,
+  zip.provided_date,
+  zip.provided_by,
+  zip.org zip_org,
+  zip.data_lot zip_data_lot,
+  zip.raw_table zip_raw_table
+from
+  demo_src demo
+  left outer join demo_zip_nachc zip on zip.zip_code = demo.zip
+);
+
+-- COMMAND ----------
+
+drop table if exists demo_counts_by_org;
+create table demo_counts_by_org as (
+  select
+    org,
+    count(distinct patient_id) distinct_patients
+  from
+    demo_src
+  group by 1
+)
+;

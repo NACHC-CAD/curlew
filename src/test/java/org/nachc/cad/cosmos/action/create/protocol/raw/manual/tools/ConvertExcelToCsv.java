@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ConvertExcelToCsv {
 	
-	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\womens-health\\update-2020-12-11-AC";
+	private static final String DIR = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-05-27-COVID-HCN\\_ETC";
 	
 	private static final String PAT = "**/*.xlsx";
 	

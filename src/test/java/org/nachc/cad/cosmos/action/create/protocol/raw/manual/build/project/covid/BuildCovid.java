@@ -1,5 +1,8 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid;
 
+import java.io.File;
+import java.util.List;
+
 import org.nachc.cad.cosmos.action.confirm.ConfirmConfiguration;
 import org.nachc.cad.cosmos.action.create.metrics.CreateMetricsTable;
 import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateBaseTablesAction;
@@ -8,7 +11,10 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covi
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.build.project.covid.finalize.CreateCovidGroupTables;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.project.UploadDir;
+import org.yaorma.database.Database;
 import org.yaorma.util.time.Timer;
+
+import com.nach.core.util.file.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,11 +54,15 @@ public class BuildCovid {
 		uploadDir(root + "update-2021-04-11-COVID-DemoSexNachc", conns);
 		uploadDir(root + "update-2021-04-12-COVID-SdohNameNachc", conns);
 		uploadDir(root + "update-2021-04-12-COVID-SdohValueNachc", conns);
-		uploadDir(root + "update-2021-04-17-COVID-CHCN", conns);
+//		uploadDir(root + "update-2021-04-17-COVID-CHCN", conns);
 		uploadDir(root + "update-2021-04-19-COVID-AC", conns);
 		uploadDir(root + "update-2021-04-29-COVID-HE", conns);
 		uploadDir(root + "update-2021-04-30-COVID-VaccCategoryNachc", conns);
 		uploadDir(root + "update-2021-04-30-COVID-zipcode", conns);
+		uploadDir(root + "update-2021-05-19-COVID-HE", conns);
+		uploadDir(root + "update-2021-05-27-COVID-CHCN", conns);
+		uploadDir(root + "update-2021-05-27-COVID-HCN", conns);
+		uploadDir(root + "update-2021-05-29-COVID-VaccCategoryNachc", conns);
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
@@ -60,6 +70,8 @@ public class BuildCovid {
 		conns.commit();
 		CreateMetricsTable.exec("covid", "covid_metrics", conns);
 		conns.commit();
+		// RUN THE SCRIPTS TO CREATE THE OTHER SCHEMAS
+		runScripts(conns);
 		timer.stop();
 		log.info("START:   " + timer.getStartAsString());
 		log.info("DONE:    " + timer.getStopAsString());
@@ -74,6 +86,17 @@ public class BuildCovid {
 		conns.commit();
 	}
 
+	private static void runScripts(CosmosConnections conns) {
+		File dir = FileUtil.getFromProjectRoot("etc/resources/etl/covid/covid-etl-scripts");
+		List<File> files = FileUtil.listFiles(dir,"*.sql");
+		log.info("Got " + files.size() + " scripts to run");
+		for(File file : files) {
+			log("RUNNING SCRIPT FOR: " + file.getName());
+			Database.executeSqlScript(file, conns.getDbConnection());
+		}
+		log("DONE RUNNING SCRIPTS");
+	}
+	
 	//
 	// main method (see exec method below for implementation)
 	//
@@ -98,15 +121,14 @@ public class BuildCovid {
 
 	private static void log(String msg) {
 		String str = "";
-		str += "\n\n\n\n";
-		str += "Building COVID...\n";
-		str += "-- -------------------------------------------------------------/n";
+		str += "\n\n";
+		str += "-- -------------------------------------------------------------\n";
 		str += "-- * * * \n";
 		str += "-- * \n";
-		str += "-- *" + msg + "\n";
+		str += "-- * " + msg + "\n";
 		str += "-- * \n";
 		str += "-- * * * \n";
-		str += "-- -------------------------------------------------------------/n";
+		str += "-- -------------------------------------------------------------\n";
 		log.info(str);
 	}
 
