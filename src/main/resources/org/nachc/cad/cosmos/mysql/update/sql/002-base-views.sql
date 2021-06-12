@@ -82,5 +82,18 @@ from
 	raw_table_group grp
 	join raw_table tbl on tbl.raw_table_group = grp.guid
 	join raw_table_file fil on fil.raw_table = tbl.guid
-)
+);
+
+create view table_col_summary as
+select distinct
+	project,
+	org_code,
+    group_table_name,
+    dirty_name,
+    col_name,
+    col_alias,
+    group_concat(distinct file_name order by file_name SEPARATOR',')
+from
+	raw_table_col_detail
+group by 1,2,3,4,5,6
 ;
