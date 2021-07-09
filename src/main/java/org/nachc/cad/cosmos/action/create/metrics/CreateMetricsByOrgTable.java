@@ -29,11 +29,23 @@ public class CreateMetricsByOrgTable {
 				log.info("SqlString: \n\n" + sqlString + "\n\n");
 				log.info("Creating table (from above sqlString): " + tableName);
 				Database.update(sqlString, conns.getDbConnection());
+				log.info("Creating pct table...");
+				createPctTable(metaSchema, schemaName, tableName, conns);
 			}
 		}
 		
 	}
-	
+
+	public static void createPctTable(String metaSchema, String tableSchema, String tableName, CosmosConnections conns) {
+		log.info("Creating pct table for " + tableName);
+		String sqlString = "create table " + metaSchema + "." + tableName + "_pct_meta using delta as \n";
+		sqlString += "select  *, null_vals/all_records * 100 as pct_null, \n";
+		sqlString += "concat(lpad(col_position,3,'0'), '.) ', col_name) as col_pos_name \n";
+		sqlString += "from " + metaSchema + "." + tableName + "_meta";
+		Database.update(sqlString, conns.getDbConnection());
+		log.info("Done creating pct table");
+	}
+
 	public static String getMetricsTableSqlString(String tableSchema, String tableName, CosmosConnections conns) {
 		Data data = Database.query("show columns in " + tableSchema + "." + tableName, conns.getDbConnection());
 		String sqlString = "";
@@ -53,8 +65,8 @@ public class CreateMetricsByOrgTable {
 			sqlString += "  " + cnt + " col_position, \n";
 			sqlString += "  '" + colName + "' col_name, \n";
 			sqlString += "  count(*) all_records, \n";
-			sqlString += "  count(" + colName + ") not_null, \n";
-			sqlString += "  count(*) - count(" + colName + ") null, \n";
+			sqlString += "  count(" + colName + ") not_null_vals, \n";
+			sqlString += "  count(*) - count(" + colName + ") null_vals, \n";
 			sqlString += "  count(distinct " + colName + ") distinct_values \n";
 			sqlString += "from \n";
 			sqlString += "  " +  tableSchema + "." + tableName + " \n";

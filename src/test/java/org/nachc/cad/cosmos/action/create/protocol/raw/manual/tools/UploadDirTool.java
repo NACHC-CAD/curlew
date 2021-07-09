@@ -10,8 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 public class UploadDirTool {
 
 	private static final String[] DIRS = {
-//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-04-19-COVID-AC\\",
-			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-06-03-COVID-AC\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-06-14-COVID-HE\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-06-18-COVID-CHCN\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-06-22-COVID-APCA\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-06-23-COVID-VaccCategoryNachc\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-03-17-COVID-LabTestCategoryNachc\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-01-COVID-HE\\"
+			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-07-COVID-LPCA\\"
 	};
 
 	private static final boolean UPDATE_GROUP_TABLES = true;

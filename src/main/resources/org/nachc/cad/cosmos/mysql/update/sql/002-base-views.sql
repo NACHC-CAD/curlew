@@ -60,7 +60,7 @@ from
 );
 
 create or replace view raw_table_detail as (
-select 
+select distinct
 	grp.guid raw_table_group_guid,
     grp.project,
     grp.code group_code,
@@ -84,7 +84,7 @@ from
 	join raw_table_file fil on fil.raw_table = tbl.guid
 );
 
-create view table_col_summary as
+create or replace view table_col_summary as
 select distinct
 	project,
 	org_code,
@@ -92,8 +92,38 @@ select distinct
     dirty_name,
     col_name,
     col_alias,
-    group_concat(distinct file_name order by file_name SEPARATOR',')
+    group_concat(distinct file_name order by file_name SEPARATOR',') files
 from
 	raw_table_col_detail
 group by 1,2,3,4,5,6
+;
+
+create or replace view table_file_summary as
+select distinct
+	project,
+    org_code,
+    data_lot,
+    group_table_name,
+    provided_by,
+    provided_date,
+    file_name,
+    file_size
+from
+	raw_table_col_detail
+order by 1,2,3,4,7
+;
+
+create or replace view table_file_by_lot as
+select
+	project,
+    org_code,
+    data_lot,
+    min(provided_date) first_submission,
+    max(provided_date) last_submision,
+    sum(file_size) total_bytes,
+    group_concat(distinct provided_by) provided_by_set
+from
+	table_file_summary
+group by 1,2,3
+order by 1,2,3
 ;

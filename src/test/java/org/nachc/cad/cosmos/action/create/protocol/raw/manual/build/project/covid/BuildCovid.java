@@ -39,6 +39,17 @@ public class BuildCovid {
 		// CREATE THE COVID PROJECT
 		CreateCovidProject.exec(conns);
 		conns.commit();
+		// DO UPLOADS
+		doUploads(conns);
+		timer.stop();
+		log.info("START:   " + timer.getStartAsString());
+		log.info("DONE:    " + timer.getStopAsString());
+		log.info("Elapsed: " + timer.getElapsedString());
+		log.info("Done.");
+		log.info("DONE!");
+	}
+
+	private static void doUploads(CosmosConnections conns) {
 		// DO THE UPLOADS (ONLY DO ONE FOR CHCN, They are giving a full refresh)
 		String root = "C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\";
 //		uploadDir(root + "update-2021-01-22-COVID-CHCN", conns);
@@ -64,6 +75,11 @@ public class BuildCovid {
 		uploadDir(root + "update-2021-05-27-COVID-HCN", conns);
 		uploadDir(root + "update-2021-05-29-COVID-VaccCategoryNachc", conns);
 		uploadDir(root + "update-2021-06-03-COVID-AC", conns);
+		uploadDir(root + "update-2021-06-13-COVID-VaccCategoryNachc", conns);
+		uploadDir(root + "update-2021-06-14-COVID-HE", conns);
+		uploadDir(root + "update-2021-06-18-COVID-CHCN", conns);
+		uploadDir(root + "update-2021-06-19-COVID-months", conns);
+		uploadDir(root + "update-2021-06-22-COVID-APCA", conns);
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
@@ -72,15 +88,9 @@ public class BuildCovid {
 		CreateMetricsTable.exec("covid", "covid_metrics", conns);
 		conns.commit();
 		// RUN THE SCRIPTS TO CREATE THE OTHER SCHEMAS
-		runScripts(conns);
-		timer.stop();
-		log.info("START:   " + timer.getStartAsString());
-		log.info("DONE:    " + timer.getStopAsString());
-		log.info("Elapsed: " + timer.getElapsedString());
-		log.info("Done.");
-		log.info("DONE!");
+		// runScripts(conns);
 	}
-
+	
 	private static void uploadDir(String dirName, CosmosConnections conns) {
 		log("UPLODAING DIR: " + dirName);
 		UploadDir.exec(dirName, "greshje", conns, false);

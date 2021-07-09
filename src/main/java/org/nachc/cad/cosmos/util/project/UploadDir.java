@@ -181,7 +181,7 @@ public class UploadDir {
 	private static void checkForOrgRecord(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		String orgCode = params.getOrgCode();
 		OrgCodeDvo dvo = Dao.find(new OrgCodeDvo(), "code", orgCode, conns.getMySqlConnection());
-		if (dvo == null && params.isCreateNewProject() == true) {
+		if (dvo == null && params.isCreateNewOrg() == true) {
 			log(lis, "Adding new ORG code for: " + orgCode);
 			dvo = new OrgCodeDvo();
 			dvo.setCode(orgCode);
