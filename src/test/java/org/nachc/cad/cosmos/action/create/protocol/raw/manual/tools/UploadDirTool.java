@@ -16,10 +16,14 @@ public class UploadDirTool {
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-06-23-COVID-VaccCategoryNachc\\"
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-03-17-COVID-LabTestCategoryNachc\\"
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-01-COVID-HE\\"
-			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-07-COVID-LPCA\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-07-COVID-LPCA\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-16-COVID-HE"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-21-COVID-HE\\"
+//			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-21-COVID-APCA\\"
+			"C:\\_WORKSPACES\\_COSMOS_SERVER\\_UPLOAD\\test-HIV-ELR-THUMB2021-07-22_000\\test-HIV-ELR-THUMB"
 	};
 
-	private static final boolean UPDATE_GROUP_TABLES = true;
+	private static final boolean UPDATE_GROUP_TABLES = false;
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();

@@ -121,7 +121,8 @@ select
     min(provided_date) first_submission,
     max(provided_date) last_submision,
     sum(file_size) total_bytes,
-    group_concat(distinct provided_by) provided_by_set
+    group_concat(distinct provided_by) provided_by_set,
+    count(distinct file_name) number_of_files
 from
 	table_file_summary
 group by 1,2,3
