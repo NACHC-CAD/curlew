@@ -61,7 +61,7 @@ public class UploadDir {
 		uploadDir(dir, userName, conns, null, createGroupTables);
 	}
 
-	public static void uploadDir(File dir, String userName, CosmosConnections conns, Listener lis, boolean createGroupTables) {
+	public static RawDataFileUploadParams uploadDir(File dir, String userName, CosmosConnections conns, Listener lis, boolean createGroupTables) {
 		// get the parameters
 		File projectPropertiesFile = new File(dir, PROPS_PATH);
 		Properties props = PropertiesUtil.getAsProperties(projectPropertiesFile);
@@ -76,12 +76,13 @@ public class UploadDir {
 		// upload files
 		uploadDataDirFiles(params, conns, lis);
 		// create the group tables and base tables
-		if(createGroupTables == true) {
-			createGroupTables(params, conns, lis);
+		createGroupTables(params, conns, lis);
+		if (createGroupTables == true) {
 			CreateBaseTablesAction.exec(params, conns);
 		}
+		return params;
 	}
-
+	
 	// ------------------------------------------------------------------------
 	//
 	// implementation (all private past here)
@@ -95,7 +96,7 @@ public class UploadDir {
 	// - The data group (demo, enc, rx, etc.) are based on the file structure
 	//
 
-	public static RawDataFileUploadParams getParams(Properties props) {
+	private static RawDataFileUploadParams getParams(Properties props) {
 		RawDataFileUploadParams params = new RawDataFileUploadParams();
 		params.setProjCode(props.getProperty("project-code"));
 		params.setProtocolNamePretty(props.getProperty("project-code"));
@@ -232,7 +233,7 @@ public class UploadDir {
 		params.setDataGroupAbr(dataGroupAbbr);
 		params.setDataGroupName(dataGroupAbbr);
 		String code = params.getRawTableGroupCode();
-		if(params.getDatabricksFileRoot().endsWith("/")) {
+		if (params.getDatabricksFileRoot().endsWith("/")) {
 			params.setDatabricksFileLocation(params.getDatabricksFileRoot() + dataGroupAbbr);
 		} else {
 			params.setDatabricksFileLocation(params.getDatabricksFileRoot() + "/" + dataGroupAbbr);
@@ -306,7 +307,7 @@ public class UploadDir {
 		Iterator<String> iter = params.getRawTableGroups().iterator();
 		while (iter.hasNext()) {
 			String rawTableGroupCode = iter.next();
-			log(lis, "Creating group table for: " + rawTableGroupCode);
+			log(lis, "* * * GROUP TABLE: Creating group table for: " + rawTableGroupCode);
 			CreateGrpDataTableAction.execute(rawTableGroupCode, conns);
 		}
 	}

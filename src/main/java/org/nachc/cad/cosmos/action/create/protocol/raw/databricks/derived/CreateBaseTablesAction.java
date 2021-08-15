@@ -46,9 +46,9 @@ public class CreateBaseTablesAction {
 	}
 
 	private static void createTable(RawTableGroupDvo dvo, CosmosConnections conns) {
-		String srcTableName = dvo.getGroupTableSchema() + "." + dvo.getGroupTableName();
-		String tableName = dvo.getProject() + "." + dvo.getGroupTableName();
-		log.info("CREATING BASE TABLE FOR: " + dvo.getGroupTableName());
+		String srcTableName = dvo.getGroupTableSchema() + ".`" + dvo.getGroupTableName() + "`";
+		String tableName = dvo.getProject() + ".`" + dvo.getGroupTableName() +"`";
+		log.info("+ + + BASE TABLE: Creating base table for: " + dvo.getGroupTableName());
 		String sqlString;
 		// drop the table if it exists
 		sqlString = "drop table if exists " + tableName;

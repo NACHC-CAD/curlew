@@ -44,7 +44,7 @@ public class CreateGrpDataTableAction {
 		log.info("Getting tables in group");
 		List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), conns.getMySqlConnection());
 		log.info("Got " + tables.size() + " tables");
-		String sqlString = "create table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName() + " using delta as \n";
+		String sqlString = "create table " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "` using delta as \n";
 		for (RawTableDvo table : tables) {
 			if (sqlString.endsWith(" as \n") == false) {
 				sqlString += "\n\nunion all \n\n";
@@ -56,7 +56,7 @@ public class CreateGrpDataTableAction {
 		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
 		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		// DROP THE TABLE IF IT EXISTS
-		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
+		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "`", conns.getDbConnection());
 		// CREATE THE TABLE IN DATABRICKS IF ANY FILES REMAIN
 		if (tables.size() > 0) {
 			log.info("initializing connection parse policy");

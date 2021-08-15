@@ -14,10 +14,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChangePassword {
 
-	private static final String uid = "greshje";
+//	private static final String uid = "greshje";
+//	private static final String pwd = "BobsBurgers";
+
+//	private static final String uid = "osikaj";
+//	private static final String pwd = "soManyRoads1995";
+
+//	private static final String uid = "carneirop";
+//	private static final String pwd = "wildHorses1971";
+
+//	private static final String uid = "greshsm";
+//	private static final String pwd = "BigYoshi001!";
 	
-	private static final String pwd = "BobsBurgers";
-	
+	private static final String uid = "gunugantim";
+	private static final String pwd = "javaTime001!";
+
 	public static void main(String[] args) {
 		Connection conn = MySqlConnectionFactory.getCosmosConnection();
 		try {
