@@ -22,12 +22,14 @@ public class UploadDirTool {
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-21-COVID-HCN"
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\update-2021-07-13-COVID-CHCN"
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\ac\\update-2021-06-17-COVID-AC"
-			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-08-15-NACHC_TERM-months"
+ 			// DON'T FORGET TO CHANGE PROJECT CODE
+			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\hcn\\update-2021-06-25-COVID-HCN"
 	};
 
-	private static final boolean UPDATE_BASE_TABLES = true;
-
+	// DON'T FORGET TO CHANGE PROJECT CODE
 	private static final String PROJ = "covid";
+
+	private static final boolean UPDATE_BASE_TABLES = true;
 
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
