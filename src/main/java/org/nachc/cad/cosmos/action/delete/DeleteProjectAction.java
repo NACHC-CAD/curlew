@@ -39,7 +39,7 @@ public class DeleteProjectAction {
 			if (namespace == null) {
 				namespace = row.get("databasename");
 			}
-			if(namespace.toLowerCase().startsWith("prj_grp_" + projectName) || namespace.toLowerCase().startsWith("prj_raw_" + projectName)) {
+			if(namespace.toLowerCase().startsWith("prj_grp_" + projectName + "_") || namespace.toLowerCase().startsWith("prj_raw_" + projectName + "_")) {
 				log.info("Deleting database: " + namespace);
 				DatabricksDbUtil.dropDatabase(namespace, conns.getDbConnection(), conns);
 			}

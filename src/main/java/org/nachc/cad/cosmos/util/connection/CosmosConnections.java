@@ -85,7 +85,8 @@ public class CosmosConnections implements DatabaseConnectionManager {
 
 	private void closeDbConnection() {
 		try {
-			Database.close(dbConnection);
+			Database.close(this.dbConnection);
+			this.dbConnection = null;
 		} catch (Exception exp) {
 			log.info("Closing Databricks connection threw an exception (this happens sometimes)");
 		}
