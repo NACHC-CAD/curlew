@@ -9,9 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeleteProject {
 
-	public static final String PROJECT_NAME = "hiv";
+	public static final String PROJECT_NAME = "integration_test";
 
-	public static final String FILES_LOCATION = "/FileStore/tables/prod/hiv";
+	public static final String FILES_LOCATION = "/FileStore/tables/prod/integration_test";
 
 	public static void main(String[] args) {
 		log.info("Confirming Configuration...");

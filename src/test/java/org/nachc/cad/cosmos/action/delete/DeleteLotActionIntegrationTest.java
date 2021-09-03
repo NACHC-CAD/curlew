@@ -1,6 +1,9 @@
 package org.nachc.cad.cosmos.action.delete;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateBaseTablesAction;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.nachc.cad.cosmos.util.project.UploadDir;
 import org.yaorma.database.Data;
@@ -38,11 +41,16 @@ public class DeleteLotActionIntegrationTest {
 			addLot(conns, LOT1, LOT1_DIR);
 			addLot(conns, LOT2, LOT2_DIR);
 			addLot(conns, LOT3, LOT3_DIR);
+			CreateBaseTablesAction.exec(PROJECT, conns);
+			// assert preconditions
+			assertPreconditions(conns);
 			// delete lot 2
 			log.info("Deleting lot 2");
 			DeleteLotAction.deleteLot(PROJECT, ORG, LOT2, conns);
 			conns.commit();
 			log.info("Done deleting lot 2");
+			// assert postconditions
+			assertPostconditions(conns);
 		} finally {
 			conns.close();
 		}
@@ -72,4 +80,20 @@ public class DeleteLotActionIntegrationTest {
 		}
 	}
 
+	private void assertPreconditions(CosmosConnections conns) {
+		String sqlString = "select data_lot, count(*) from integration_test.enc group by 1 order by 1";
+		Data data = Database.query(sqlString, conns.getDbConnection());
+		log.info("Got " + data.size() + " records.");
+		assertTrue(data.size() == 3);
+		log.info("Done with assertions");
+	}
+	
+	private void assertPostconditions(CosmosConnections conns) {
+		String sqlString = "select data_lot, count(*) from integration_test.enc group by 1 order by 1";
+		Data data = Database.query(sqlString, conns.getDbConnection());
+		log.info("Got " + data.size() + " records.");
+		assertTrue(data.size() == 2);
+		log.info("Done with assertions");
+	}
+	
 }
