@@ -158,6 +158,9 @@ public class RawDataFileUploadParams {
 
 	public String getDatabricksFilePath() {
 		String rtn = databricksFileRoot;
+		if(rtn == null) {
+			return databricksFileLocation;
+		}
 		if(rtn.endsWith("/") == false) {
 			rtn += "/";
 		}
@@ -174,6 +177,9 @@ public class RawDataFileUploadParams {
 
 	public String getDatabricksFilePathWithoutFileNameAndWithoutTrailingSeparator() {
 		String rtn = databricksFileRoot;
+		if(rtn == null) {
+			return databricksFileLocation;
+		}
 		if(rtn.endsWith("/") == false) {
 			rtn += "/";
 		}

@@ -23,6 +23,7 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210128MedDescCatV2;
 import org.nachc.cad.cosmos.action.create.protocol.raw.manual.update.Update20210128UpdateColumnNames;
 import org.nachc.cad.cosmos.action.create.protocol.raw.params.RawDataFileUploadParams;
+import org.nachc.cad.cosmos.action.delete.DeleteProjectAction;
 import org.nachc.cad.cosmos.create.valueset.Z_CreateValueSetSchema;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.util.time.Timer;
@@ -32,17 +33,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Build {
 
+	public static final String PROJECT_NAME = "womens_health";
+	
+	public static final String FILES_LOCATION = "/FileStore/tables/prod/womens_health";
+	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		Timer timer = new Timer();
 		timer.start();
 		try {
 			log("Confirming Configuration");
-//			ConfirmConfiguration.main(null);
-			log("Burning everything to the ground");
-			BurnEverythingToTheGround.main(null);
+			ConfirmConfiguration.main(null);
 			log("Adding Project");
-			CreateProjectWomensHealth.createProject();
+//			DeleteProjectAction.exec(PROJECT_NAME, FILES_LOCATION, conns);
+//			CreateProjectWomensHealth.createProject();
+/*
 			addFiles("Demographics", "demo", conns);
 			addFiles("Diagnosis", "dx", conns);
 			addFiles("Encounter", "enc", conns);
@@ -51,9 +56,11 @@ public class Build {
 			addFiles("Other", "other", conns);
 			addFiles("Procedure", "proc", conns);
 			addFiles("Rx", "rx", conns);
+*/
 			conns.commit();
 			conns.close();
-			log("Addtional updates");
+			log("Additional updates");
+
 			Update20201121.main(null);
 // THIS ONE HAS LOCK ISSUES
 //			Update20201122.main(null);

@@ -19,6 +19,10 @@ public class DeleteProjectAction {
 	 */
 	
 	public static void exec(String projectName, String filesLocation, CosmosConnections conns) {
+		// check that we're not trying to delete all of prod
+		if(filesLocation.endsWith("/prod/")) {
+			throw new RuntimeException("PLEASE DON'T DELETE ALL OF OUR PRODUCTION FILES.");
+		}
 		// delete from databricks database
 		log.info("DROPPING DATABASES...");
 		dropDatabases(projectName, filesLocation, conns);
