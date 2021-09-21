@@ -96,8 +96,13 @@ public class CosmosConnections implements DatabaseConnectionManager {
 	public void resetConnections() {
 		log.info("! ! ! RESETTING CONNECTIONS ! ! !");
 		if (this.isDsConnection == false) {
+			log.info("Doing commit...");
+			commit();
+			log.info("Doing close...");
 			close();
+			log.info("Doing init...");
 			init();
+			log.info("Done with reset.");
 		} else {
 			close();
 			initDs();

@@ -29,10 +29,10 @@ public class Update20201122 {
 			log.info("Adding update files...");
 			updateFiles("FlatFile", "flat", conns);
 			conns.commit();
-			log.info("Done.");
 		} finally {
 			conns.close();
 		}
+		log.info("Done.");
 	}
 
 	private static void updateFiles(String name, String abr, CosmosConnections conns) {
@@ -40,6 +40,7 @@ public class Update20201122 {
 		RawDataFileUploadParams params = getParams(name, abr, conns);
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
 		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		conns.commit();
 		new UpdateFlatGroupTable().doUpdate();
 	}
 

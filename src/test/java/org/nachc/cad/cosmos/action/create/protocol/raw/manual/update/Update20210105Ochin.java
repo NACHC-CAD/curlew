@@ -41,6 +41,7 @@ public class Update20210105Ochin {
 			updateFiles("Procedure", "proc", conns);
 			updateFiles("Rx", "rx", conns);
 			// update group table
+			conns.commit();
 			new UpdateDemoGroupTable().doUpdate();
 			new UpdateDiagGroupTable().doUpdate();
 			new UpdateEncGroupTable().doUpdate();

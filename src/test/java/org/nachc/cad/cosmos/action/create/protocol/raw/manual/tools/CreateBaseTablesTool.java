@@ -1,24 +1,20 @@
 package org.nachc.cad.cosmos.action.create.protocol.raw.manual.tools;
 
-import org.nachc.cad.cosmos.action.delete.DeleteLotAction;
+import org.nachc.cad.cosmos.action.create.protocol.raw.databricks.derived.CreateBaseTablesAction;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class DeleteLotTool {
+public class CreateBaseTablesTool {
 
-	private static final String PROJ = "hiv";
-	
-	private static final String ORG = "mf";
-	
-	private static final String LOT = "2021-09-09";
+	private static final String PROJ = "womens_health";
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
 		try {
-			DeleteLotAction.deleteLot(PROJ, ORG, LOT, conns);
-			conns.commit();
+			log.info("Creating base tables for: " + PROJ);
+			CreateBaseTablesAction.exec(PROJ, conns);
 		} finally {
 			conns.close();
 		}

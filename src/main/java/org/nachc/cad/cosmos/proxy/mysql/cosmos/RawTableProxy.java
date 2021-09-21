@@ -28,7 +28,13 @@ public class RawTableProxy {
 		sqlString += "  header = \"true\", \n";
 		sqlString += "  inferSchema = \"false\", \n";
 		if (delimiter != null) {
-			sqlString += "  delimiter = \"" + delimiter + "\", \n";
+			String delimiterString;
+			if(delimiter.equals('\t')) {
+				delimiterString = "\\t";
+			} else {
+				delimiterString = "" + delimiter;
+			}
+			sqlString += "  delimiter = \"" + delimiterString + "\", \n";
 		}
 		sqlString += "  path = \"" + fileDvo.getFileLocation() + "/" + fileDvo.getFileName() + "\" \n";
 		sqlString += ") \n";

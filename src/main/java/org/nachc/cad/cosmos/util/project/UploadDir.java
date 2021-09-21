@@ -285,6 +285,8 @@ public class UploadDir {
 		}
 		if (file.getName().toLowerCase().endsWith(".txt")) {
 			params.setDelimiter('|');
+		} else if(file.getName().toLowerCase().endsWith(".tab")) {
+			params.setDelimiter('\t');
 		} else {
 			params.setDelimiter(',');
 		}
