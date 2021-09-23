@@ -27,7 +27,7 @@ public class UploadDirTool {
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-08-15-NACHC_TERM-months",
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-04-02-COVID-DemoRaceNachc",
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-04-11-COVID-DemoSexNachc"
-			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\he\\update-2021-09-20-COVID-HE"			
+			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\he\\update-2021-09-21-COVID-HE"			
  			// DON'T FORGET TO CHANGE PROJECT CODE
 	};
 
