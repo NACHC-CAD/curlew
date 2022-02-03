@@ -26,9 +26,17 @@ public class ChangePassword {
 //	private static final String uid = "greshsm";
 //	private static final String pwd = "BigYoshi001!";
 	
-	private static final String uid = "gunugantim";
-	private static final String pwd = "javaTime001!";
+//	private static final String uid = "gunugantim";
+//	private static final String pwd = "javaTime001!";
 
+//	private static final String uid = "dumondj";
+//	private static final String pwd = "bluebird01";
+
+	private static final String uid = "osikaj";
+	private static final String pwd = "northernFlicker02";
+
+	
+	
 	public static void main(String[] args) {
 		Connection conn = MySqlConnectionFactory.getCosmosConnection();
 		try {

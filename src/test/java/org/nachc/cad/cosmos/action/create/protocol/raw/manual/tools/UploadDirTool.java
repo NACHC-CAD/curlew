@@ -27,12 +27,12 @@ public class UploadDirTool {
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-08-15-NACHC_TERM-months",
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-04-02-COVID-DemoRaceNachc",
 //			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\nachc-term\\update-2021-04-11-COVID-DemoSexNachc"
-			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\covid\\he\\update-2021-09-21-COVID-HE"			
+			"C:\\_WORKSPACES\\nachc\\_PROJECT\\cosmos\\hiv\\elrio\\update_2022_01_14_HIV_ElRioHealth"			
  			// DON'T FORGET TO CHANGE PROJECT CODE
 	};
 
 	// DON'T FORGET TO CHANGE PROJECT CODE
-	private static final String PROJ = "covid";
+	private static final String PROJ = "hiv";
 
 	private static final boolean UPDATE_BASE_TABLES = true;
 

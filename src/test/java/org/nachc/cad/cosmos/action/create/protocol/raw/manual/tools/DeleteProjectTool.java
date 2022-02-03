@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeleteProjectTool {
 
-	public static final String PROJECT_NAME = "omop_concepts";
+	public static final String PROJECT_NAME = "aim";
 
 	public static final String FILES_LOCATION = "/FileStore/tables/prod/" + PROJECT_NAME;
 
