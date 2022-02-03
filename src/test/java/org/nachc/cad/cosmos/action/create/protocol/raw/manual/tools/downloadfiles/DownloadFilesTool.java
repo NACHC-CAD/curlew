@@ -23,13 +23,18 @@ public class DownloadFilesTool {
 	private static ArrayList<Thread> threads = new ArrayList<Thread>();
 
 	public static void main(String[] args) {
+		String sqlString = getFilesSqlString();
+		exec(sqlString);
+	}
+
+	public static void exec(String sqlString) {
 		log.info("Doing delete...\n\nDeleting " + FileUtil.getCanonicalPath(ROOT_DIR) + "\n\n");
 		FileUtil.rmdir(ROOT_DIR);
 		log.info("Getting connections...");
 		CosmosConnections conns = new CosmosConnections();
 		try {
 			log.info("Getting files...");
-			Data data = getFiles(conns);
+			Data data = getFiles(sqlString, conns);
 			log.info("Got " + data.size() + " files");
 			int cnt = 0;
 			for (Row row : data) {
@@ -50,28 +55,36 @@ public class DownloadFilesTool {
 					log.warn("COULD NOT JOIN THREAD");
 				}
 			}
-			String msg = "\n\n\n";
+			String missing = "\n\n\n";
+			String present = "\n\n\n";
 			for(DownloadFilesRunnable runnable : runnables) {
+				Row row = runnable.getRow();
 				if(runnable.isSuccess() == false) {
-					Row row = runnable.getRow();
-					msg += "\t" + row.get("orgCode");
-					msg += "\t" + row.get("groupTableName");
-					msg += "\t" + row.get("dataLot");
-					msg += "\t" + row.get("fileName"); 
-					msg += "\n";
+					missing += "\t" + row.get("orgCode");
+					missing += "\t" + row.get("groupTableName");
+					missing += "\t" + row.get("dataLot");
+					missing += "\t" + row.get("fileName"); 
+					missing += "\n";
+				} else {
+					present += "\t" + row.get("orgCode");
+					present += "\t" + row.get("groupTableName");
+					present += "\t" + row.get("dataLot");
+					present += "\t" + row.get("fileName"); 
+					present += "\n";
 				}
 			}
-			msg += "\n\n";
-			log.info("FILES THAT COULD NOT BE DOWNLOADED: " + msg);			
+			missing += "\n\n";
+			present += "\n\n";
+			log.info("FILES THAT COULD NOT BE DOWNLOADED: " + missing);			
+			log.info("FILES THAT COULD BE DOWNLOADED: " + present);			
 			log.info("Done.");
 		} finally {
 			conns.close();
 		}
 	}
-
-	private static Data getFiles(CosmosConnections conns) {
+	
+	private static Data getFiles(String sqlString, CosmosConnections conns) {
 		Connection conn = conns.getMySqlConnection();
-		String sqlString = getFilesSqlString();
 		Data data = Database.query(sqlString, conn);
 		return data;
 	}
