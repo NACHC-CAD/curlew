@@ -37,7 +37,6 @@ public class DownloadFilesTool {
 				threads.add(thread);
 			}
 			threads.get(0).run();
-			/*
 			for (Thread thread : threads) {
 				thread.start();
 			}
@@ -48,7 +47,6 @@ public class DownloadFilesTool {
 					log.warn("COULD NOT JOIN THREAD");
 				}
 			}
-			*/
 			log.info("Done.");
 		} finally {
 			conns.close();
