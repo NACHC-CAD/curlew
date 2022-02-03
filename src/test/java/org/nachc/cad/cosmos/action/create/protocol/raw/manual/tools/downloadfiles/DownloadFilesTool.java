@@ -18,6 +18,8 @@ public class DownloadFilesTool {
 
 	private static final File ROOT_DIR = new File("C:\\temp-databricks-download\\databricks-download");
 
+	private static ArrayList<DownloadFilesRunnable> runnables = new ArrayList<DownloadFilesRunnable>();
+	
 	private static ArrayList<Thread> threads = new ArrayList<Thread>();
 
 	public static void main(String[] args) {
@@ -33,6 +35,7 @@ public class DownloadFilesTool {
 			for (Row row : data) {
 				cnt++;
 				DownloadFilesRunnable runnable = new DownloadFilesRunnable(row, ROOT_DIR, cnt);
+				runnables.add(runnable);
 				Thread thread = new Thread(runnable);
 				threads.add(thread);
 			}
@@ -47,6 +50,19 @@ public class DownloadFilesTool {
 					log.warn("COULD NOT JOIN THREAD");
 				}
 			}
+			String msg = "\n\n\n";
+			for(DownloadFilesRunnable runnable : runnables) {
+				if(runnable.isSuccess() == false) {
+					Row row = runnable.getRow();
+					msg += "\t" + row.get("orgCode");
+					msg += "\t" + row.get("groupTableName");
+					msg += "\t" + row.get("dataLot");
+					msg += "\t" + row.get("fileName"); 
+					msg += "\n";
+				}
+			}
+			msg += "\n\n";
+			log.info("FILES THAT COULD NOT BE DOWNLOADED: " + msg);			
 			log.info("Done.");
 		} finally {
 			conns.close();

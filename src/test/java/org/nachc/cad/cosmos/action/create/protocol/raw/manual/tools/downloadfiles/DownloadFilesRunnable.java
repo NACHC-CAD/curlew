@@ -10,9 +10,12 @@ import com.nach.core.util.databricks.file.DatabricksFileUtil;
 import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
 import com.nach.core.util.file.FileUtil;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Getter
 public class DownloadFilesRunnable implements Runnable {
 
 	private Row row;
@@ -22,6 +25,8 @@ public class DownloadFilesRunnable implements Runnable {
 	private int threadId;
 	
 	private boolean success;
+	
+	private Exception exp;
 
 	public DownloadFilesRunnable(Row row, File rootDir, int threadId) {
 		this.row = row;
@@ -31,6 +36,16 @@ public class DownloadFilesRunnable implements Runnable {
 
 	@Override
 	public void run() {
+		try {
+			writeFile();
+			this.success = true;
+		} catch(Exception exp) {
+			this.success = false;
+			this.exp = exp;
+		}
+	}
+	
+	private void writeFile() {
 		// get file location
 		String url = row.get("fileLocation");
 		url += "/" + row.get("fileName");
