@@ -57,7 +57,16 @@ public class CreateBaseTablesAction {
 		// create the table
 		sqlString = "create table " + tableName + " as select * from " + srcTableName;
 		log.info(sqlString);
-		Database.update(sqlString, conns.getDbConnection());
+		try {
+			Database.update(sqlString, conns.getDbConnection());
+		} catch(Exception exp) {
+			// hacking this for now (the table may have been deleted as part of "delete lot")
+			if(exp.getMessage() != null && exp.getMessage().toLowerCase().indexOf("table or view not found") > 0) {
+				log.warn("\n\nCOULD NOT CREATE TABLE: " + tableName + " FROM " + srcTableName + "\n\n");
+			} else {
+				throw new RuntimeException(exp);
+			}
+		}
 		log.info("Done creating table: " + tableName);
 	}
 
