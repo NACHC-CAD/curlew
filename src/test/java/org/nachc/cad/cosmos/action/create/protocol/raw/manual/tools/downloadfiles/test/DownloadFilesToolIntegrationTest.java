@@ -35,10 +35,8 @@ public class DownloadFilesToolIntegrationTest {
 		sqlString += "where \n";
 		sqlString += "	project = 'womens_health' \n";
 		sqlString += "  and data_lot != 'LOT 1' \n";
-		sqlString += "  and file_name = '2021_04_08_WHPP_WHC_SK-DEMO.csv' \n";
-		sqlString += "and \n";
-		sqlString += "	org_code in ('ac','ochin') \n";
-		sqlString += "order by project, org_code, group_table_name, file_name \n";
+		sqlString += "  and org_code in ('ac','ochin') \n";
+		sqlString += "limit 5 \n";
 		return sqlString;
 	}
 

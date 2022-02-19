@@ -57,9 +57,11 @@ public class DownloadFilesTool {
 			}
 			String missing = "\n\n\n";
 			String present = "\n\n\n";
+			boolean success = true;
 			for(DownloadFilesRunnable runnable : runnables) {
 				Row row = runnable.getRow();
 				if(runnable.isSuccess() == false) {
+					success = false;
 					missing += "\t" + row.get("orgCode");
 					missing += "\t" + row.get("groupTableName");
 					missing += "\t" + row.get("dataLot");
@@ -75,8 +77,12 @@ public class DownloadFilesTool {
 			}
 			missing += "\n\n";
 			present += "\n\n";
-			log.info("FILES THAT COULD NOT BE DOWNLOADED: " + missing);			
 			log.info("FILES THAT COULD BE DOWNLOADED: " + present);			
+			if(success == false) {
+				log.info("! ! ! FILES THAT COULD NOT BE DOWNLOADED ! ! ! " + missing);			
+			} else {
+				log.info("All files were downloaded, we're cool.");
+			}
 			log.info("Done.");
 		} finally {
 			conns.close();
