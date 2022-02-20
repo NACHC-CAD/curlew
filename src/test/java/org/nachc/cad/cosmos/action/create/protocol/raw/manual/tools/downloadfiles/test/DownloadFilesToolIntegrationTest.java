@@ -20,7 +20,7 @@ public class DownloadFilesToolIntegrationTest {
 		String sqlString = "";
 		sqlString += "select distinct \n";
 		sqlString += "	project, \n";
-		sqlString += "    group_table_name, \n";
+		sqlString += "    lower(group_table_name), \n";
 		sqlString += "    org_code, \n";
 		sqlString += "    data_lot, \n";
 		sqlString += "    file_location, \n";

@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.nachc.cad.cosmos.dvo.mysql.cosmos.RawTableFileDvo;
 import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
+import org.yaorma.database.Data;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.excel.ExcelUtil;
@@ -48,9 +49,10 @@ public class CreateColumnMappingsAction {
 			}
 			String colName = ExcelUtil.getStringValue(row, 5);
 			String colAlias = ExcelUtil.getStringValue(row, 6);
+			String projectName = ExcelUtil.getStringValue(row, 2);
 			if (colAlias != null && StringUtil.isEmpty(colAlias) == false) {
 				log.info("\tUPDATING COL: " + colName + "|" + colAlias + "|" + fileName);
-				String rawTableGuid = getRawTableGuid(fileName, conns);
+				String rawTableGuid = getRawTableGuid(fileName, projectName, conns);
 				if (rawTableGuid == null) {
 					continue;
 				}
@@ -62,17 +64,44 @@ public class CreateColumnMappingsAction {
 					conns.rollback();
 					throw new RuntimeException("To many records updated: " + cnt);
 				}
+				if (cnt == 1) {
+					log.info("\t--------------------------------------------");
+					log.info("\tLOG: " + colName + " changed to " + colAlias);
+					log.info("\tFOR FILE: (" + rawTableGuid + ") " + fileName);
+					log.info("\tFOR PROJ: " + projectName);
+					log.info("\t--------------------------------------------");
+				}
+				if (cnt == 0) {
+					log.info("\txxx");
+					log.info("\tLOG: " + colName + " NOT changed to " + colAlias);
+					log.info("\tFOR FILE: (" + rawTableGuid + ") " + fileName);
+					log.info("\tFOR PROJ: " + projectName);
+					log.info("\txxx");
+				}
 			}
 		}
 	}
 
-	private static String getRawTableGuid(String fileName, CosmosConnections conns) {
-		RawTableFileDvo dvo = Dao.find(new RawTableFileDvo(), "file_name", fileName, conns.getMySqlConnection());
-		if (dvo == null) {
-			return null;
+	private static String getRawTableGuid(String fileName, String projectName, CosmosConnections conns) {
+		if (projectName != null && projectName.trim().length() > 0) {
+			projectName = projectName.trim();
+			String sqlString = "select * from raw_table_file where file_name = ? and project = ?";
+			String[] params = { fileName, projectName };
+			Data data = Database.query(sqlString, params, conns.getMySqlConnection());
+			if(data.size() > 0) {
+				return data.get(0).get("rawTable");
+			} else {
+				return null;
+			}
+			
 		} else {
-			String guid = dvo.getRawTable();
-			return guid;
+			RawTableFileDvo dvo = Dao.find(new RawTableFileDvo(), "file_name", fileName, conns.getMySqlConnection());
+			if (dvo == null) {
+				return null;
+			} else {
+				String guid = dvo.getRawTable();
+				return guid;
+			}
 		}
 	}
 

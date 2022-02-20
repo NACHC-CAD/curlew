@@ -84,9 +84,13 @@ public class DownloadFilesRunnable implements Runnable {
 		url += "/" + row.get("fileName");
 		// create target dir and file
 		String orgCode = row.get("orgCode");
+		String providedDate = row.get("providedDate");
 		String groupTableName = row.get("groupTableName");
 		String fileName = row.get("fileName");
-		String dirName = orgCode + "/" + groupTableName;
+		//
+		// DIR NAME
+		//
+		String dirName = orgCode + "/update-2022-02-1" + "/" + groupTableName;
 		File dir = new File(rootDir, dirName);
 		File file = new File (dir, fileName);
 		FileUtil.mkdirs(dir);
