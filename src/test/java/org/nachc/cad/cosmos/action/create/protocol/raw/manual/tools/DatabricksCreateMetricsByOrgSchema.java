@@ -8,9 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DatabricksCreateMetricsByOrgSchema {
 
-	public static final String SRC_SCHEMA = "covid";
+	public static final String SRC_SCHEMA = "womens_health_2022_bronze";
 	
-	public static final String DST_SCHEMA = "covid_metrics_by_org";
+	public static final String DST_SCHEMA = "womens_health_2022_bronze_meta";
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
