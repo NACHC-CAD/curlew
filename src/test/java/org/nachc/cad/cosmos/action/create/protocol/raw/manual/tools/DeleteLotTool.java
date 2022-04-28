@@ -12,7 +12,7 @@ public class DeleteLotTool {
 	
 	private static final String ORG = "bar";
 	
-	private static final String LOT = "bat";
+	private static final String LOT = "delete_me";
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
@@ -26,3 +26,5 @@ public class DeleteLotTool {
 	}
 	
 }
+
+

@@ -7,15 +7,18 @@ import org.yaorma.database.Data;
 import org.yaorma.database.Row;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
+import com.nach.core.util.file.FileUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DownloadSchemaAsCsv {
 
-	private static final String SCHEMA_NAME = "hiv";
+	// private static final String SCHEMA_NAME = "hiv_bronze";
 	
-	private static final String DIR = "C:\\temp\\hiv";
+	private static final String SCHEMA_NAME = "hiv_bronze";
+	
+	private static final String DIR = "C:\\temp\\hiv\\hiv-2022-04-07";
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
@@ -28,6 +31,8 @@ public class DownloadSchemaAsCsv {
 	}
 	
 	public static void exec(String schemaName, File dir, CosmosConnections conns) {
+		log.info("Making dir...");
+		FileUtil.mkdirs(dir);
 		log.info("Getting tables...");
 		Data data = DatabricksDbUtil.showTables(schemaName, conns.getDbConnection());
 		log.info("Getting data for the following tables: ");
