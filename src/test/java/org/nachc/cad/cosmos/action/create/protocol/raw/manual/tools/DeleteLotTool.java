@@ -8,13 +8,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeleteLotTool {
 
-	private static final String PROJ = "foo";
+	private static final String PROJ = "aim";
 	
-	private static final String ORG = "bar";
+	private static final String ORG = "ww";
 	
-	private static final String LOT = "delete_me";
+	private static final String LOT = "2022-02-01";
 	
 	public static void main(String[] args) {
+		log.info("-----------------");
+		log.info("JAVA VERSION: " + System.getProperty("java.version"));
+		log.info("-----------------");
 		CosmosConnections conns = new CosmosConnections();
 		try {
 			DeleteLotAction.deleteLot(PROJ, ORG, LOT, conns);
