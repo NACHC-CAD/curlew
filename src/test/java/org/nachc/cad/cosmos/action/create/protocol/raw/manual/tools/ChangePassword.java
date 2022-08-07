@@ -32,8 +32,8 @@ public class ChangePassword {
 //	private static final String uid = "dumondj";
 //	private static final String pwd = "bluebird01";
 
-	private static final String uid = "osikaj";
-	private static final String pwd = "northernFlicker02";
+	private static final String uid = "greshje";
+	private static final String pwd = "dev";
 
 	
 	
