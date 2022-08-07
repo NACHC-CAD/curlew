@@ -28,18 +28,35 @@ public class DeleteLotAction {
 
 	private static Data getFilesToDelete(String projectCode, String orgCode, String lot, CosmosConnections conns) {
 		String sqlString = "";
-		sqlString += "select distinct \n";
-		sqlString += "	file_location, \n";
-		sqlString += "  file_name, \n";
-		sqlString += "  raw_table \n";
+		
+//		sqlString += "select distinct \n";
+//		sqlString += "	file_location, \n";
+//		sqlString += "  file_name, \n";
+//		sqlString += "  raw_table \n";
+//		sqlString += "from \n";
+//		sqlString += "	raw_table_col_detail \n";
+//		sqlString += "where 1=1 \n";
+//		sqlString += "	and project = ? \n";
+//		sqlString += "  and org_code = ? \n";
+//		sqlString += "  and data_lot = ? \n";
+
+		sqlString += "select \n";
+		sqlString += "  f.file_location, \n";
+		sqlString += "  f.file_name, \n";
+		sqlString += "  f.raw_table \n";
 		sqlString += "from \n";
-		sqlString += "	raw_table_col_detail \n";
+		sqlString += "  raw_table_file f \n"; 
 		sqlString += "where 1=1 \n";
-		sqlString += "	and project = ? \n";
-		sqlString += "  and org_code = ? \n";
-		sqlString += "  and data_lot = ? \n";
-		String[] params = { projectCode, orgCode, lot };
-		Data data = Database.query(sqlString, params, conns.getMySqlConnection());
+		sqlString += "  and f.project = '" + projectCode + "' \n";
+		sqlString += "  and f.org_code = '" + orgCode + "' \n";
+		sqlString += "  and f.data_lot = '" + lot + "' \n";
+		sqlString += "order by  \n";
+		sqlString += "  f.file_name \n";
+
+
+//		String[] params = { projectCode, orgCode, lot };
+//		Data data = Database.query(sqlString, params, conns.getMySqlConnection());
+		Data data = Database.query(sqlString, conns.getMySqlConnection());
 		return data;
 	}
 

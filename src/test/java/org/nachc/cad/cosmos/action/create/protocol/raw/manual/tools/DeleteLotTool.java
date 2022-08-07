@@ -8,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeleteLotTool {
 
-	private static final String PROJ = "foo";
+	private static final String PROJ = "hiv";
 	
-	private static final String ORG = "bar";
+	private static final String ORG = "oachc";
 	
-	private static final String LOT = "delete_me";
+	private static final String LOT = "2021-06-16_JA";
 	
 	public static void main(String[] args) {
 		CosmosConnections conns = new CosmosConnections();
