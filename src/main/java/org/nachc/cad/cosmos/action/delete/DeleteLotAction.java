@@ -26,6 +26,23 @@ public class DeleteLotAction {
 		createBaseTables(projectCode, conns);
 	}
 
+	public static void deleteLotFiles(String projectCode, String orgCode, String lot, CosmosConnections conns) {
+		log.info("Deleting files for lot...");
+		Data filesToDelete = getFilesToDelete(projectCode, orgCode, lot, conns);
+		deleteFilesFromDatabricks(filesToDelete, conns);
+		deleteRawTableFileRecordsFromMySql(projectCode, orgCode, lot, conns);
+		deleteRawTableColRecordsFromMySql(filesToDelete, conns);
+		deleteRawTableRecordsFromMySql(filesToDelete, conns);
+		log.info("Done deleting files for lot.");
+	}
+
+	public static void updateGroupTables(String projectCode, CosmosConnections conns) {
+		log.info("Updating group tables");
+		createGroupTables(projectCode, conns);
+		createBaseTables(projectCode, conns);
+		log.info("Done updating group tables.");
+	}
+	
 	private static Data getFilesToDelete(String projectCode, String orgCode, String lot, CosmosConnections conns) {
 		String sqlString = "";
 		

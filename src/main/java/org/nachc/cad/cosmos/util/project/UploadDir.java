@@ -62,6 +62,13 @@ public class UploadDir {
 	}
 
 	public static RawDataFileUploadParams uploadDir(File dir, String userName, CosmosConnections conns, Listener lis, boolean createGroupTables) {
+		RawDataFileUploadParams params = null;
+		params = uploadDirFilesOnly(dir, userName, conns, lis);
+		params = uploadCreateGroupTablesOnly(params, conns, lis, createGroupTables);
+		return params;
+	}
+	
+	public static RawDataFileUploadParams uploadDirFilesOnly(File dir, String userName, CosmosConnections conns, Listener lis) {
 		// get the parameters
 		File projectPropertiesFile = new File(dir, PROPS_PATH);
 		Properties props = PropertiesUtil.getAsProperties(projectPropertiesFile);
@@ -75,12 +82,17 @@ public class UploadDir {
 		checkForOrgRecord(params, conns, lis);
 		// upload files
 		uploadDataDirFiles(params, conns, lis);
+		return params;
+	}
+
+	public static RawDataFileUploadParams uploadCreateGroupTablesOnly(RawDataFileUploadParams params, CosmosConnections conns, Listener lis, boolean createGroupTables) {
 		// create the group tables and base tables
 		createGroupTables(params, conns, lis);
 		if (createGroupTables == true) {
 			CreateBaseTablesAction.exec(params, conns);
 		}
 		return params;
+
 	}
 	
 	// ------------------------------------------------------------------------
@@ -314,6 +326,24 @@ public class UploadDir {
 		}
 	}
 
+	private static void createGroupTables(String project, CosmosConnections cons, Listener lis) {
+		List<RawTableGroupDvo> list = getRawTableGroupsForProject(project, cons, lis);
+		for(RawTableGroupDvo dvo : list) {
+			String rawTableGroupCode = dvo.getCode();
+			log(lis, "* * * GROUP TABLE: Creating group table for: " + rawTableGroupCode);
+			CreateGrpDataTableAction.execute(rawTableGroupCode, cons);
+		}
+	}
+	
+	private static List<RawTableGroupDvo> getRawTableGroupsForProject(String project, CosmosConnections cons, Listener lis) {
+		log(lis, "Getting raw table groups for project: " + project);
+		String sqlString = "select * from raw_table_group where project = ?";
+		String[] params = { project };
+		List<RawTableGroupDvo> rtn = Dao.findListBySql(new RawTableGroupDvo(), sqlString, params, cons.getMySqlConnection());
+		log(lis, "Got " + rtn.size() + " tables.");
+		return rtn;
+	}
+	
 	private static void log(Listener lis, String str) {
 		log.info(str);
 		if (lis != null) {
