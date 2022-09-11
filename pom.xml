@@ -8,7 +8,7 @@
 
     <groupId>org.nachc.cad</groupId>
     <artifactId>curlew</artifactId>
-    <version>0.1.001</version>
+    <version>0.1.002-SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>org.nachc.cad.tools</groupId>
 			<artifactId>core</artifactId>
-			<version>0.1.001</version>
+			<version>0.1.002-SNAPSHOT</version>
 		</dependency>
 
 
@@ -41,6 +41,15 @@
 		* Depedencies with scope limits
 		*
 		 -->
+
+		<!-- Databricks JDBC Driver -->
+		<dependency>
+		    <groupId>com.databricks</groupId>
+		    <artifactId>jdbc</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/lib/SimbaSparkJDBC42-2.6.16.1020/SparkJDBC42.jar</systemPath>
+		</dependency>
 
 		<!-- LOMBOK -->
         <dependency>
@@ -71,15 +80,6 @@
 		* PROJECT SPECIFIC DEPENDENCIES
 		*
 		 -->
-
-		<!-- Databricks JDBC Driver -->
-		<dependency>
-		    <groupId>com.databricks</groupId>
-		    <artifactId>jdbc</artifactId>
-		    <version>1.0</version>
-		    <scope>system</scope>
-		    <systemPath>${project.basedir}/lib/SimbaSparkJDBC42-2.6.16.1020/SparkJDBC42.jar</systemPath>
-		</dependency>
 
 		<!-- MYSQL DRIVER https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
