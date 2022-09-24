@@ -6,19 +6,23 @@
     
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.nachc.cad</groupId>
+    <properties>
+		<version>1.0.004</version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <groupId>org.nachc.cad.tools</groupId>
     <artifactId>curlew</artifactId>
-    <version>1.1.001-SNAPSHOT</version>
+    <version>${version}</version>
 
     <packaging>jar</packaging>
 
     <name>COSMOS -- Curlew edition: Starting with Value Set management</name>
-	<description>This project contains the code for higher level functionality required for the NACHC/COSMOS project</description>
+	<description>
+		This project contains the code for higher level functionality required for the NACHC/COSMOS project.  
+		This includes our api for interacting with Databricks.  
+	</description>
 	<url>https://github.com/NACHC-CAD/curlew</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
 	<licenses>
 	    <license>
@@ -44,10 +48,14 @@
 	</scm>  
   
 	<distributionManagement>
-	  <snapshotRepository>
-	    <id>ossrh</id>
-	    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-	  </snapshotRepository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>   
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>		
 	</distributionManagement>
 
 	<!-- 
@@ -62,7 +70,7 @@
 		<dependency>
 			<groupId>org.nachc.cad.tools</groupId>
 			<artifactId>core</artifactId>
-			<version>${version}</version>
+			<version>1.0.004</version>
 		</dependency>
 
 
@@ -128,6 +136,24 @@
 
 	<build>
 
+		<!-- 
+		* 
+		* EXCLUDE AUTHENTICATION INFO FROM DEPLOYMENT BUILD 
+		*
+		-->
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<excludes>
+					<exclude>auth/**/*</exclude>
+				</excludes>
+			</resource>
+		</resources>
+
 		<plugins>
 
 			<!-- compiler -->
@@ -140,6 +166,17 @@
 				</configuration>
 			</plugin>		
 
+			<!-- test -->
+			<plugin>
+				  <groupId>org.apache.maven.plugins</groupId>
+				  <artifactId>maven-surefire-plugin</artifactId>
+				  <version>3.0.0-M5</version>
+				  <configuration>
+				    <skipTests>true</skipTests>
+				  </configuration>
+			</plugin>
+
+			<!-- jar -->
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-jar-plugin</artifactId>
@@ -149,13 +186,39 @@
 			    </configuration>
 			</plugin>      
 
+			<!-- 
+			*
+			* Generate sources and java docs (required for mvn distribution) 
+			*
+			* -->
+			
+			<!-- source -->
 			<plugin>
-				  <groupId>org.apache.maven.plugins</groupId>
-				  <artifactId>maven-surefire-plugin</artifactId>
-				  <version>3.0.0-M5</version>
-				  <configuration>
-				    <skipTests>true</skipTests>
-				  </configuration>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-source-plugin</artifactId>
+			  <version>2.2.1</version>
+			  <executions>
+			    <execution>
+			      <id>attach-sources</id>
+			      <goals>
+			        <goal>jar-no-fork</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+			<!-- javadoc -->
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-javadoc-plugin</artifactId>
+			  <version>2.9.1</version>
+			  <executions>
+			    <execution>
+			      <id>attach-javadocs</id>
+			      <goals>
+			        <goal>jar</goal>
+			      </goals>
+			    </execution>
+			  </executions>
 			</plugin>
 
 		</plugins>
