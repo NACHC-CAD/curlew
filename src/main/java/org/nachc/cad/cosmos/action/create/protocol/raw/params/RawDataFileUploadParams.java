@@ -87,6 +87,8 @@ public class RawDataFileUploadParams {
 	private boolean createNewProject = false;
 	
 	private boolean overwriteExistingFiles = false;
+	
+	private String validationMessage = null;
 
 	//
 	// generated parameters
@@ -119,6 +121,10 @@ public class RawDataFileUploadParams {
 	// non-trivial getters
 	//
 
+	public boolean isValidationSuccess() {
+		return (this.validationMessage == null);
+	}
+	
 	//
 	// raw_data_group stuff
 	//

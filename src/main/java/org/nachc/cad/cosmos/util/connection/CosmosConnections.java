@@ -30,6 +30,33 @@ public class CosmosConnections implements DatabaseConnectionManager {
 
 	private DataSource databricksDs;
 
+	private static final Object LOCK = new Object();
+	
+	private static int openConnections = 0;
+	
+	public static CosmosConnections open(DataSource mysqlDs, DataSource databricksDs) {
+		CosmosConnections rtn = new CosmosConnections(mysqlDs, databricksDs);
+		synchronized (LOCK) {
+			openConnections++;
+		}
+		return rtn;
+	}
+
+	public static void close(CosmosConnections conns) {
+		conns.close();
+		synchronized (LOCK) {
+			openConnections--;
+		}
+	}
+	
+	public static int getOpenCount() {
+		int cnt;
+		synchronized (LOCK) {
+			cnt = openConnections;
+		}
+		return cnt;
+	}
+	
 	public CosmosConnections() {
 		init();
 	}

@@ -10,6 +10,7 @@ import org.yaorma.database.Row;
 
 import com.nach.core.util.databricks.file.response.DatabricksFileUtilResponse;
 import com.nach.core.util.string.StringUtil;
+import com.nach.core.util.web.listener.Listener;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,6 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 public class DeleteLotAction {
 
 	public static void deleteLot(String projectCode, String orgCode, String lot, CosmosConnections conns) {
+		deleteLot(projectCode, orgCode, lot, conns, null);
+	}
+
+	
+	public static void deleteLot(String projectCode, String orgCode, String lot, CosmosConnections conns, Listener lis) {
 		Data filesToDelete = getFilesToDelete(projectCode, orgCode, lot, conns);
 		deleteFilesFromDatabricks(filesToDelete, conns);
 		deleteRawTableFileRecordsFromMySql(projectCode, orgCode, lot, conns);
@@ -146,6 +152,13 @@ public class DeleteLotAction {
 
 	private static void createBaseTables(String projectCode, CosmosConnections conns) {
 		CreateBaseTablesAction.exec(projectCode, conns);
+	}
+
+	private void log(Listener lis, String str) {
+		log.info(str);
+		if (lis != null) {
+			lis.notify(str);
+		}
 	}
 
 }

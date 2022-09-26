@@ -95,6 +95,14 @@ public class UploadDir {
 
 	}
 	
+	public static void uploadCreateGroupTablesOnly(String projectName, CosmosConnections conns, Listener lis, boolean createGroupTables) {
+		// create the group tables and base tables
+		createGroupTables(projectName, conns, lis);
+		if (createGroupTables == true) {
+			CreateBaseTablesAction.exec(projectName, conns);
+		}
+	}
+	
 	// ------------------------------------------------------------------------
 	//
 	// implementation (all private past here)
