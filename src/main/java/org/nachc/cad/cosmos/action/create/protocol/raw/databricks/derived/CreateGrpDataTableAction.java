@@ -51,7 +51,9 @@ public class CreateGrpDataTableAction {
 			}
 			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, conns.getMySqlConnection());
 			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
-			sqlString += tableSql;
+			if(tableSql != null) {
+				sqlString += tableSql;
+			}
 		}
 		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
 		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
@@ -102,6 +104,9 @@ public class CreateGrpDataTableAction {
 		log.info("Creating query for table with guid: " + rawTableGuid);
 		RawTableDvo tableDvo = Dao.find(new RawTableDvo(), "guid", rawTableGuid, conn);
 		RawTableFileDvo fileDvo = Dao.find(new RawTableFileDvo(), "raw_table", rawTableGuid, conn);
+		if(fileDvo == null) {
+			return null;
+		}
 		List<RawTableColDvo> tableCols = Dao.findList(new RawTableColDvo(), "raw_table", rawTableGuid, conn);
 		log.info("Got " + tableCols.size() + " cols for guid: " + rawTableGuid);
 		String sqlString = "";

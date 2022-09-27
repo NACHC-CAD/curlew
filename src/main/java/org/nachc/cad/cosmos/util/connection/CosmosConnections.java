@@ -70,9 +70,13 @@ public class CosmosConnections implements DatabaseConnectionManager {
 	private void initDs() {
 		try {
 			this.isDsConnection = true;
-			this.mySqlConnection = this.mysqlDs.getConnection();
-			this.dbConnection = this.databricksDs.getConnection();
-			DatabricksDbUtil.initParsePolicy(this.dbConnection);
+			if(this.mysqlDs != null) {
+				this.mySqlConnection = this.mysqlDs.getConnection();
+			}
+			if(this.databricksDs != null) {
+				this.dbConnection = this.databricksDs.getConnection();
+				DatabricksDbUtil.initParsePolicy(this.dbConnection);
+			}
 		} catch (Exception exp) {
 			throw new RuntimeException(exp);
 		}
