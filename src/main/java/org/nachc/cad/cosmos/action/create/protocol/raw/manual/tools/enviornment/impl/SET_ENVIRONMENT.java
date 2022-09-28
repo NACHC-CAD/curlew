@@ -37,10 +37,12 @@ public class SET_ENVIRONMENT {
 			copy(new File(RES, "_instances/prod/databricks.properties"), new File(RES, "databricks.properties"));
 			copy(new File(RES, "auth/_instances/prod/databricks-auth.properties"), new File(RES, "auth/databricks-auth.properties"));
 			copy(new File(RES, "auth/_instances/prod/mysql-auth.properties"), new File(RES, "auth/mysql-auth.properties"));
+			copy(new File(RES, "auth/_instances/prod/_web-app-mysql-auth.properties"), new File(RES, "auth/_web-app-mysql-auth.properties"));
 			// copy to classes file
 			copy(new File(RES, "_instances/prod/databricks.properties"), new File(BUILD_RES, "databricks.properties"));
 			copy(new File(RES, "auth/_instances/prod/databricks-auth.properties"), new File(BUILD_RES, "auth/databricks-auth.properties"));
 			copy(new File(RES, "auth/_instances/prod/mysql-auth.properties"), new File(BUILD_RES, "auth/mysql-auth.properties"));
+			copy(new File(RES, "auth/_instances/prod/_web-app-mysql-auth.properties"), new File(BUILD_RES, "auth/_web-app-mysql-auth.properties"));
 		} catch (Exception exp) {
 			throw new RuntimeException(exp);
 		}
@@ -52,10 +54,12 @@ public class SET_ENVIRONMENT {
 			copy(new File(RES, "_instances/dev/databricks.properties"), new File(RES, "databricks.properties"));
 			copy(new File(RES, "auth/_instances/dev/databricks-auth.properties"), new File(RES, "auth/databricks-auth.properties"));
 			copy(new File(RES, "auth/_instances/dev/mysql-auth.properties"), new File(RES, "auth/mysql-auth.properties"));
+			copy(new File(RES, "auth/_instances/dev/_web-app-mysql-auth.properties"), new File(RES, "auth/_web-app-mysql-auth.properties"));
 			// copy to classes file
 			copy(new File(RES, "_instances/dev/databricks.properties"), new File(BUILD_RES, "databricks.properties"));
 			copy(new File(RES, "auth/_instances/dev/databricks-auth.properties"), new File(BUILD_RES, "auth/databricks-auth.properties"));
 			copy(new File(RES, "auth/_instances/dev/mysql-auth.properties"), new File(BUILD_RES, "auth/mysql-auth.properties"));
+			copy(new File(RES, "auth/_instances/dev/_web-app-mysql-auth.properties"), new File(BUILD_RES, "auth/_web-app-mysql-auth.properties"));
 		} catch (Exception exp) {
 			throw new RuntimeException(exp);
 		}

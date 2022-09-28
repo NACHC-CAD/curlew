@@ -20,6 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CosmosConnections implements DatabaseConnectionManager {
 
+	//
+	// instance variables
+	//
+	
 	private Connection mySqlConnection;
 
 	private Connection dbConnection;
@@ -33,6 +37,10 @@ public class CosmosConnections implements DatabaseConnectionManager {
 	private static final Object LOCK = new Object();
 	
 	private static int openConnections = 0;
+	
+	//
+	// static methods
+	//
 	
 	public static CosmosConnections open(DataSource mysqlDs, DataSource databricksDs) {
 		CosmosConnections rtn = new CosmosConnections(mysqlDs, databricksDs);
@@ -57,6 +65,10 @@ public class CosmosConnections implements DatabaseConnectionManager {
 		return cnt;
 	}
 	
+	//
+	// constructors
+	//
+	
 	public CosmosConnections() {
 		init();
 	}
@@ -67,62 +79,10 @@ public class CosmosConnections implements DatabaseConnectionManager {
 		initDs();
 	}
 
-	private void initDs() {
-		try {
-			this.isDsConnection = true;
-			if(this.mysqlDs != null) {
-				this.mySqlConnection = this.mysqlDs.getConnection();
-			}
-			if(this.databricksDs != null) {
-				this.dbConnection = this.databricksDs.getConnection();
-				DatabricksDbUtil.initParsePolicy(this.dbConnection);
-			}
-		} catch (Exception exp) {
-			throw new RuntimeException(exp);
-		}
-	}
-
-	private void init() {
-		log.info("* * * CREATING NEW MYSQL CONNECTION * * *");
-		this.mySqlConnection = MySqlConnectionFactory.getCosmosConnection();
-		log.info("* * * CREATING NEW DATABRICKS CONNECTION * * *");
-		this.dbConnection = DatabricksDbConnectionFactory.getConnection();
-		log.info("Done getting connections");
-	}
-
-	public void commit() {
-		Database.commit(this.mySqlConnection);
-	}
-
-	public void rollback() {
-		Database.rollback(this.mySqlConnection);
-	}
-
-	public void close() {
-		log.info("! ! ! CLOSING MYSQL CONNECTION ! ! !");
-		closeMySqlConnection();
-		log.info("! ! ! CLOSING DATABRICKS CONNECTION ! ! !");
-		closeDbConnection();
-		log.info("Done closing connections");
-	}
-
-	private void closeMySqlConnection() {
-		try {
-			Database.close(mySqlConnection);
-		} catch(Exception exp) {
-			log.info("Closing MySql connection threw an exception (this happens sometimes)");
-		}
-	}
-
-	private void closeDbConnection() {
-		try {
-			Database.close(this.dbConnection);
-			this.dbConnection = null;
-		} catch (Exception exp) {
-			log.info("Closing Databricks connection threw an exception (this happens sometimes)");
-		}
-	}
-
+	//
+	// public interface
+	//
+	
 	@Override
 	public void resetConnections() {
 		log.info("! ! ! RESETTING CONNECTIONS ! ! !");
@@ -159,6 +119,66 @@ public class CosmosConnections implements DatabaseConnectionManager {
 			return this.mySqlConnection;
 		} else {
 			return null;
+		}
+	}
+
+	public void commit() {
+		Database.commit(this.mySqlConnection);
+	}
+
+	public void rollback() {
+		Database.rollback(this.mySqlConnection);
+	}
+
+	public void close() {
+		log.info("! ! ! CLOSING MYSQL CONNECTION ! ! !");
+		closeMySqlConnection();
+		log.info("! ! ! CLOSING DATABRICKS CONNECTION ! ! !");
+		closeDbConnection();
+		log.info("Done closing connections");
+	}
+
+	//
+	// implementation (all private past here)
+	//
+	
+	private void initDs() {
+		try {
+			this.isDsConnection = true;
+			if(this.mysqlDs != null) {
+				this.mySqlConnection = this.mysqlDs.getConnection();
+			}
+			if(this.databricksDs != null) {
+				this.dbConnection = this.databricksDs.getConnection();
+				DatabricksDbUtil.initParsePolicy(this.dbConnection);
+			}
+		} catch (Exception exp) {
+			throw new RuntimeException(exp);
+		}
+	}
+
+	private void init() {
+		log.info("* * * CREATING NEW MYSQL CONNECTION * * *");
+		this.mySqlConnection = MySqlConnectionFactory.getCosmosConnection();
+		log.info("* * * CREATING NEW DATABRICKS CONNECTION * * *");
+		this.dbConnection = DatabricksDbConnectionFactory.getConnection();
+		log.info("Done getting connections");
+	}
+
+	private void closeMySqlConnection() {
+		try {
+			Database.close(mySqlConnection);
+		} catch(Exception exp) {
+			log.info("Closing MySql connection threw an exception (this happens sometimes)");
+		}
+	}
+
+	private void closeDbConnection() {
+		try {
+			Database.close(this.dbConnection);
+			this.dbConnection = null;
+		} catch (Exception exp) {
+			log.info("Closing Databricks connection threw an exception (this happens sometimes)");
 		}
 	}
 

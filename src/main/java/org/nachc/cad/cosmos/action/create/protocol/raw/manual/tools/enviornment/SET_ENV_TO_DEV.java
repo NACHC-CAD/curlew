@@ -5,6 +5,10 @@ import org.nachc.cad.cosmos.action.create.protocol.raw.manual.tools.enviornment.
 public class SET_ENV_TO_DEV {
 
 	public static void main(String[] args) {
+		exec();
+	}
+	
+	public static void exec() {
 		SET_ENVIRONMENT.main(new String[] {"DEV"});
 	}
 	

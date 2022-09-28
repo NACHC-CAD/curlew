@@ -24,13 +24,15 @@ public class ConfirmConfiguration {
 		}
 	}
 
-	public static void exec(CosmosConnections conns) {
+	public static ConfigurationSummary exec(CosmosConnections conns) {
+		ConfigurationSummary rtn = new ConfigurationSummary();
 		Connection dbConn = conns.getDbConnection();
 		Connection mySqlConn = conns.getMySqlConnection();
 		log.info("Starting configuration test...");
 		String databricksFiles = ConfigurationUtil.getDatabricksFileStoreInstance();
 		String databricksDb = ConfigurationUtil.getDatabricksSqlInstance(conns);
 		String mySql = ConfigurationUtil.getMySqlInstance(mySqlConn);
+		String javaVersion = System.getProperty("java.version");
 		String msg = "\n\n* * * CONFIGURATION * * *";
 		msg += "\nDatabricks Files:    " + databricksFiles;
 		msg += "\nDatabricks DB:       " + databricksDb;
@@ -39,9 +41,15 @@ public class ConfirmConfiguration {
 		msg += "\nDatabricks REST URL: " + DatabricksParams.getRestUrl(); 
 		msg += "\nDatabricks JDBC URL: " + DatabricksParams.getJdbcUrl();
 		msg += "\nDatabricks Token:    " + DatabricksAuthUtil.getToken();
+		msg += "\nJava Version:        " + javaVersion;
 		msg += "\n\n";
 		log.info("Configuration..." + msg);
-		log.info("Done.");
+		log.info("Done getting configuration");
+		rtn.setJavaVersion(javaVersion);
+		rtn.setDatabricksDbInstance(databricksDb);
+		rtn.setDatabricksFileStoreInstance(databricksFiles);
+		rtn.setMySqlDbInstance(mySql);
+		return rtn;
 	}
 
 	
