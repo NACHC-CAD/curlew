@@ -26,7 +26,6 @@ public class SET_ENVIRONMENT {
 		} else {
 			log.info("ENVIRONMENT NOT CHANGED");
 		}
-		ConfirmConfiguration.main(null);
 		log.info("Done.");
 	}
 
