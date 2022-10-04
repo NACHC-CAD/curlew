@@ -23,6 +23,7 @@ public class CreateBaseTablesAction {
 	public static void exec(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		createSchemaIfNotExists(params.getProjCode(), conns);
 		List<RawTableGroupDvo> list = getBaseTables(params, conns);
+		log(lis, "\nCreating base tables...");
 		for (RawTableGroupDvo dvo : list) {
 			createTable(dvo, conns, lis);
 		}
@@ -35,6 +36,7 @@ public class CreateBaseTablesAction {
 	public static void exec(String projCode, CosmosConnections conns, Listener lis) {
 		createSchemaIfNotExists(projCode, conns);
 		List<RawTableGroupDvo> list = getBaseTables(projCode, conns);
+		log(lis, "\nCreating base tables...");
 		for (RawTableGroupDvo dvo : list) {
 			createTable(dvo, conns, lis);
 		}

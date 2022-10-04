@@ -147,6 +147,7 @@ public class DeleteLotAction {
 	private static void createGroupTables(String projectCode, CosmosConnections conns, Listener lis) {
 		String sqlString = "select code from raw_table_group where project =  ?";
 		Data data = Database.query(sqlString, projectCode, conns.getMySqlConnection());
+		log(lis, "\nCreating Group Tables...");
 		for(Row row : data) {
 			String code = row.get("code");
 			log.info("Creating group table for: " + code);
@@ -164,7 +165,7 @@ public class DeleteLotAction {
 		CreateBaseTablesAction.exec(projectCode, conns, lis);
 	}
 
-	private void log(Listener lis, String str) {
+	private static void log(Listener lis, String str) {
 		log.info(str);
 		if (lis != null) {
 			lis.notify(str);

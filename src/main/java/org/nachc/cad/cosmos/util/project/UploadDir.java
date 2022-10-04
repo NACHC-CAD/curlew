@@ -240,7 +240,7 @@ public class UploadDir {
 		for (File dir : dataDirs) {
 			uploadDataFiles(params, dir, conns, lis);
 		}
-		log(lis, "Successfully uploaded all files.");
+		log(lis, "Successfully uploaded all files.\n");
 	}
 
 	//
@@ -248,6 +248,7 @@ public class UploadDir {
 	//
 
 	private static void uploadDataFiles(RawDataFileUploadParams params, File dir, CosmosConnections conns, Listener lis) {
+		log(lis, "Uploading files and creating tables for individual files:");
 		log(lis, "UPLOADING FILES: " + dir);
 		String dataGroupAbbr = dir.getName();
 		params.setDataGroupAbr(dataGroupAbbr);
@@ -327,9 +328,9 @@ public class UploadDir {
 
 	private static void createGroupTables(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		Iterator<String> iter = params.getRawTableGroups().iterator();
+		log(lis, "\nCreating group tables...");
 		while (iter.hasNext()) {
 			String rawTableGroupCode = iter.next();
-			log(lis, "* * * GROUP TABLE: Creating group table for: " + rawTableGroupCode);
 			CreateGrpDataTableAction.execute(rawTableGroupCode, conns, lis);
 		}
 	}
