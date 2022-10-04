@@ -15,15 +15,19 @@ import org.yaorma.database.Database;
 import org.yaorma.database.Row;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
+import com.nach.core.util.web.listener.Listener;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CreateGrpDataTableAction {
 
-	// JEG: DELETE THIS, DON'T REFRESH
 	public static void execute(String rawTableGroupCode, CosmosConnections conns) {
-		execute(rawTableGroupCode, conns, false);
+		execute(rawTableGroupCode, conns, false, null);
+	}
+
+	public static void execute(String rawTableGroupCode, CosmosConnections conns, Listener lis) {
+		execute(rawTableGroupCode, conns, false, lis);
 	}
 
 	/**
@@ -32,8 +36,13 @@ public class CreateGrpDataTableAction {
 	 * database. The only parameter required is the rawTableGroupCode.
 	 * 
 	 */
-
 	public static void execute(String rawTableGroupCode, CosmosConnections conns, boolean refresh) {
+		execute(rawTableGroupCode, conns, refresh, null);
+	}
+
+	
+	public static void execute(String rawTableGroupCode, CosmosConnections conns, boolean refresh, Listener lis) {
+		log(lis, "* * * CREATING TABLE: " + rawTableGroupCode);
 		// get the group
 		log.info("Getting group for " + rawTableGroupCode);
 		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", rawTableGroupCode, conns.getMySqlConnection());
@@ -46,17 +55,16 @@ public class CreateGrpDataTableAction {
 		log.info("Got " + tables.size() + " tables");
 		String sqlString = "create table " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "` using delta as \n";
 		for (RawTableDvo table : tables) {
-			if (sqlString.endsWith(" as \n") == false) {
-				sqlString += "\n\nunion all \n\n";
-			}
 			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, conns.getMySqlConnection());
 			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
+			if (sqlString.endsWith(" as \n") == false && tableSql != null) {
+				sqlString += "\n\nunion all \n\n";
+			}
 			if(tableSql != null) {
 				sqlString += tableSql;
 			}
 		}
 		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
-		log.info("DROPPING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 		// DROP THE TABLE IF IT EXISTS
 		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "`", conns.getDbConnection());
 		// CREATE THE TABLE IN DATABRICKS IF ANY FILES REMAIN
@@ -64,7 +72,6 @@ public class CreateGrpDataTableAction {
 			log.info("initializing connection parse policy");
 			DatabricksDbUtil.initParsePolicy(conns.getDbConnection());
 			log.info("done initializing connection parse policy");
-			log.info("CREATING table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
 			Database.update(sqlString, conns.getDbConnection());
 			if (refresh == true) {
 				log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
@@ -208,6 +215,13 @@ public class CreateGrpDataTableAction {
 			}
 		}
 		return null;
+	}
+
+	private static void log(Listener lis, String str) {
+		log.info(str);
+		if (lis != null) {
+			lis.notify(str);
+		}
 	}
 
 }

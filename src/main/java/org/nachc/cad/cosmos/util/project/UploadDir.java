@@ -89,7 +89,7 @@ public class UploadDir {
 		// create the group tables and base tables
 		createGroupTables(params, conns, lis);
 		if (createGroupTables == true) {
-			CreateBaseTablesAction.exec(params, conns);
+			CreateBaseTablesAction.exec(params, conns, lis);
 		}
 		return params;
 
@@ -231,16 +231,16 @@ public class UploadDir {
 		List<File> dataDirs = FileUtil.listFiles(rootDir);
 		dataDirs = FileUtil.removeStartsWith(dataDirs, "_");
 		String msg = "";
-		msg += "* * * DIRECTORIES FOR UPLOAD * * *\n";
+		msg += "\n* * * DIRECTORIES FOR UPLOAD * * *\n";
 		for (File dir : dataDirs) {
 			msg += dir.getName() + "\n";
 		}
-		msg += "* * * END DIRS * * *";
+		msg += "* * * END DIRS * * *\n";
 		log(lis, "Uploading the following dir: \n" + msg);
 		for (File dir : dataDirs) {
 			uploadDataFiles(params, dir, conns, lis);
 		}
-		log(lis, "Successfully uploaded files from the following dirs: \n" + msg);
+		log(lis, "Successfully uploaded all files.");
 	}
 
 	//
@@ -318,10 +318,10 @@ public class UploadDir {
 
 	private static void createMappings(CosmosConnections conns, File mappingFile, File file, Listener lis) {
 		if (mappingFile != null) {
-			log(lis, "* * * MAPPING FILE FOUND, DOING MAPPINGS * * *");
+			log(lis, "(Mapping file found, doing mappings)");
 			CreateColumnMappingsAction.exec(mappingFile, file, conns);
 		} else {
-			log(lis, "* * * MAPPING FILE NOT FOUND, MAPPINGS SKIPPED * * *");
+			log(lis, "(Mapping file not found, mappings skipped)");
 		}
 	}
 
@@ -330,7 +330,7 @@ public class UploadDir {
 		while (iter.hasNext()) {
 			String rawTableGroupCode = iter.next();
 			log(lis, "* * * GROUP TABLE: Creating group table for: " + rawTableGroupCode);
-			CreateGrpDataTableAction.execute(rawTableGroupCode, conns);
+			CreateGrpDataTableAction.execute(rawTableGroupCode, conns, lis);
 		}
 	}
 

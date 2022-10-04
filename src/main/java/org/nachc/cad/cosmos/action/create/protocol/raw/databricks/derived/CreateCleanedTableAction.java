@@ -11,16 +11,22 @@ import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
 import com.nach.core.util.databricks.database.DatabricksDbUtil;
+import com.nach.core.util.web.listener.Listener;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CreateCleanedTableAction {
 
-	public static void exec(String rawTableGuid, CosmosConnections conns) {
+	public static void exec(String rawTableGuid, CosmosConnections conns) {	
+		exec(rawTableGuid, conns, null);
+	}
+
+	public static void exec(String rawTableGuid, CosmosConnections conns, Listener lis) {	
 		log.info("CREATING CLEANED TABLE");
 		RawTableDvo dvo = Dao.find(new RawTableDvo(), "guid", rawTableGuid, conns.getMySqlConnection());
 		String tableName = dvo.getRawTableSchema() + "." + dvo.getRawTableName() + "_CLEANED";
+		log(lis, "CREATING TABLE: " + tableName);
 		String sqlString = "";
 		sqlString += "create table " + tableName + " \n as (";
 		sqlString += getQueryStringForTable(dvo, conns.getMySqlConnection()) + "\n";
@@ -128,6 +134,13 @@ public class CreateCleanedTableAction {
 		sqlString += "from \n";
 		sqlString += "  " + tableDvo.getRawTableSchema() + "." + tableDvo.getRawTableName();
 		return sqlString;
+	}
+
+	private static void log(Listener lis, String str) {
+		log.info(str);
+		if (lis != null) {
+			lis.notify(str);
+		}
 	}
 
 }

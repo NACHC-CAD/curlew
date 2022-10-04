@@ -28,8 +28,8 @@ public class DeleteLotAction {
 		deleteRawTableFileRecordsFromMySql(projectCode, orgCode, lot, conns);
 		deleteRawTableColRecordsFromMySql(filesToDelete, conns);
 		deleteRawTableRecordsFromMySql(filesToDelete, conns);
-		createGroupTables(projectCode, conns);
-		createBaseTables(projectCode, conns);
+		createGroupTables(projectCode, conns, lis);
+		createBaseTables(projectCode, conns, lis);
 	}
 
 	public static void deleteLotFiles(String projectCode, String orgCode, String lot, CosmosConnections conns) {
@@ -138,20 +138,30 @@ public class DeleteLotAction {
 		}
 		log.info(total + " TOTAL RECORDS DELETED FROM RAW_TABLE");
 	}
-	
+
 	private static void createGroupTables(String projectCode, CosmosConnections conns) {
+		createGroupTables(projectCode, conns, null);
+	}
+	
+	
+	private static void createGroupTables(String projectCode, CosmosConnections conns, Listener lis) {
 		String sqlString = "select code from raw_table_group where project =  ?";
 		Data data = Database.query(sqlString, projectCode, conns.getMySqlConnection());
 		for(Row row : data) {
 			String code = row.get("code");
 			log.info("Creating group table for: " + code);
-			CreateGrpDataTableAction.execute(code, conns);
+			CreateGrpDataTableAction.execute(code, conns, lis);
 			log.info("Done creating group table for: " + code);
 		}
 	}
 
 	private static void createBaseTables(String projectCode, CosmosConnections conns) {
-		CreateBaseTablesAction.exec(projectCode, conns);
+		createBaseTables(projectCode, conns, null);
+	}
+
+	
+	private static void createBaseTables(String projectCode, CosmosConnections conns, Listener lis) {
+		CreateBaseTablesAction.exec(projectCode, conns, lis);
 	}
 
 	private void log(Listener lis, String str) {

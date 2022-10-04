@@ -8,24 +8,35 @@ import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 import org.yaorma.dao.Dao;
 import org.yaorma.database.Database;
 
+import com.nach.core.util.web.listener.Listener;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CreateBaseTablesAction {
 
 	public static void exec(RawDataFileUploadParams params, CosmosConnections conns) {
+		exec(params, conns, null);
+	}
+
+	
+	public static void exec(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
 		createSchemaIfNotExists(params.getProjCode(), conns);
 		List<RawTableGroupDvo> list = getBaseTables(params, conns);
 		for (RawTableGroupDvo dvo : list) {
-			createTable(dvo, conns);
+			createTable(dvo, conns, lis);
 		}
 	}
 
 	public static void exec(String projCode, CosmosConnections conns) {
+		exec(projCode, conns, null);
+	}
+
+	public static void exec(String projCode, CosmosConnections conns, Listener lis) {
 		createSchemaIfNotExists(projCode, conns);
 		List<RawTableGroupDvo> list = getBaseTables(projCode, conns);
 		for (RawTableGroupDvo dvo : list) {
-			createTable(dvo, conns);
+			createTable(dvo, conns, lis);
 		}
 	}
 
@@ -46,9 +57,14 @@ public class CreateBaseTablesAction {
 	}
 
 	private static void createTable(RawTableGroupDvo dvo, CosmosConnections conns) {
+		createTable(dvo, conns, null);
+	}
+
+	
+	private static void createTable(RawTableGroupDvo dvo, CosmosConnections conns, Listener lis) {
 		String srcTableName = dvo.getGroupTableSchema() + ".`" + dvo.getGroupTableName() + "`";
 		String tableName = dvo.getProject() + ".`" + dvo.getGroupTableName() +"`";
-		log.info("+ + + BASE TABLE: Creating base table for: " + dvo.getGroupTableName());
+		log(lis, "+ + + BASE TABLE: Creating base table for: " + dvo.getGroupTableName());
 		String sqlString;
 		// drop the table if it exists
 		sqlString = "drop table if exists " + tableName;
@@ -68,6 +84,13 @@ public class CreateBaseTablesAction {
 			}
 		}
 		log.info("Done creating table: " + tableName);
+	}
+
+	private static void log(Listener lis, String str) {
+		log.info(str);
+		if (lis != null) {
+			lis.notify(str);
+		}
 	}
 
 }
