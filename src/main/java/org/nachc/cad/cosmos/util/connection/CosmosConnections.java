@@ -51,9 +51,12 @@ public class CosmosConnections implements DatabaseConnectionManager {
 	}
 
 	public static void close(CosmosConnections conns) {
-		conns.close();
-		synchronized (LOCK) {
-			openConnections--;
+		log.info("\n\n\nClosing connection using 2023-04-07 version \n\n\n");
+		if(conns != null) {
+			conns.close();
+			synchronized (LOCK) {
+				openConnections--;
+			}
 		}
 	}
 	
@@ -166,19 +169,23 @@ public class CosmosConnections implements DatabaseConnectionManager {
 	}
 
 	private void closeMySqlConnection() {
-		try {
-			Database.close(mySqlConnection);
-		} catch(Exception exp) {
-			log.info("Closing MySql connection threw an exception (this happens sometimes)");
+		if(mySqlConnection != null) {
+			try {
+				Database.close(mySqlConnection);
+			} catch(Exception exp) {
+				log.info("Closing MySql connection threw an exception (this happens sometimes)");
+			}
 		}
 	}
 
 	private void closeDbConnection() {
-		try {
-			Database.close(this.dbConnection);
-			this.dbConnection = null;
-		} catch (Exception exp) {
-			log.info("Closing Databricks connection threw an exception (this happens sometimes)");
+		if(this.dbConnection != null) {
+			try {
+				Database.close(this.dbConnection);
+				this.dbConnection = null;
+			} catch (Exception exp) {
+				log.info("Closing Databricks connection threw an exception (this happens sometimes)");
+			}
 		}
 	}
 
