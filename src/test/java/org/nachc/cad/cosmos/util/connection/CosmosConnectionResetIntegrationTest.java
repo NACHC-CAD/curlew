@@ -13,7 +13,7 @@ public class CosmosConnectionResetIntegrationTest {
 	@Test
 	public void connectionShouldWorkAfterReset() {
 		log.info("Starting test...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		// show databases
 		Data data;
 		data = DatabricksDbUtil.showSchemas(conns);

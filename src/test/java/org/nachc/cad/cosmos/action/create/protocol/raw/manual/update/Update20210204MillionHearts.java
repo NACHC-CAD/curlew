@@ -34,7 +34,7 @@ public class Update20210204MillionHearts {
 	
 	public static void main(String[] args) {
 		log.info("Starting process...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			exec(conns);
 			conns.commit();

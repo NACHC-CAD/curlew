@@ -10,7 +10,7 @@ public class Update20210128UpdateColumnNames {
 
 	public static void main(String[] args) {
 		log.info("Updating columns...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			updateColName(conns, "contraceptive_med", "med_description");
 			updateColName(conns, "contraceptive_med_dose", "med_dose");

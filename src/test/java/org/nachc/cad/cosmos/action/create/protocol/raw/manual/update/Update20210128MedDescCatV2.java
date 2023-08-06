@@ -23,7 +23,7 @@ public class Update20210128MedDescCatV2 {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Adding update files...");
 			updateFiles("ProcDescriptionCatV2", "proc_desc_cat_v2", conns);

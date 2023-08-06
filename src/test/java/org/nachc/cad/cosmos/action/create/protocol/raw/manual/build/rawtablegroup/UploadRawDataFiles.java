@@ -45,7 +45,7 @@ public class UploadRawDataFiles {
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
 			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, conns, isOverwrite);
+			AddRawDataFileAction.execute(params, isOverwrite);
 		}
 		log.info("Done.");
 

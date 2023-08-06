@@ -23,7 +23,7 @@ public class Update20201123Terminology {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Adding update files...");
 			updateFiles("MedDescriptionCat", "med_description_cat", conns);

@@ -19,7 +19,7 @@ public class DropDatabase {
 		log.info("Confirming Configuration...");
 		ConfirmConfiguration.main(null);
 		log.info("Getting connection...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		Connection conn = conns.getDbConnection();
 		log.info("Droping database schema: " + DB_NAME);
 		DatabricksDbUtil.dropDatabase(DB_NAME, conn, conns);

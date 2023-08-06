@@ -44,7 +44,7 @@ public class BuildHiv {
 	public static void main(String[] args) {
 		log.info("Starting main...");
 		log.info("Getting connection...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("executing...");
 			exec(conns);

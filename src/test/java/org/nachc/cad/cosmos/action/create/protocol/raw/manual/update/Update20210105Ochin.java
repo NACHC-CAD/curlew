@@ -30,7 +30,7 @@ public class Update20210105Ochin {
 	public static void main(String[] args) {
 		Timer timer = new Timer();
 		timer.start();
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Adding update files...");
 			updateFiles("Demographics", "demo", conns);

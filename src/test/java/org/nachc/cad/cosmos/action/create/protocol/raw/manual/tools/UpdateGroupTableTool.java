@@ -13,7 +13,7 @@ public class UpdateGroupTableTool {
 	public static void main(String[] args) {
 		log.info("Updating group table: " + CODE);
 		log.info("Getting connections...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Creating group table");
 			CreateGrpDataTableAction.execute(CODE, conns);

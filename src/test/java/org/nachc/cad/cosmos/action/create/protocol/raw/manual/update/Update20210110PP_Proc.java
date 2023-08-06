@@ -24,7 +24,7 @@ public class Update20210110PP_Proc {
 
 	public static void main(String[] args) {
 		log.info("Starting proc...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Adding update files...");
 			updateFiles("ProcCat", "proc_cat", conns);

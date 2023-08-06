@@ -17,7 +17,7 @@ public class DatabricksRemoveSingleFile {
 	private static final String RAW_TABLE_NAME = "womens_health_he_enc_health_efficient_ccdata__encounters4_1_19to3_31_20_csv";
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			String dataGroupCode = "womens_health_proc_cat";
 			log.info("Starting delete for: " + dataGroupCode);

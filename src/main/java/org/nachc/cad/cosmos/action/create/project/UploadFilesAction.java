@@ -37,7 +37,7 @@ public class UploadFilesAction {
 		for (File file : files) {
 			log.info("File: " + FileUtil.getCanonicalPath(file));
 			updateParamsWithFileInfo(params, file);
-			AddRawDataFileAction.execute(params, conns, true);
+			AddRawDataFileAction.execute(params, true);
 		}
 		log.info("Creating mappings");
 		createMappings(params.getLocalHostFileAbsLocation(), conns);

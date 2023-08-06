@@ -23,7 +23,7 @@ public class Update20201221He {
 
 	public static void main(String[] args) {
 		log.info("Starting update...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Adding update files...");
 			updateFiles("Demographics", "demo", conns);

@@ -16,7 +16,7 @@ public class DownloadTableAsCsvTool {
 	
 	public static void main(String[] args) {
 		log.info("Getting connection...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			exec(TABLE_NAME, FILE, conns);
 		} finally {

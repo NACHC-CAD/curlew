@@ -20,7 +20,7 @@ public class DeleteProjectTool {
 		if (FILES_LOCATION.startsWith("/FileStore/tables/prod/") == false || FILES_LOCATION.length() <= "/FileStore/tables/prod/".length()) {
 			throw new RuntimeException("ILLEGAL ATTEMPT TO DELETE: " + FILES_LOCATION);
 		}
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		DeleteProjectAction.exec(PROJECT_NAME, FILES_LOCATION, conns);
 		conns.commit();
 		log.info("Done.");

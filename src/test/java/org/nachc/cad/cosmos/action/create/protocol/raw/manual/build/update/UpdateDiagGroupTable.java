@@ -28,7 +28,7 @@ public class UpdateDiagGroupTable {
 
 	@Test
 	public void doUpdate() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Updating group table...");
 			// mysql stuff

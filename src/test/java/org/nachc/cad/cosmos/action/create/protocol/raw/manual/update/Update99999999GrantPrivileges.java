@@ -10,7 +10,7 @@ public class Update99999999GrantPrivileges {
 
 	public static void main(String[] args) {
 		log.info("Staring Grant Privileges...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Doing grants");
 			Database.update("grant usage, select on database womens_health to `users`", conns.getDbConnection());

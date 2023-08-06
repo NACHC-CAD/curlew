@@ -21,7 +21,7 @@ public class Update20201228AddContraceptionProject {
 
 	public static void main(String[] args) {
 		log.info("Starting process...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			exec(conns);
 			conns.commit();

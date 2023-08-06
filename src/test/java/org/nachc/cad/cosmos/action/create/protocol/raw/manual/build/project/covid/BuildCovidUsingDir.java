@@ -29,7 +29,7 @@ public class BuildCovidUsingDir {
 	 */
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Starting test...");
 			// delete the project if it exists

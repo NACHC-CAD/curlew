@@ -28,7 +28,7 @@ public class BurnEverythingToTheGround {
 
 	private static void doDatabricks() {
 		log.info("Getting Databricks connection");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		Connection dbConn = conns.getDbConnection();
 		log.info("Dropping Databricks");
 		DatabricksFileUtilFactory.get().rmdir("/FileStore/tables");

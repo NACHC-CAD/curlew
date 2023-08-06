@@ -11,7 +11,7 @@ public class CreateBaseTablesTool {
 	private static final String PROJ = "womens_health";
 	
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Creating base tables for: " + PROJ);
 			CreateBaseTablesAction.exec(PROJ, conns);

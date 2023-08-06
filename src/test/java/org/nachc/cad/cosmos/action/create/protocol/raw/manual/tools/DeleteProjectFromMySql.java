@@ -11,7 +11,7 @@ public class DeleteProjectFromMySql {
 	public static void main(String[] args) {
 		log.info("Deleteing project from mysql...");
 		log.info("Getting connections...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		log.info("Doing delete");
 		DeleteProjectFromMySqlAction.delete("million_hearts", conns);
 		conns.commit();

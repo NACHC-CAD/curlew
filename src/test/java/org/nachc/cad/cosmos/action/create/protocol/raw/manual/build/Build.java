@@ -38,7 +38,7 @@ public class Build {
 	public static final String FILES_LOCATION = "/FileStore/tables/prod/womens_health";
 	
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		Timer timer = new Timer();
 		timer.start();
 		try {

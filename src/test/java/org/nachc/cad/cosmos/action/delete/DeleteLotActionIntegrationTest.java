@@ -35,7 +35,7 @@ public class DeleteLotActionIntegrationTest {
 	@Test
 	public void shouldDeleteLot() {
 		log.info("Starting test...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			// add the test data lots
 			addLot(conns, LOT1, LOT1_DIR);

@@ -22,7 +22,7 @@ public class Update20201221RemoveHe {
 	public static final String DATABRICKS_FILE_ROOT = "/FileStore/tables/prod/womens-health/";
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			// get connections
 			log.info("Getting mysql connection...");

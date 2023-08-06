@@ -19,7 +19,7 @@ public class Update20210121_Covid_Loinc {
 	}
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try { 
 			exec(conns);
 			conns.commit();

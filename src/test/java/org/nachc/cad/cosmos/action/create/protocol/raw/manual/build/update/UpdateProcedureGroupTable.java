@@ -19,7 +19,7 @@ public class UpdateProcedureGroupTable {
 
 	@Test
 	public void doUpdate() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Updating group table...");
 			RawDataFileUploadParams params = BuildParamsWomensHealth.getParams("Procedure", "proc");

@@ -14,14 +14,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DownloadSchemaAsCsv {
 
-	// private static final String SCHEMA_NAME = "hiv_bronze";
+	private static final String SCHEMA_NAME = "covid_bronze_new_export";
 	
-	private static final String SCHEMA_NAME = "hiv_bronze";
-	
-	private static final String DIR = "C:\\temp\\hiv\\hiv-2022-04-07";
+	private static final String DIR = "C:\\temp\\covid\\covid-2023-04-24";
 	
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			exec(SCHEMA_NAME, new File(DIR), conns);
 		} finally {

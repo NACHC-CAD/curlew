@@ -14,7 +14,7 @@ public class DeleteProjectIntegrationTest {
 	
 	@Test
 	public void shouldDeleteProject() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Starting test...");
 			// delete the project if it exists

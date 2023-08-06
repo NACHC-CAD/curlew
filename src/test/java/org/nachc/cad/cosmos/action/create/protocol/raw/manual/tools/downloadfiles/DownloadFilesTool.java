@@ -31,7 +31,7 @@ public class DownloadFilesTool {
 		log.info("Doing delete...\n\nDeleting " + FileUtil.getCanonicalPath(ROOT_DIR) + "\n\n");
 		FileUtil.rmdir(ROOT_DIR);
 		log.info("Getting connections...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Getting files...");
 			Data data = getFiles(sqlString, conns);

@@ -20,7 +20,7 @@ public class UpdateRxGroupTable {
 
 	@Test
 	public void doUpdate() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Doing delete");
 			DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/rx");

@@ -25,7 +25,7 @@ public class UploadRxNorm {
 	public void shouldUploadFiles() {
 		log.info("Starting test...");
 		log.info("Deleteting RXNORM Schema");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		DatabricksDbUtil.dropDatabase("rxnorm", conns.getDbConnection(), conns);
 		log.info("Closing database");
 		conns.close();

@@ -19,7 +19,7 @@ public class UpdateDatabricks {
 
 	public static void main(String[] args) {
 		log.info("Updating schema...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		log.info("Checking for existing schema...");
 		if (schemaExists(conns) == false) {
 			log.info("* * * CREATING DATABASE (THIS WILL ONLY HAPPEN IF THIS IS A NEW INSTANCE * * *");

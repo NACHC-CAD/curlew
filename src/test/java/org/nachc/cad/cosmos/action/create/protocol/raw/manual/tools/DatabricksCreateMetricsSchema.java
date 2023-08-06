@@ -13,7 +13,7 @@ public class DatabricksCreateMetricsSchema {
 	public static final String DST_SCHEMA = "womens_health_metrics";
 	
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			CreateMetricsTable.exec(SRC_SCHEMA, DST_SCHEMA, conns);
 		} finally {

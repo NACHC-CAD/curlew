@@ -39,7 +39,7 @@ public class UploadDirTool {
 	private static final boolean UPDATE_BASE_TABLES = true;
 
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			for (String dir : DIRS) {
 				log.info("\n\n\n-----------------------------------------------------------\n");

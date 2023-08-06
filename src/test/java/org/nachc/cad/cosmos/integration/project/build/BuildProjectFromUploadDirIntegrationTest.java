@@ -30,7 +30,7 @@ public class BuildProjectFromUploadDirIntegrationTest {
 
 	@Test
 	public void shouldBuildProject() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Starting test...");
 			// delete the project if it exists

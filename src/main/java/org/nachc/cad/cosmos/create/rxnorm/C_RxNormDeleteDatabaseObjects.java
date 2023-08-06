@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class C_RxNormDeleteDatabaseObjects {
 
 	public static void delete() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Getting connection...");
 			Connection conn = DatabricksDbConnectionFactory.getConnection();

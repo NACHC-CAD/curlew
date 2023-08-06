@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UploadRawDataFileToDatabricksAction {
 
-	public static void execute(RawDataFileUploadParams params, CosmosConnections conns, boolean isOverwrite) {
+	public static void execute(RawDataFileUploadParams params, boolean isOverwrite) {
 		log.info("Writing file to databricks...");
 		DatabricksFileUtil util = DatabricksFileUtilFactory.get();
 		if (isOverwrite == true) {

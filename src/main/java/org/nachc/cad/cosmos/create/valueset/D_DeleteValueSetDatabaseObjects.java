@@ -18,7 +18,7 @@ public class D_DeleteValueSetDatabaseObjects {
 	}
 
 	public static void delete() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Getting connection...");
 			Connection conn = conns.getDbConnection();

@@ -18,7 +18,7 @@ public class G_CreateValueSetSchema {
 	}
 
 	public static void create() {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Getting connection...");
 			Connection conn = conns.getDbConnection();

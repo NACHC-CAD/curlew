@@ -10,20 +10,29 @@ import org.nachc.cad.cosmos.util.connection.CosmosConnections;
 
 public class AddRawDataFileAction {
 
-	public static void execute(RawDataFileUploadParams params, CosmosConnections conns) {
-		execute(params, conns, params.isOverwriteExistingFiles());
+	public static void execute(RawDataFileUploadParams params) {
+		execute(params, params.isOverwriteExistingFiles());
 	}
 
-	public static void execute(RawDataFileUploadParams params, CosmosConnections conns, boolean isOverwrite) {
+	public static void execute(RawDataFileUploadParams params, boolean isOverwrite) {
 		// mysql stuff
-		CreateRawTableAction.execute(params, conns.getMySqlConnection(), isOverwrite);
-		CreateRawTableFileAction.execute(params, conns.getMySqlConnection(), isOverwrite);
-		CreateRawTableColAction.execute(params, conns.getMySqlConnection());
+		CosmosConnections conns = null;
+		try {
+			conns = CosmosConnections.getConnections();
+			CreateRawTableAction.execute(params, conns.getMySqlConnection(), isOverwrite);
+			CreateRawTableFileAction.execute(params, conns.getMySqlConnection(), isOverwrite);
+			CreateRawTableColAction.execute(params, conns.getMySqlConnection());
+		} finally {
+			CosmosConnections.close(conns);
+		}
 		// databricks stuff
-		UploadRawDataFileToDatabricksAction.execute(params, conns, isOverwrite);
-		// conns.commit();
-		// conns.resetConnections();
-		CreateRawDataTableAction.execute(params, conns, true);
+		UploadRawDataFileToDatabricksAction.execute(params, isOverwrite);
+		try {
+			conns = CosmosConnections.getConnections();
+			CreateRawDataTableAction.execute(params, conns, true);
+		} finally {
+			CosmosConnections.close(conns);
+		}
 		// conns.commit();
 	}
 

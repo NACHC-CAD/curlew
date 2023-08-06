@@ -27,7 +27,7 @@ public class DropDatabricksSchema {
 		String token = DatabricksAuthUtil.getToken();
 		DatabricksFileUtil util = new DatabricksFileUtil(url, token);
 		log.info("Getting connection...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		Connection conn = conns.getDbConnection();
 		log.info("Doing drop");
 		log.info("Dropping cosmos");

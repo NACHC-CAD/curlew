@@ -13,7 +13,7 @@ public class DatabricksCreateMetricsByOrgSchema {
 	public static final String DST_SCHEMA = "womens_health_2022_bronze_meta";
 	
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			CreateMetricsByOrgTable.exec(SRC_SCHEMA, DST_SCHEMA, conns);
 		} finally {

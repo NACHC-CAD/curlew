@@ -21,7 +21,7 @@ public class DeleteTable {
 	private static final String GROUP_CODE = "covid_sdoh_name_nachc";
 	
 	public static void main(String[] args) {
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Starting delete for: " + GROUP_CODE);
 			log.info("Getting connections...");

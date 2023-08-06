@@ -31,7 +31,7 @@ public class Update20210110PP {
 
 	public static void main(String[] args) {
 		log.info("Starting process...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			delete(conns);
 			exec(conns);

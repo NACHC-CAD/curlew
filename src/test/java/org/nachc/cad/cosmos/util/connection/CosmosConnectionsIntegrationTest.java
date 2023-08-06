@@ -10,7 +10,7 @@ public class CosmosConnectionsIntegrationTest {
 	@Test
 	public void shouldGetConnections() {
 		log.info("Starting test...");
-		CosmosConnections conns = new CosmosConnections();
+		CosmosConnections conns = CosmosConnections.getConnections();
 		conns.close();
 		conns.close();
 		log.info("Done.");
