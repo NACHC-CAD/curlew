@@ -70,6 +70,7 @@ public class CosmosConnections implements DatabaseConnectionManager {
 
 	public static void close(CosmosConnections conns) {
 		log.info("\n\n\nClosing connection using 2023-04-07 version \n\n\n");
+		Database.commit(conns.getMySqlConnection());
 		if (conns != null) {
 			conns.close();
 			openConnections--;

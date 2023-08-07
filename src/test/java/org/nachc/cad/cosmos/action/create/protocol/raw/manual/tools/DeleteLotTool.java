@@ -8,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeleteLotTool {
 
-	private static final String PROJ = "nachc_term";
+	private static final String PROJ = "ohdsi_vocab";
 	
-	private static final String ORG = "nachc";
+	private static final String ORG = "omop";
 	
-	private static final String LOT = "2022-04-28-eth";
+	private static final String LOT = "2023-08-02";
 
 	public static void main(String[] args) {
 		log.info("-----------------");
