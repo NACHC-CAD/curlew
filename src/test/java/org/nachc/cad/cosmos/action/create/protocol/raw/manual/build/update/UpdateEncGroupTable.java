@@ -38,7 +38,7 @@ public class UpdateEncGroupTable {
 			resp = DatabricksFileUtilFactory.get().rmdir("/user/hive/warehouse/womens_health.db/enc_detail");
 			log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
 			log.info("UPDATING GROUP TABLE");
-			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 			log.info("Done.");
 		} finally {
 			conns.close();

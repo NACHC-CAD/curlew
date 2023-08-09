@@ -16,7 +16,7 @@ public class UpdateGroupTableTool {
 		CosmosConnections conns = CosmosConnections.getConnections();
 		try {
 			log.info("Creating group table");
-			CreateGrpDataTableAction.execute(CODE, conns);
+			CreateGrpDataTableAction.execute(CODE);
 			log.info("Create group table finished.");
 		} finally {
 			conns.close();

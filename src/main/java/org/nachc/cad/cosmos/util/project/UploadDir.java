@@ -356,7 +356,7 @@ public class UploadDir {
 		log(lis, "\nCreating group tables...");
 		while (iter.hasNext()) {
 			String rawTableGroupCode = iter.next();
-			CreateGrpDataTableAction.execute(rawTableGroupCode, conns, lis);
+			CreateGrpDataTableAction.execute(rawTableGroupCode, lis);
 		}
 	}
 
@@ -365,7 +365,7 @@ public class UploadDir {
 		for (RawTableGroupDvo dvo : list) {
 			String rawTableGroupCode = dvo.getCode();
 			log(lis, "* * * GROUP TABLE: Creating group table for: " + rawTableGroupCode);
-			CreateGrpDataTableAction.execute(rawTableGroupCode, cons);
+			CreateGrpDataTableAction.execute(rawTableGroupCode);
 		}
 	}
 

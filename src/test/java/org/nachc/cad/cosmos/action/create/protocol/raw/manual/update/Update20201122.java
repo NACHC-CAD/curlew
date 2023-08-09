@@ -39,7 +39,7 @@ public class Update20201122 {
 		log(name);
 		RawDataFileUploadParams params = getParams(name, abr, conns);
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 		conns.commit();
 		new UpdateFlatGroupTable().doUpdate();
 	}

@@ -66,7 +66,7 @@ public class Update20210105Ochin {
 		}
 		log.info("Uploading " + name + " using: " + params.getDelimiter());
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 	}
 
 	private static void log(String msg) {

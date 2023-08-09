@@ -27,7 +27,7 @@ public class UpdateDemoGroupTable {
 			updateColumnAliaises(conns.getMySqlConnection());
 			Database.commit(conns.getMySqlConnection());
 			log.info("UPDATING GROUP TABLE");
-			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 			log.info("Done.");
 		} finally {
 			conns.close();

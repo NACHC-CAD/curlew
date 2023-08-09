@@ -72,7 +72,7 @@ public class ManualTestForUpdate {
 		log(name);
 		RawDataFileUploadParams params = getParams(name, abr, conns.getMySqlConnection());
 		UploadRawDataFiles.createNewEntity(params, conns, false);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 	}
 
 	public static RawDataFileUploadParams getParams(String name, String abr, Connection mySqlConn) {

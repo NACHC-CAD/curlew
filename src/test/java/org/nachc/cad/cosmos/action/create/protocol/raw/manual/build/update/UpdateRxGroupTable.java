@@ -30,7 +30,7 @@ public class UpdateRxGroupTable {
 			updateColumnAliaises(conns.getMySqlConnection());
 			Database.commit(conns.getMySqlConnection());
 			log.info("UPDATING GROUP TABLE");
-			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+			CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 		} finally {
 			conns.close();
 		}

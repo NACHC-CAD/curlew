@@ -100,7 +100,7 @@ public class Update20210110PP {
 		UpdatePregGroupTable.updateColumnAliaises(conns.getMySqlConnection());
 		conns.commit();
 		log.info("Done with col updates");
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 	}
 
 	public static RawDataFileUploadParams getParams(String name, String abr, Connection mySqlConn) {

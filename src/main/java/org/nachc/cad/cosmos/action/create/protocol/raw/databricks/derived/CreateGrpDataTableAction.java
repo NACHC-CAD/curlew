@@ -22,12 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CreateGrpDataTableAction {
 
-	public static void execute(String rawTableGroupCode, CosmosConnections conns) {
-		execute(rawTableGroupCode, conns, false, null);
+	public static void execute(String rawTableGroupCode) {
+		execute(rawTableGroupCode, false, null);
 	}
 
-	public static void execute(String rawTableGroupCode, CosmosConnections conns, Listener lis) {
-		execute(rawTableGroupCode, conns, false, lis);
+	public static void execute(String rawTableGroupCode, Listener lis) {
+		execute(rawTableGroupCode, false, lis);
 	}
 
 	/**
@@ -36,49 +36,59 @@ public class CreateGrpDataTableAction {
 	 * database. The only parameter required is the rawTableGroupCode.
 	 * 
 	 */
-	public static void execute(String rawTableGroupCode, CosmosConnections conns, boolean refresh) {
-		execute(rawTableGroupCode, conns, refresh, null);
+	public static void execute(String rawTableGroupCode, boolean refresh) {
+		execute(rawTableGroupCode, refresh, null);
 	}
 
 	
-	public static void execute(String rawTableGroupCode, CosmosConnections conns, boolean refresh, Listener lis) {
-		log(lis, "* * * CREATING TABLE: " + rawTableGroupCode);
-		// get the group
-		log.info("Getting group for " + rawTableGroupCode);
-		RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", rawTableGroupCode, conns.getMySqlConnection());
-		log.info("Got group with guid: " + tableGroup.getGuid());
-		// get the distinct columns
-		List<String> groupCols = getGroupColumns(tableGroup.getGuid(), conns.getMySqlConnection());
-		// get the tables in the group
-		log.info("Getting tables in group");
-		List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), conns.getMySqlConnection());
-		log.info("Got " + tables.size() + " tables");
-		String sqlString = "create table " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "` using delta as \n";
-		for (RawTableDvo table : tables) {
-			String tableSql = getQueryStringForTable(table.getGuid(), groupCols, conns.getMySqlConnection());
-			log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
-			if (sqlString.endsWith(" as \n") == false && tableSql != null) {
-				sqlString += "\n\nunion all \n\n";
+	private static void execute(String rawTableGroupCode, boolean refresh, Listener lis) {
+		CosmosConnections conns = null;
+		try {
+		} catch(Exception exp) {
+			conns = CosmosConnections.getConnections();
+			log(lis, "* * * CREATING TABLE: " + rawTableGroupCode);
+			// get the group
+			log.info("Getting group for " + rawTableGroupCode);
+			RawTableGroupDvo tableGroup = Dao.find(new RawTableGroupDvo(), "code", rawTableGroupCode, conns.getMySqlConnection());
+			log.info("Got group with guid: " + tableGroup.getGuid());
+			// get the distinct columns
+			List<String> groupCols = getGroupColumns(tableGroup.getGuid(), conns.getMySqlConnection());
+			// get the tables in the group
+			log.info("Getting tables in group");
+			List<RawTableDvo> tables = Dao.findList(new RawTableDvo(), "raw_table_group", tableGroup.getGuid(), conns.getMySqlConnection());
+			log.info("Got " + tables.size() + " tables");
+			String sqlString = "create table " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "` using delta as \n";
+			for (RawTableDvo table : tables) {
+				String tableSql = getQueryStringForTable(table.getGuid(), groupCols, conns.getMySqlConnection());
+				log.info("GOT SQL STRING: \n\n" + tableSql + "\n\n");
+				if (sqlString.endsWith(" as \n") == false && tableSql != null) {
+					sqlString += "\n\nunion all \n\n";
+				}
+				if(tableSql != null) {
+					sqlString += tableSql;
+				}
 			}
-			if(tableSql != null) {
-				sqlString += tableSql;
+			log.info("SQL STRING: \n\n" + sqlString + "\n\n");
+			// DROP THE TABLE IF IT EXISTS
+			Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "`", conns.getDbConnection());
+			// CREATE THE TABLE IN DATABRICKS IF ANY FILES REMAIN
+			if (tables.size() > 0) {
+				log.info("initializing connection parse policy");
+				DatabricksDbUtil.initParsePolicy(conns.getDbConnection());
+				log.info("done initializing connection parse policy");
+				Database.update(sqlString, conns.getDbConnection());
+				log.info("Updating table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
+				if (refresh == true) {
+					log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
+					Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
+				}
 			}
+			log.info("Done creating group table");
+		} finally {
+			CosmosConnections.close(conns);
 		}
-		log.info("SQL STRING: \n\n" + sqlString + "\n\n");
-		// DROP THE TABLE IF IT EXISTS
-		Database.update("drop table if exists " + tableGroup.getGroupTableSchema() + ".`" + tableGroup.getGroupTableName() + "`", conns.getDbConnection());
-		// CREATE THE TABLE IN DATABRICKS IF ANY FILES REMAIN
-		if (tables.size() > 0) {
-			log.info("initializing connection parse policy");
-			DatabricksDbUtil.initParsePolicy(conns.getDbConnection());
-			log.info("done initializing connection parse policy");
-			Database.update(sqlString, conns.getDbConnection());
-			if (refresh == true) {
-				log.info("Refreshing table: " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName());
-				Database.update("refresh table " + tableGroup.getGroupTableSchema() + "." + tableGroup.getGroupTableName(), conns.getDbConnection());
-			}
-		}
-		log.info("Done creating group table");
+		
+		
 	}
 
 	//

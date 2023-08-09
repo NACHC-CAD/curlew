@@ -126,7 +126,7 @@ public class BuildHiv {
 		for (RawTableGroupDvo dvo : list) {
 			String code = dvo.getCode();
 			log.info("Creating group table for: " + code);
-			CreateGrpDataTableAction.execute(code, conns, true);
+			CreateGrpDataTableAction.execute(code, true);
 		}
 		log.info("Done with finalize");
 	}

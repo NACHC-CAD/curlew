@@ -40,7 +40,7 @@ public class UpdateDiagGroupTable {
 			DatabricksFileUtilResponse resp = DatabricksFileUtilFactory.get().rmdir(DB_DIR);
 			log.info("Got response (" + resp.isSuccess() + "): \n" + resp.getResponse());
 			log.info("UPDATING GROUP TABLE");
-			CreateGrpDataTableAction.execute(PARAMS.getRawTableGroupCode(), conns, true);
+			CreateGrpDataTableAction.execute(PARAMS.getRawTableGroupCode(), true);
 			log.info("Done.");
 		} finally {
 			conns.close();

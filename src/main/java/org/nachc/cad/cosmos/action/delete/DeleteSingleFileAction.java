@@ -75,7 +75,7 @@ public class DeleteSingleFileAction {
 			Database.commit(conns.getMySqlConnection());
 			// databricks: update the group table
 			log.info("Creating group table...");
-			CreateGrpDataTableAction.execute(rawTableGroupDvo.getCode(), conns, true);
+			CreateGrpDataTableAction.execute(rawTableGroupDvo.getCode(), true);
 			// done
 			log.info("Done with delete");
 		} else {

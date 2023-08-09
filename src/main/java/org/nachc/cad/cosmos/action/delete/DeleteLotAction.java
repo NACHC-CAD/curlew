@@ -151,7 +151,7 @@ public class DeleteLotAction {
 		for(Row row : data) {
 			String code = row.get("code");
 			log.info("Creating group table for: " + code);
-			CreateGrpDataTableAction.execute(code, conns, lis);
+			CreateGrpDataTableAction.execute(code, lis);
 			log.info("Done creating group table for: " + code);
 		}
 	}

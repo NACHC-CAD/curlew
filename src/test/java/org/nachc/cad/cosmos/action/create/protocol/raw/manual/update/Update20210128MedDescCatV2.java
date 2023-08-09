@@ -40,7 +40,7 @@ public class Update20210128MedDescCatV2 {
 		log(name);
 		RawDataFileUploadParams params = getParams(name, abr, conns);
 		UploadRawDataFiles.updateExistingEntity(params, conns, true);
-		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), conns, true);
+		CreateGrpDataTableAction.execute(params.getRawTableGroupCode(), true);
 	}
 
 	private static void log(String msg) {
