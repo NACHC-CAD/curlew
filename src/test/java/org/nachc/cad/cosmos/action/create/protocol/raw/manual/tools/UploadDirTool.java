@@ -50,7 +50,7 @@ public class UploadDirTool {
 			}
 			if (UPDATE_BASE_TABLES == true) {
 				// create base tables
-				CreateBaseTablesAction.exec(PROJ, conns);
+				CreateBaseTablesAction.exec(PROJ);
 				conns.commit();
 			}
 		} finally {

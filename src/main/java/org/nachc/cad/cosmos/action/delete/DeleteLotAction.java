@@ -162,7 +162,7 @@ public class DeleteLotAction {
 
 	
 	private static void createBaseTables(String projectCode, CosmosConnections conns, Listener lis) {
-		CreateBaseTablesAction.exec(projectCode, conns, lis);
+		CreateBaseTablesAction.exec(projectCode, lis);
 	}
 
 	private static void log(Listener lis, String str) {

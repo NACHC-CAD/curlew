@@ -16,29 +16,65 @@ import lombok.extern.slf4j.Slf4j;
 public class CreateBaseTablesAction {
 
 	public static void exec(RawDataFileUploadParams params, CosmosConnections conns) {
-		exec(params, conns, null);
+		Listener lis = null;
+		exec(params, lis);
 	}
 
 	
-	public static void exec(RawDataFileUploadParams params, CosmosConnections conns, Listener lis) {
-		createSchemaIfNotExists(params.getProjCode(), conns);
-		List<RawTableGroupDvo> list = getBaseTables(params, conns);
-		log(lis, "\nCreating base tables...");
+	public static void exec(RawDataFileUploadParams params, Listener lis) {
+		CosmosConnections conns = null;
+		List<RawTableGroupDvo> list = null;
+		try {
+			conns = CosmosConnections.getConnections();
+			createSchemaIfNotExists(params.getProjCode(), conns);
+			list = getBaseTables(params, conns);
+			log(lis, "\nCreating base tables...");
+		} catch(Exception exp) {
+			throw new RuntimeException(exp);
+		} finally {
+			CosmosConnections.close(conns);
+		}
 		for (RawTableGroupDvo dvo : list) {
-			createTable(dvo, conns, lis);
+			conns = null;
+			try {
+				conns = CosmosConnections.getConnections();
+				createTable(dvo, conns, lis);
+			} catch(Exception exp) {
+				throw new RuntimeException(exp);
+			} finally {
+				CosmosConnections.close(conns);
+			}
 		}
 	}
 
-	public static void exec(String projCode, CosmosConnections conns) {
-		exec(projCode, conns, null);
+	public static void exec(String projCode) {
+		Listener lis = null;
+		exec(projCode, lis);
 	}
 
-	public static void exec(String projCode, CosmosConnections conns, Listener lis) {
-		createSchemaIfNotExists(projCode, conns);
-		List<RawTableGroupDvo> list = getBaseTables(projCode, conns);
-		log(lis, "\nCreating base tables...");
+	public static void exec(String projCode, Listener lis) {
+		CosmosConnections conns = null;
+		List<RawTableGroupDvo> list = null;
+		try {
+			conns = CosmosConnections.getConnections();
+			createSchemaIfNotExists(projCode, conns);
+			list = getBaseTables(projCode, conns);
+			log(lis, "\nCreating base tables...");
+		} catch(Exception exp) {
+			throw new RuntimeException(exp);
+		} finally {
+			CosmosConnections.close(conns);
+		}
 		for (RawTableGroupDvo dvo : list) {
-			createTable(dvo, conns, lis);
+			conns = null;
+			try {
+				conns = CosmosConnections.getConnections();
+				createTable(dvo, conns, lis);
+			} catch(Exception exp) {
+				throw new RuntimeException(exp);
+			} finally {
+				CosmosConnections.close(conns);
+			}
 		}
 	}
 
@@ -58,11 +94,7 @@ public class CreateBaseTablesAction {
 		Database.update(sqlString, conns.getDbConnection());
 	}
 
-	private static void createTable(RawTableGroupDvo dvo, CosmosConnections conns) {
-		createTable(dvo, conns, null);
-	}
 
-	
 	private static void createTable(RawTableGroupDvo dvo, CosmosConnections conns, Listener lis) {
 		String srcTableName = dvo.getGroupTableSchema() + ".`" + dvo.getGroupTableName() + "`";
 		String tableName = dvo.getProject() + ".`" + dvo.getGroupTableName() +"`";

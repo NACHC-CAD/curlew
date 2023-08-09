@@ -41,7 +41,7 @@ public class DeleteLotActionIntegrationTest {
 			addLot(conns, LOT1, LOT1_DIR);
 			addLot(conns, LOT2, LOT2_DIR);
 			addLot(conns, LOT3, LOT3_DIR);
-			CreateBaseTablesAction.exec(PROJECT, conns);
+			CreateBaseTablesAction.exec(PROJECT);
 			// assert preconditions
 			assertPreconditions(conns);
 			// delete lot 2

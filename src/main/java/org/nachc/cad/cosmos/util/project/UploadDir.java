@@ -97,21 +97,22 @@ public class UploadDir {
 		try {
 			conns = CosmosConnections.getConnections();
 			createGroupTables(params, conns, lis);
-			if (createGroupTables == true) {
-				CreateBaseTablesAction.exec(params, conns, lis);
-			}
-			return params;
+		} catch (Exception exp){
+			throw new RuntimeException(exp);
 		} finally {
 			CosmosConnections.close(conns);
 		}
-
+		if (createGroupTables == true) {
+			CreateBaseTablesAction.exec(params, lis);
+		}
+		return params;
 	}
 
 	public static void uploadCreateGroupTablesOnly(String projectName, CosmosConnections conns, Listener lis, boolean createGroupTables) {
 		// create the group tables and base tables
 		createGroupTables(projectName, conns, lis);
 		if (createGroupTables == true) {
-			CreateBaseTablesAction.exec(projectName, conns);
+			CreateBaseTablesAction.exec(projectName);
 		}
 	}
 

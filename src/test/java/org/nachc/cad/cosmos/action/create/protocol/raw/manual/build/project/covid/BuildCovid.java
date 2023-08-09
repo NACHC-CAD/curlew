@@ -83,7 +83,7 @@ public class BuildCovid {
 		// CREATE THE GROUP TABLES
 		CreateCovidGroupTables.exec(conns);
 		conns.commit();
-		CreateBaseTablesAction.exec("covid", conns);
+		CreateBaseTablesAction.exec("covid");
 		conns.commit();
 		CreateMetricsTable.exec("covid", "covid_metrics", conns);
 		conns.commit();
