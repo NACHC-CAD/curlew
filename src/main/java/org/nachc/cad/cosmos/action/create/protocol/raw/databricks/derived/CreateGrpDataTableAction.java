@@ -44,7 +44,6 @@ public class CreateGrpDataTableAction {
 	private static void execute(String rawTableGroupCode, boolean refresh, Listener lis) {
 		CosmosConnections conns = null;
 		try {
-		} catch(Exception exp) {
 			conns = CosmosConnections.getConnections();
 			log(lis, "* * * CREATING TABLE: " + rawTableGroupCode);
 			// get the group
@@ -84,6 +83,8 @@ public class CreateGrpDataTableAction {
 				}
 			}
 			log.info("Done creating group table");
+		} catch(Exception exp) {
+			throw new RuntimeException(exp);
 		} finally {
 			CosmosConnections.close(conns);
 		}
